@@ -121,3 +121,6 @@ node_modules/
 node_modules/.cache/
 node_modules/.cache/prettier/
 node_modules/.cache/prettier/.prettier-caches/
+
+# Secret files
+.secret/
