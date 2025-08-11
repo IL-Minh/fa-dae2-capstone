@@ -6,8 +6,6 @@ RUN pip install uv && uv sync --frozen
 
 COPY consumers ./consumers
 
-ENV KAFKA_BOOTSTRAP_SERVERS=localhost:9092
-ENV PG_DSN=postgresql://T0@postgres:5432/DB_T0
 CMD ["uv", "run", "consumers/kafka_to_postgres.py"]
 
 

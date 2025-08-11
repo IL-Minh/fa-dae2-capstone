@@ -58,8 +58,15 @@ def main() -> None:
         with conn.cursor() as cur:
             cur.execute(CREATE_SQL)
             print("[consumer] Connected to PostgreSQL and created table successfully")
+            
+            # Check initial row count
+            cur.execute("SELECT COUNT(*) FROM transactions_sink")
+            initial_count = cur.fetchone()[0]
+            print(f"[consumer] Initial row count in transactions_sink: {initial_count}")
 
     bootstrap = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
+    print(f"[debug] KAFKA_BOOTSTRAP_SERVERS env var: {os.getenv('KAFKA_BOOTSTRAP_SERVERS')}")
+    print(f"[debug] Using bootstrap server: {bootstrap}")
     consumer = Consumer(
         {
             "bootstrap.servers": bootstrap,
@@ -69,7 +76,10 @@ def main() -> None:
     )
     topic = "transactions"
     consumer.subscribe([topic])
+    print(f"[consumer] Subscribed to topic: {topic}")
+    print("[consumer] Starting to consume messages...")
 
+    rows_written = 0
     try:
         while True:
             msg = consumer.poll(1.0)
@@ -101,11 +111,22 @@ def main() -> None:
                             "timestamp": ts,
                         },
                     )
-            print(f"[consumer] ingested tx_id={event.get('tx_id')} into Postgres")
+                    # Check if row was actually inserted
+                    if cur.rowcount > 0:
+                        rows_written += 1
+                        print(f"[consumer] ✅ SUCCESS: Inserted tx_id={event.get('tx_id')} (row #{rows_written})")
+                        
+                        # Get current total count
+                        cur.execute("SELECT COUNT(*) FROM transactions_sink")
+                        total_count = cur.fetchone()[0]
+                        print(f"[consumer] 📊 Total rows in table: {total_count}")
+                    else:
+                        print(f"[consumer] ⚠️  SKIPPED: tx_id={event.get('tx_id')} (duplicate or conflict)")
     except KeyboardInterrupt:
-        pass
+        print(f"\n[consumer] 🛑 Interrupted. Total rows written in this session: {rows_written}")
     finally:
         consumer.close()
+        print(f"[consumer] 🚪 Consumer closed. Final row count: {rows_written}")
 
 
 if __name__ == "__main__":
