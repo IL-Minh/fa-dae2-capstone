@@ -36,8 +36,7 @@ Phase 5 — transforms & analytics
 - Add `scripts/duckdb_preview.py` (or notebook) to pull a recent window from Postgres into DuckDB for quick analysis.
 
 Phase 6 — orchestration (when ready)
-- Add `airflow/docker-compose.yml` using official images; mount `airflow/dags/`.
-- DAG `airflow/dags/load_postgres_to_snowflake.py`: incremental loads based on watermark.
+- Add orchestration later if needed (Airflow optional). If added, ensure Postgres target DB is `DB_T0` in configs.
 - Configure Airflow connection/env via `.env` or UI; avoid committing secrets.
 
 Phase 7 — AI agent (optional later)

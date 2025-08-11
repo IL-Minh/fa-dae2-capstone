@@ -32,7 +32,7 @@ personal-finance-project/
 │  └─ kafka_producer_faker.py
 ├─ consumers/
 │  └─ kafka_to_postgres.py
-├─ airflow/
+├─ airflow/  (optional later)
 │  └─ dags/
 │     └─ load_postgres_to_snowflake.py
 ├─ loaders/
