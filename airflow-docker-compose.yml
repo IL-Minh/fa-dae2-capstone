@@ -20,7 +20,6 @@ x-airflow-common: &airflow-common
     - ${AIRFLOW_PROJ_DIR:-.}/airflow/plugins:/opt/airflow/plugins
     - ${AIRFLOW_PROJ_DIR:-.}/data:/opt/airflow/data
     - ${AIRFLOW_PROJ_DIR:-.}/.secret:/opt/airflow/.secret:ro
-    # Dev-only mounts for your Python scripts
     - ${AIRFLOW_PROJ_DIR:-.}/utils:/opt/airflow/utils
     - ${AIRFLOW_PROJ_DIR:-.}/loaders:/opt/airflow/loaders
   user: "${AIRFLOW_UID:-50000}:0"
@@ -32,7 +31,7 @@ x-airflow-common: &airflow-common
 
 services:
   postgres:
-    image: postgres:13
+    image: postgres:17.4
     environment:
       POSTGRES_USER: airflow
       POSTGRES_PASSWORD: airflow
@@ -40,7 +39,7 @@ services:
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "airflow"]
+      test: ["CMD", "pg_isready", "-U", "airflow", "-d", "airflow"]
       interval: 10s
       retries: 5
       start_period: 5s
@@ -84,6 +83,15 @@ services:
       airflow-init:
         condition: service_completed_successfully
 
+  airflow-dag-processor:
+    <<: *airflow-common
+    command: dag-processor
+    restart: always
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+
   airflow-worker:
     <<: *airflow-common
     command: celery worker
@@ -119,10 +127,6 @@ services:
         mkdir -p /opt/airflow/{logs,dags,plugins,config}
         chown -R "${AIRFLOW_UID}:0" /opt/airflow
         /entrypoint airflow db migrate
-        /entrypoint airflow users create \
-          --username ${_AIRFLOW_WWW_USER_USERNAME:-airflow} \
-          --password ${_AIRFLOW_WWW_USER_PASSWORD:-airflow} \
-          --firstname Admin --lastname User --role Admin --email admin@example.com
     environment:
       <<: *airflow-common-env
       _AIRFLOW_DB_MIGRATE: "true"

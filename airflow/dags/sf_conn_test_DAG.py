@@ -8,9 +8,9 @@ from airflow import DAG
 SNOWFLAKE_CONN_ID = "snowflake_default"  # default ID used by hooks/operators :contentReference[oaicite:1]{index=1}
 
 with DAG(
-    dag_id="snowflake_taskflow_simple",
+    dag_id="sf_conn_test_DAG",
     start_date=datetime(2025, 1, 1),
-    schedule_interval=None,
+    schedule=None,
     catchup=False,
     tags=["example", "snowflake"],
 ) as dag:
