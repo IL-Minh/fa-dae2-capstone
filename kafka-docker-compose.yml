@@ -1,7 +1,6 @@
 services:
   postgres:
     image: postgres:17.4
-    container_name: postgres_db
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -19,9 +18,9 @@ services:
     networks:
       - postgres_network
 
+
   kafka:
     image: confluentinc/cp-kafka:7.4.0
-    container_name: kafka
     ports:
       - "9092:9092"
       - "29092:29092"  # Host access port
@@ -81,6 +80,7 @@ services:
     networks:
       - postgres_network
     restart: unless-stopped
+
 
 volumes:
   postgres_data:
