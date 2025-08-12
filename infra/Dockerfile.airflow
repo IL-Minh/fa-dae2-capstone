@@ -1,20 +1,30 @@
-FROM apache/airflow:3.0.4
+# Use Airflow with Python 3.13 explicitly
+FROM apache/airflow:3.0.4-python3.13
 
-# Install uv
-RUN pip install uv
+# Install uv in a build stage to keep final image clean
+USER root
 
 # Set working directory
 WORKDIR /opt/airflow
+
+# Install uv
+RUN pip install --no-cache-dir uv
 
 # Copy dependency files
 COPY pyproject.toml uv.lock ./
 
 # Install dependencies with uv (frozen for reproducibility)
-RUN uv sync --frozen
+RUN uv sync --frozen --no-dev
 
 # Activate uv virtual environment for Airflow
 ENV PATH="/opt/airflow/.venv/bin:$PATH"
 ENV VIRTUAL_ENV="/opt/airflow/.venv"
+
+# Copy only runtime essentials into the image for prod
+# Dev volumes will override these paths
+COPY airflow/dags /opt/airflow/dags
+COPY airflow/plugins /opt/airflow/plugins
+COPY airflow/config /opt/airflow/config
 
 # Switch back to airflow user
 USER airflow
