@@ -80,6 +80,8 @@ x-airflow-common: &airflow-common
     - ${AIRFLOW_PROJ_DIR:-.}/airflow/plugins:/opt/airflow/plugins
     - ${AIRFLOW_PROJ_DIR:-.}/data:/opt/airflow/data
     - ${AIRFLOW_PROJ_DIR:-.}/.secret:/opt/airflow/.secret:ro
+    - ${AIRFLOW_PROJ_DIR:-.}/utils:/opt/airflow/utils:ro
+    - ${AIRFLOW_PROJ_DIR:-.}/loaders:/opt/airflow/loaders:ro
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on: &airflow-common-depends-on
     redis:

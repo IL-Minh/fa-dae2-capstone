@@ -5,9 +5,8 @@ Uses Airflow's connection management system for secure credential handling.
 
 from typing import Any, Dict
 
-from snowflake.connector import connect
-
 from airflow.hooks.base import BaseHook
+from snowflake.connector import connect
 
 
 def get_snowflake_connection_params(
