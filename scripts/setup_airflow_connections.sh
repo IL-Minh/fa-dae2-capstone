@@ -33,6 +33,7 @@ docker compose -f airflow-docker-compose.yml exec -T airflow-scheduler airflow c
 docker compose -f airflow-docker-compose.yml exec -T airflow-scheduler airflow connections add 'snowflake_default' \
     --conn-type 'snowflake' \
     --conn-login "$SNOWFLAKE_USER" \
+    --conn-password "$SNOWFLAKE_PRIVATE_KEY_FILE_PWD" \
     --conn-host "$SNOWFLAKE_ACCOUNT" \
     --conn-schema "$SNOWFLAKE_SCHEMA" \
     --conn-extra "{\"warehouse\": \"$SNOWFLAKE_WAREHOUSE\", \"database\": \"$SNOWFLAKE_DATABASE\", \"role\": \"$SNOWFLAKE_ROLE\", \"private_key_file\": \"$CONTAINER_KEY_PATH\"}"

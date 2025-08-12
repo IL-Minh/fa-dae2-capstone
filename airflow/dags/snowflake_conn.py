@@ -5,8 +5,9 @@ Uses Airflow's connection management system for secure credential handling.
 
 from typing import Any, Dict
 
-from airflow.hooks.base import BaseHook
 from snowflake.connector import connect
+
+from airflow.hooks.base import BaseHook
 
 
 def get_snowflake_connection_params(
@@ -33,26 +34,17 @@ def get_snowflake_connection_params(
     # Parse extra JSON for Snowflake-specific parameters
     extra_params = conn.extra_dejson if hasattr(conn, "extra_dejson") else {}
 
-    # Build connection parameters
+    # Build connection parameters following sf_conn.py structure
     conn_params = {
-        "account": extra_params.get("account") or conn.host,
+        "account": conn.host,  # Account is stored in host field
         "user": conn.login,
-        "password": conn.password,  # For private key passphrase if needed
+        "authenticator": "SNOWFLAKE_JWT",
+        "private_key_file": extra_params.get("private_key_file"),
+        "private_key_file_pwd": conn.password,  # Password for encrypted private key
         "warehouse": extra_params.get("warehouse"),
-        "database": extra_params.get("database") or conn.schema,
-        "schema": extra_params.get("schema") or conn.schema,
-        "role": extra_params.get("role"),
+        "database": extra_params.get("database"),
+        "schema": conn.schema,
     }
-
-    # Handle private key authentication
-    if "private_key_content" in extra_params:
-        # Private key content stored directly in connection
-        conn_params["private_key_content"] = extra_params["private_key_content"]
-        conn_params["authenticator"] = "SNOWFLAKE_JWT"
-    elif "private_key_file" in extra_params:
-        # Private key file path
-        conn_params["private_key_file"] = extra_params["private_key_file"]
-        conn_params["authenticator"] = "SNOWFLAKE_JWT"
 
     # Validate required parameters
     required = ["account", "user", "warehouse", "database", "schema"]
