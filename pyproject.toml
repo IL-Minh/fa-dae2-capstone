@@ -9,6 +9,7 @@ dependencies = [
     "psycopg[binary]~=3.2",
     "polars>=1.2",
     "snowflake-connector-python~=3.16",
+    "paramiko<4.0.0",  # Pin to fix DSSKey compatibility
     "faker>=25",
     "confluent-kafka~=2.4",
 ]

@@ -124,3 +124,7 @@ node_modules/.cache/prettier/.prettier-caches/
 
 # Secret files
 .secret/
+
+
+# Airflow
+airflow/logs/

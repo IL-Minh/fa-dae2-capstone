@@ -1,13 +1,15 @@
 from __future__ import annotations
 
-import os
-from pathlib import Path
+import subprocess
 from datetime import datetime
+from pathlib import Path
 
-from airflow import DAG
 from airflow.operators.python import PythonOperator
 
-import subprocess
+# Import shared Snowflake connection module
+from snowflake_conn import test_snowflake_connection
+
+from airflow import DAG
 
 
 def load_csv(**context):
@@ -15,22 +17,16 @@ def load_csv(**context):
     candidates = sorted(data_dir.glob("transactions_*.csv"))
     if not candidates:
         raise FileNotFoundError("No CSVs found in /opt/airflow/data/incoming")
+
     latest = max(candidates, key=lambda p: p.stat().st_mtime)
+
+    # Test Snowflake connection before proceeding
+    if not test_snowflake_connection():
+        raise RuntimeError("Snowflake connection test failed")
+
+    # Run the CSV loader
     cmd = ["uv", "run", "/opt/airflow/repo/loaders/csv_to_snowflake.py", str(latest)]
-    env = os.environ.copy()
-    # Ensure Snowflake envs exist
-    required = [
-        "SNOWFLAKE_ACCOUNT",
-        "SNOWFLAKE_USER",
-        "SNOWFLAKE_PASSWORD",
-        "SNOWFLAKE_WAREHOUSE",
-        "SNOWFLAKE_DATABASE",
-        "SNOWFLAKE_SCHEMA",
-    ]
-    missing = [k for k in required if not env.get(k)]
-    if missing:
-        raise RuntimeError(f"Missing Snowflake env vars: {missing}")
-    subprocess.check_call(cmd, env=env)
+    subprocess.check_call(cmd)
 
 
 with DAG(
@@ -40,5 +36,3 @@ with DAG(
     catchup=False,
 ) as dag:
     ingest = PythonOperator(task_id="load_latest_csv", python_callable=load_csv)
-
-

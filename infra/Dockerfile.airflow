@@ -1,0 +1,16 @@
+FROM apache/airflow:3.0.4
+
+# Install uv
+RUN pip install uv
+
+# Set working directory
+WORKDIR /opt/airflow
+
+# Copy dependency files
+COPY pyproject.toml uv.lock ./
+
+# Install dependencies with uv (frozen for reproducibility)
+RUN uv sync --frozen
+
+# Switch back to airflow user
+USER airflow
