@@ -12,5 +12,9 @@ COPY pyproject.toml uv.lock ./
 # Install dependencies with uv (frozen for reproducibility)
 RUN uv sync --frozen
 
+# Activate uv virtual environment for Airflow
+ENV PATH="/opt/airflow/.venv/bin:$PATH"
+ENV VIRTUAL_ENV="/opt/airflow/.venv"
+
 # Switch back to airflow user
 USER airflow
