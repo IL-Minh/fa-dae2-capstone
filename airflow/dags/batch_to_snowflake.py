@@ -11,16 +11,25 @@ import subprocess
 
 
 def load_csv(**context):
-    # Pick the most recent CSV from /opt/airflow/data/incoming
     data_dir = Path("/opt/airflow/data/incoming")
-    latest = max(data_dir.glob("transactions_*.csv"), key=lambda p: p.stat().st_mtime)
-    cmd = [
-        "uv",
-        "run",
-        "/opt/airflow/repo/loaders/csv_to_snowflake.py",
-        str(latest),
-    ]
+    candidates = sorted(data_dir.glob("transactions_*.csv"))
+    if not candidates:
+        raise FileNotFoundError("No CSVs found in /opt/airflow/data/incoming")
+    latest = max(candidates, key=lambda p: p.stat().st_mtime)
+    cmd = ["uv", "run", "/opt/airflow/repo/loaders/csv_to_snowflake.py", str(latest)]
     env = os.environ.copy()
+    # Ensure Snowflake envs exist
+    required = [
+        "SNOWFLAKE_ACCOUNT",
+        "SNOWFLAKE_USER",
+        "SNOWFLAKE_PASSWORD",
+        "SNOWFLAKE_WAREHOUSE",
+        "SNOWFLAKE_DATABASE",
+        "SNOWFLAKE_SCHEMA",
+    ]
+    missing = [k for k in required if not env.get(k)]
+    if missing:
+        raise RuntimeError(f"Missing Snowflake env vars: {missing}")
     subprocess.check_call(cmd, env=env)
 
 
