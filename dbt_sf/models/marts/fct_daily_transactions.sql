@@ -7,28 +7,9 @@
 
 with daily_transactions as (
     select
-        date(timestamp) as transaction_date,
-        source_system,
-        category,
-        currency,
-        count(*) as transaction_count,
-        sum(amount) as total_amount,
-        avg(amount) as avg_amount,
-        min(amount) as min_amount,
-        max(amount) as max_amount,
-        count(distinct user_id) as unique_users,
-        count(distinct merchant) as unique_merchants
-    from {{ ref('stg_transactions_unified') }}
-    where timestamp is not null
-    group by 1, 2, 3, 4
-),
-
-final as (
-    select
         transaction_date,
         source_system,
-        category,
-        currency,
+        transaction_tier,
         transaction_count,
         total_amount,
         avg_amount,
@@ -36,13 +17,33 @@ final as (
         max_amount,
         unique_users,
         unique_merchants,
-        -- Add business metrics
+        unique_categories,
+        currency_count
+    from {{ ref('int_transactions_metrics') }}
+    where transaction_date is not null
+),
+
+final as (
+    select
+        transaction_date,
+        source_system,
+        transaction_tier,
+        transaction_count,
+        total_amount,
+        avg_amount,
+        min_amount,
+        max_amount,
+        unique_users,
+        unique_merchants,
+        unique_categories,
+        currency_count,
+        -- Add business metrics based on transaction tier
         case
-            when category in ('salary', 'bonus') then 'income'
-            when category in ('rent', 'utilities', 'groceries') then 'essential'
-            else 'discretionary'
-        end as spending_category,
-        -- Add date dimensions
+            when transaction_tier = 'high_value' then 'premium'
+            when transaction_tier = 'medium_value' then 'standard'
+            else 'basic'
+        end as value_category,
+        -- Add date dimensions using Snowflake native functions
         extract(year from transaction_date) as year,
         extract(month from transaction_date) as month,
         extract(day from transaction_date) as day,

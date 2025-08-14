@@ -11,10 +11,9 @@ sources:
         description: "Raw streaming transaction data from Kafka → PostgreSQL pipeline"
         columns:
           - name: tx_id
-            description: "Unique transaction identifier"
+            description: "Transaction identifier (may have duplicates - handled in staging)"
             tests:
               - not_null
-              - unique
           - name: user_id
             description: "User identifier"
             tests:
@@ -52,10 +51,9 @@ sources:
         description: "Raw batch transaction data from CSV files"
         columns:
           - name: tx_id
-            description: "Unique transaction identifier"
+            description: "Transaction identifier (may have duplicates - handled in staging)"
             tests:
               - not_null
-              - unique
           - name: user_id
             description: "User identifier"
             tests:

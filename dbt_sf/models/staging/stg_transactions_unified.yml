@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: stg_transactions_unified
+    description: "Unified view combining streaming and batch transaction data with consistent structure"
+    config:
+      tags: ["staging", "transactions", "unified"]
+
+    columns:
+      - name: tx_id
+        description: "Transaction identifier from either streaming or batch source"
+        tests:
+          - not_null
+
+      - name: user_id
+        description: "User identifier for the transaction"
+
+      - name: amount
+        description: "Transaction amount in the specified currency"
+
+      - name: currency
+        description: "Currency code for the transaction amount"
+
+      - name: merchant
+        description: "Name of the merchant where the transaction occurred"
+
+      - name: category
+        description: "Transaction category for classification"
+
+      - name: timestamp
+        description: "When the transaction occurred"
+
+      - name: source_system
+        description: "Source system identifier (streaming_kafka or batch_csv)"
+
+      - name: ingested_at
+        description: "When data was originally ingested"
+
+      - name: processed_at
+        description: "When the data was processed by the pipeline"
+
+      - name: source_file
+        description: "Source CSV filename (null for streaming data)"
+
+      - name: hash_key
+        description: "Hash key for deduplication and incremental processing"

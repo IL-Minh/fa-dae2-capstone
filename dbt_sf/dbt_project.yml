@@ -33,13 +33,17 @@ models:
     staging:
       +materialized: view
       +tags: ["staging"]
+      +schema: SC_STG
 
-    # Intermediate models - ephemeral for performance
+    # Intermediate models - incremental for performance and deduplication
     intermediate:
-      +materialized: ephemeral
+      +materialized: incremental
       +tags: ["intermediate"]
+      +unique_key: hash_key
+      +schema: SC_INT
 
     # Mart models - tables for query performance
     marts:
       +materialized: table
       +tags: ["marts"]
+      +schema: SC_MRT

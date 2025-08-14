@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: fct_daily_transactions
+    description: "Fact table for daily transaction summaries with business metrics and dimensions"
+    config:
+      tags: ["marts", "transactions", "daily_summary"]
+
+    columns:
+      - name: transaction_date
+        description: "Date for the daily transaction summary"
+        tests:
+          - not_null
+
+      - name: source_system
+        description: "Source system identifier (streaming_kafka or batch_csv)"
+
+      - name: transaction_tier
+        description: "Transaction value tier (high_value, medium_value, low_value)"
+
+      - name: transaction_count
+        description: "Total number of transactions for the date/system/tier combination"
+
+      - name: total_amount
+        description: "Sum of all transaction amounts for the date/system/tier combination"
+
+      - name: avg_amount
+        description: "Average transaction amount for the date/system/tier combination"
+
+      - name: min_amount
+        description: "Minimum transaction amount for the date/system/tier combination"
+
+      - name: max_amount
+        description: "Maximum transaction amount for the date/system/tier combination"
+
+      - name: unique_users
+        description: "Count of distinct users for the date/system/tier combination"
+
+      - name: unique_merchants
+        description: "Count of distinct merchants for the date/system/tier combination"
+
+      - name: unique_categories
+        description: "Count of distinct transaction categories for the date/system/tier combination"
+
+      - name: currency_count
+        description: "Count of distinct currencies for the date/system/tier combination"
+
+      - name: value_category
+        description: "Business classification of transaction value (premium, standard, basic)"
+
+      - name: year
+        description: "Year extracted from the transaction date"
+
+      - name: month
+        description: "Month extracted from the transaction_date"
+
+      - name: day
+        description: "Day extracted from the transaction date"
+
+      - name: day_of_week
+        description: "Day of week extracted from the transaction date"

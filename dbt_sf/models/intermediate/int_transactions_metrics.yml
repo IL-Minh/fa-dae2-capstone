@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: int_transactions_metrics
+    description: "Intermediate model for pre-aggregated daily transaction metrics with incremental processing"
+    config:
+      tags: ["intermediate", "transactions", "metrics"]
+
+    columns:
+      - name: transaction_date
+        description: "Date for the aggregated metrics"
+        tests:
+          - not_null
+
+      - name: source_system
+        description: "Source system identifier (streaming_kafka or batch_csv)"
+
+      - name: transaction_tier
+        description: "Business classification of transaction value (high_value, medium_value, low_value)"
+
+      - name: transaction_count
+        description: "Total number of transactions for the date/system/tier combination"
+
+      - name: unique_users
+        description: "Count of distinct users for the date/system/tier combination"
+
+      - name: unique_merchants
+        description: "Count of distinct merchants for the date/system/tier combination"
+
+      - name: unique_categories
+        description: "Count of distinct categories for the date/system/tier combination"
+
+      - name: total_amount
+        description: "Sum of all transaction amounts for the date/system/tier combination"
+
+      - name: avg_amount
+        description: "Average transaction amount for the date/system/tier combination"
+
+      - name: min_amount
+        description: "Minimum transaction amount for the date/system/tier combination"
+
+      - name: max_amount
+        description: "Maximum transaction amount for the date/system/tier combination"
+
+      - name: currency_count
+        description: "Count of distinct currencies for the date/system/tier combination"
+
+      - name: metric_key
+        description: "Unique key for incremental processing and deduplication"
+
+      - name: dbt_processed_at

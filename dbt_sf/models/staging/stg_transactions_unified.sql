@@ -17,7 +17,8 @@ with streaming as (
         'streaming_kafka' as source_system,
         ingested_at,
         airflow_ingested_at as processed_at,
-        null as source_file
+        null as source_file,
+        hash_key
     from {{ ref('stg_transactions_streaming_kafka') }}
 ),
 
@@ -33,7 +34,8 @@ batch as (
         'batch_csv' as source_system,
         ingested_at,
         ingested_at as processed_at,
-        source_file
+        source_file,
+        hash_key
     from {{ ref('stg_transactions_batch_csv') }}
 ),
 

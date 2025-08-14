@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: stg_transactions_streaming_kafka
+    description: "Staging model for streaming transaction data from Kafka with deduplication and data cleaning"
+    config:
+      tags: ["staging", "transactions", "streaming"]
+
+    columns:
+      - name: tx_id
+        description: "Transaction identifier (may have duplicates - handled in staging)"
+        tests:
+          - not_null
+
+      - name: user_id
+        description: "User identifier for the transaction"
+
+      - name: amount
+        description: "Transaction amount in the specified currency"
+
+      - name: currency
+        description: "Currency code for the transaction amount"
+
+      - name: merchant
+        description: "Name of the merchant where the transaction occurred"
+
+      - name: category
+        description: "Transaction category for classification"
+
+      - name: timestamp
+        description: "When the transaction occurred"
+
+      - name: ingested_at
+        description: "When data was ingested into PostgreSQL"
+
+      - name: airflow_ingested_at
+        description: "When Airflow processed the data"
+
+      - name: hash_key
+        description: "Hash key for deduplication and incremental processing"

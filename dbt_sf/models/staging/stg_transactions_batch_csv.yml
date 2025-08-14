@@ -1,0 +1,49 @@
+version: 2
+
+models:
+  - name: stg_transactions_batch_csv
+    description: "Staging model for batch CSV transaction data with deduplication and data cleaning"
+    config:
+      tags: ["staging", "transactions", "batch"]
+
+    columns:
+      - name: tx_id
+        description: "Transaction identifier (may have duplicates - handled in staging)"
+        tests:
+          - not_null
+
+      - name: user_id
+        description: "User identifier for the transaction"
+
+      - name: amount
+        description: "Transaction amount in the specified currency"
+
+      - name: currency
+        description: "Currency code for the transaction amount"
+
+      - name: merchant
+        description: "Name of the merchant where the transaction occurred"
+
+      - name: category
+        description: "Transaction category for classification"
+
+      - name: timestamp
+        description: "When the transaction occurred"
+
+      - name: source_file
+        description: "Source CSV filename that was processed"
+
+      - name: ingested_at
+        description: "When Airflow processed the data"
+
+      - name: data_source
+        description: "Extracted data source from filename"
+
+      - name: year
+        description: "Extracted year from filename"
+
+      - name: month
+        description: "Extracted month from filename"
+
+      - name: hash_key
+        description: "Hash key for deduplication and incremental processing"

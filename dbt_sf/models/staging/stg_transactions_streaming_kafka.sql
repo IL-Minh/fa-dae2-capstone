@@ -11,33 +11,40 @@ with source as (
 
 cleaned as (
     select
-        tx_id,
-        user_id,
-        amount,
-        currency,
-        merchant,
-        category,
-        timestamp,
-        ingested_at,
-        airflow_ingested_at,
-        -- Add data quality checks
-        case
-            when tx_id is not null and tx_id != '' then true
-            else false
-        end as is_valid_tx_id,
-        case
-            when user_id is not null and user_id > 0 then true
-            else false
-        end as is_valid_user_id,
-        case
-            when amount is not null and amount > 0 then true
-            else false
-        end as is_valid_amount,
-        case
-            when timestamp is not null then true
-            else false
-        end as is_valid_timestamp
+        tx_id::{{ dbt.type_string() }} as tx_id,
+        user_id::{{ dbt.type_int() }} as user_id,
+        amount::{{ dbt.type_numeric() }} as amount,
+        currency::{{ dbt.type_string() }} as currency,
+        merchant::{{ dbt.type_string() }} as merchant,
+        category::{{ dbt.type_string() }} as category,
+        timestamp::{{ dbt.type_timestamp() }} as timestamp,
+        ingested_at::{{ dbt.type_timestamp() }} as ingested_at,
+        airflow_ingested_at::{{ dbt.type_timestamp() }} as airflow_ingested_at,
+        -- Add hash key for deduplication using cross-database hash macro
+        {{ dbt.hash("concat_ws('|', tx_id, user_id, amount, currency, merchant, category, timestamp, ingested_at)") }} as hash_key
     from source
+),
+
+deduplicated as (
+    select
+        *,
+        row_number() over (
+            partition by tx_id
+            order by airflow_ingested_at desc, hash_key
+        ) as rn
+    from cleaned
 )
 
-select * from cleaned
+select
+    tx_id,
+    user_id,
+    amount,
+    currency,
+    merchant,
+    category,
+    timestamp,
+    ingested_at,
+    airflow_ingested_at,
+    hash_key
+from deduplicated
+where rn = 1  -- Keep only the latest record for each tx_id
