@@ -207,7 +207,7 @@ Ensure the `snowflake_default` connection is already set up:
 
 ```bash
 # From project root
-./scripts/setup_airflow_connections.sh
+./scripts/setup_airflow_connection.sh
 ```
 
 #### 4. Start the DAG

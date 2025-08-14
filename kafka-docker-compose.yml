@@ -1,6 +1,6 @@
 services:
   # Core Infrastructure Services (start these for development)
-  postgres:
+  kafka-postgres:
     image: postgres:17.4
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -9,7 +9,7 @@ services:
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - kafka_postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
@@ -17,7 +17,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - postgres_network
+      - kafka_network
 
   kafka:
     image: confluentinc/cp-kafka:7.4.0
@@ -52,7 +52,7 @@ services:
       start_period: 60s
       timeout: 10s
     networks:
-      - postgres_network
+      - kafka_network
     restart: unless-stopped
 
   # Application Services (start these separately for testing)
@@ -66,7 +66,7 @@ services:
       kafka:
         condition: service_healthy
     networks:
-      - postgres_network
+      - kafka_network
     restart: unless-stopped
     profiles: ["app"]
 
@@ -78,16 +78,16 @@ services:
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_HOST=postgres
+      - POSTGRES_HOST=kafka-postgres
       - POSTGRES_PORT=5432
       - POSTGRES_DB=${POSTGRES_DB}
     depends_on:
       kafka:
         condition: service_healthy
-      postgres:
+      kafka-postgres:
         condition: service_healthy
     networks:
-      - postgres_network
+      - kafka_network
     restart: unless-stopped
     profiles: ["app"]
 
@@ -103,15 +103,15 @@ services:
       kafka:
         condition: service_healthy
     networks:
-      - postgres_network
+      - kafka_network
     restart: unless-stopped
 
 volumes:
-  postgres_data:
+  kafka_postgres_data:
     driver: local
   kafka_data:
     driver: local
 
 networks:
-  postgres_network:
+  kafka_network:
     driver: bridge

@@ -156,7 +156,7 @@ faker_gen.set_seed(42)
 The docker-compose file uses profiles to separate infrastructure from application services:
 
 ### **Service Groups:**
-- **Infrastructure Services**: `postgres`, `kafka`, `kafdrop` (core services)
+- **Infrastructure Services**: `kafka-postgres`, `kafka`, `kafdrop` (core services)
 - **Application Services**: `producer`, `consumer` (data processing)
 
 ### **Important: Profile Management**

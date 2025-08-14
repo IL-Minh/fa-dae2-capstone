@@ -31,7 +31,7 @@ docker compose -f airflow-docker-compose.yml exec -T airflow-scheduler airflow c
     --conn-type 'postgres' \
     --conn-login "$POSTGRES_USER" \
     --conn-password "$POSTGRES_PASSWORD" \
-    --conn-host "postgres" \
+    --conn-host "kafka-postgres" \
     --conn-port "5432" \
     --conn-schema "$POSTGRES_DB"
 
@@ -39,7 +39,7 @@ echo "✅ PostgreSQL connection setup complete"
 echo ""
 echo "📋 Connection details:"
 echo "   - Connection ID: postgres_kafka_default"
-echo "   - Host: postgres (kafka docker network)"
+echo "   - Host: kafka-postgres (kafka docker network)"
 echo "   - Database: $POSTGRES_DB"
 echo "   - Schema: $POSTGRES_DB"
 echo "   - User: $POSTGRES_USER"

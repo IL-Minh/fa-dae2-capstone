@@ -25,7 +25,7 @@
 #### 3. Verify Snowflake Connection
 ```bash
 # From project root
-./scripts/setup_airflow_connections.sh
+./scripts/setup_airflow_connection.sh
 ```
 
 #### 4. Check DAG Status

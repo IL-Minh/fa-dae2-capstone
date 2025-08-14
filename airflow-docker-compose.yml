@@ -31,6 +31,9 @@ x-airflow-common: &airflow-common
       condition: service_healthy
     postgres:
       condition: service_healthy
+  networks:
+    - default
+    - kafka_network
 
 services:
   postgres:
@@ -289,3 +292,6 @@ networks:
   default:
     name: airflow_network
     driver: bridge
+  kafka_network:
+    external: true
+    name: fa-dae2-capstone_kafka_network
