@@ -6,7 +6,7 @@ from airflow.sdk import dag, task
 
 @dag(
     schedule=None,
-    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
+    start_date=pendulum.datetime(2021, 1, 1, tz="Asia/Bangkok"),
     catchup=False,
     tags=["snowflake", "simple"],
 )

@@ -196,7 +196,7 @@ The DAG needs to connect to the kafka PostgreSQL instance. Run:
 
 ```bash
 # From project root
-./scripts/setup_postgres_connection.sh
+./scripts/setup_airflow_postgres_connection.sh
 ```
 
 This creates the `postgres_kafka_default` connection in Airflow.
@@ -207,7 +207,7 @@ Ensure the `snowflake_default` connection is already set up:
 
 ```bash
 # From project root
-./scripts/setup_airflow_connection.sh
+./scripts/setup_airflow_snowflake_connection.sh
 ```
 
 #### 4. Start the DAG

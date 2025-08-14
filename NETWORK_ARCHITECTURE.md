@@ -91,7 +91,7 @@ docker compose -f airflow-docker-compose.yml up -d
 ### **3. Setup Airflow Connection**
 ```bash
 # Run after both systems are up
-./scripts/setup_postgres_connection.sh
+./scripts/setup_airflow_postgres_connection.sh
 ```
 
 ## Network Verification

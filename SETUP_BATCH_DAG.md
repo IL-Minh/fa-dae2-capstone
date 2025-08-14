@@ -19,13 +19,13 @@
 #### 2. Set Up PostgreSQL Connection
 ```bash
 # From project root
-./scripts/setup_postgres_connection.sh
+./scripts/setup_airflow_postgres_connection.sh
 ```
 
 #### 3. Verify Snowflake Connection
 ```bash
 # From project root
-./scripts/setup_airflow_connection.sh
+./scripts/setup_airflow_snowflake_connection.sh
 ```
 
 #### 4. Check DAG Status
@@ -72,7 +72,7 @@
 
 - `airflow/dags/batch_data_ingestion_dag.py` - Main DAG file
 - `snowflake/bootstrap_batch_ingestion.sql` - Snowflake table setup
-- `scripts/setup_postgres_connection.sh` - PostgreSQL connection setup
+- `scripts/setup_airflow_postgres_connection.sh` - PostgreSQL connection setup
 - `README.md` - Updated with DAG documentation
 
 ## 🎯 Next Steps

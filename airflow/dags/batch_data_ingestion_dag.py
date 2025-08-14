@@ -1,36 +1,195 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pendulum
-import polars as pl
+from airflow.decorators import dag, task
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.providers.snowflake.hooks.snowflake import SnowflakeHook
-from airflow.sdk import dag, task
 
 
 @dag(
     schedule="*/15 * * * *",  # Run every 15 minutes
-    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
+    start_date=pendulum.datetime(2021, 1, 1, tz="Asia/Bangkok"),
     catchup=False,
-    tags=["batch-ingestion", "snowflake", "postgres", "cdc"],
+    tags=["batch-ingestion", "snowflake", "postgres"],
     max_active_runs=1,
 )
 def batch_data_ingestion_dag():
     """
     ### Batch Data Ingestion DAG
     A DAG that performs two independent data ingestion tasks:
-    1. PostgreSQL to Snowflake with CDC (Change Data Capture)
+    1. PostgreSQL to Snowflake (simple insert)
     2. CSV files from incoming/ folder to Snowflake
 
     Both tasks land data in different tables and are independent of each other.
     """
 
     @task()
-    def postgres_to_snowflake_cdc():
+    def test_connections():
         """
-        #### PostgreSQL to Snowflake CDC Task
-        Reads new/updated records from PostgreSQL transactions_sink table
-        and loads them into Snowflake with CDC tracking.
+        #### Connection Testing Task
+        Tests connections to PostgreSQL, Snowflake, and checks CSV availability.
+        Only proceeds if all tests pass.
+        """
+        results = {
+            "postgres_ok": False,
+            "snowflake_ok": False,
+            "csv_available": False,
+            "errors": [],
+        }
+
+        # Test 1: PostgreSQL Connection
+        try:
+            print("🔍 Testing PostgreSQL connection...")
+            pg_hook = PostgresHook(
+                postgres_conn_id="postgres_kafka_default",
+                schema="DB_T0",
+            )
+
+            # Test basic connection
+            pg_conn = pg_hook.get_conn()
+            pg_cursor = pg_conn.cursor()
+
+            # Test if we can execute a simple query
+            pg_cursor.execute("SELECT 1")
+            test_result = pg_cursor.fetchone()
+
+            if test_result and test_result[0] == 1:
+                print("✅ PostgreSQL connection successful")
+
+                # Additional test: check if transactions_sink table exists
+                try:
+                    pg_cursor.execute("""
+                        SELECT EXISTS (
+                            SELECT FROM information_schema.tables
+                            WHERE table_name = 'transactions_sink'
+                        );
+                    """)
+                    table_exists = pg_cursor.fetchone()[0]
+
+                    if table_exists:
+                        print("✅ transactions_sink table exists")
+                        results["postgres_ok"] = True
+                    else:
+                        print(
+                            "⚠️  PostgreSQL connected but transactions_sink table not found"
+                        )
+                        results["errors"].append(
+                            "transactions_sink table does not exist"
+                        )
+
+                except Exception as table_check_error:
+                    print(f"⚠️  Could not check table existence: {table_check_error}")
+                    results["errors"].append(f"Table check failed: {table_check_error}")
+            else:
+                results["errors"].append("PostgreSQL query test failed")
+
+            pg_cursor.close()
+            pg_conn.close()
+
+        except Exception as e:
+            error_msg = f"PostgreSQL connection failed: {e}"
+            print(f"❌ {error_msg}")
+            results["errors"].append(error_msg)
+
+        # Test 2: Snowflake Connection
+        try:
+            print("🔍 Testing Snowflake connection...")
+            sf_hook = SnowflakeHook(snowflake_conn_id="snowflake_default")
+
+            # Test basic connection
+            sf_conn = sf_hook.get_conn()
+            sf_cursor = sf_conn.cursor()
+
+            # Test if we can execute a simple query
+            sf_cursor.execute("SELECT 1")
+            test_result = sf_cursor.fetchone()
+
+            if test_result and test_result[0] == 1:
+                print("✅ Snowflake connection successful")
+
+                # Additional test: check if required tables exist
+                try:
+                    sf_cursor.execute("""
+                        SELECT COUNT(*) FROM information_schema.tables
+                        WHERE table_name IN ('TRANSACTIONS_POSTGRES', 'TRANSACTIONS_BATCH')
+                    """)
+                    table_count = sf_cursor.fetchone()[0]
+
+                    if table_count >= 2:
+                        print("✅ Required Snowflake tables exist")
+                        results["snowflake_ok"] = True
+                    else:
+                        print(
+                            f"⚠️  Snowflake connected but only {table_count}/2 required tables found"
+                        )
+                        results["errors"].append(
+                            f"Missing Snowflake tables (found {table_count}/2)"
+                        )
+
+                except Exception as table_check_error:
+                    print(f"⚠️  Could not check Snowflake tables: {table_check_error}")
+                    results["errors"].append(
+                        f"Snowflake table check failed: {table_check_error}"
+                    )
+            else:
+                results["errors"].append("Snowflake query test failed")
+
+            sf_cursor.close()
+            sf_conn.close()
+
+        except Exception as e:
+            error_msg = f"Snowflake connection failed: {e}"
+            print(f"❌ {error_msg}")
+            results["errors"].append(error_msg)
+
+        # Test 3: CSV Files Availability
+        try:
+            print("🔍 Checking CSV files availability...")
+            incoming_path = Path("/opt/airflow/data/incoming")
+
+            if not incoming_path.exists():
+                results["errors"].append(
+                    f"Incoming folder {incoming_path} does not exist"
+                )
+                print(f"❌ Incoming folder {incoming_path} does not exist")
+            else:
+                csv_files = list(incoming_path.glob("*.csv"))
+                if csv_files:
+                    print(
+                        f"✅ Found {len(csv_files)} CSV files: {[f.name for f in csv_files]}"
+                    )
+                    results["csv_available"] = True
+                else:
+                    results["errors"].append("No CSV files found in incoming folder")
+                    print("❌ No CSV files found in incoming folder")
+
+        except Exception as e:
+            error_msg = f"CSV check failed: {e}"
+            print(f"❌ {error_msg}")
+            results["errors"].append(error_msg)
+
+        # Summary
+        if (
+            results["postgres_ok"]
+            and results["snowflake_ok"]
+            and results["csv_available"]
+        ):
+            print(
+                "🎉 All connection tests passed! Ready to proceed with data ingestion."
+            )
+            return {"status": "success", "message": "All connections verified"}
+        else:
+            error_summary = "; ".join(results["errors"])
+            print(f"❌ Connection tests failed: {error_summary}")
+            raise Exception(f"Connection validation failed: {error_summary}")
+
+    @task()
+    def postgres_to_snowflake():
+        """
+        #### PostgreSQL to Snowflake Task
+        Reads all records from PostgreSQL transactions_sink table
+        and loads them into Snowflake (simple insert, no CDC).
         """
         # Get PostgreSQL connection (kafka postgres instance)
         pg_hook = PostgresHook(
@@ -42,147 +201,67 @@ def batch_data_ingestion_dag():
         sf_hook = SnowflakeHook(snowflake_conn_id="snowflake_default")
 
         try:
-            # Get last sync timestamp from Snowflake (CDC tracking)
-            last_sync_query = """
-            SELECT MAX(last_sync_timestamp) as last_sync
-            FROM TRANSACTIONS_CDC_SYNC_LOG
-            WHERE sync_type = 'postgres_cdc'
+            # Query PostgreSQL for all records
+            pg_query = """
+            SELECT tx_id, user_id, amount, currency, merchant, category,
+                   timestamp, ingested_at
+            FROM transactions_sink
+            ORDER BY ingested_at
             """
 
-            last_sync_result = sf_hook.get_records(last_sync_query)
-            last_sync_timestamp = None
-
-            if last_sync_result and last_sync_result[0][0]:
-                last_sync_timestamp = last_sync_result[0][0]
-                print(f"Last sync timestamp: {last_sync_timestamp}")
-            else:
-                # First run - get all data
-                last_sync_timestamp = datetime(2021, 1, 1)
-                print("First run - syncing all data")
-
-            # Query PostgreSQL for new/updated records since last sync
-            if last_sync_timestamp:
-                pg_query = """
-                SELECT tx_id, user_id, amount, currency, merchant, category,
-                       timestamp, ingested_at
-                FROM transactions_sink
-                WHERE ingested_at > %s
-                ORDER BY ingested_at
-                """
-                pg_params = (last_sync_timestamp,)
-            else:
-                pg_query = """
-                SELECT tx_id, user_id, amount, currency, merchant, category,
-                       timestamp, ingested_at
-                FROM transactions_sink
-                ORDER BY ingested_at
-                """
-                pg_params = ()
-
             # Execute PostgreSQL query
-            pg_records = pg_hook.get_records(pg_query, parameters=pg_params)
+            pg_records = pg_hook.get_records(pg_query)
 
             if not pg_records:
-                print("No new records to sync from PostgreSQL")
-                return {"rows_synced": 0, "last_sync": last_sync_timestamp}
+                print("No records found in PostgreSQL transactions_sink table")
+                return {"rows_synced": 0}
 
-            print(f"Found {len(pg_records)} new records to sync")
+            print(f"Found {len(pg_records)} records to sync from PostgreSQL")
 
-            # Convert to polars DataFrame
-            columns = [
-                "tx_id",
-                "user_id",
-                "amount",
-                "currency",
-                "merchant",
-                "category",
-                "timestamp",
-                "ingested_at",
-            ]
-            df = pl.DataFrame(pg_records, schema=columns)
-
-            # Prepare data for Snowflake insertion
-            data_to_insert = []
-            for row in df.iter_rows():
-                data_to_insert.append(
-                    {
-                        "tx_id": row[0],
-                        "user_id": row[1],
-                        "amount": row[2],
-                        "currency": row[3],
-                        "merchant": row[4],
-                        "category": row[5],
-                        "timestamp": row[6],
-                        "ingested_at": row[7],
-                        "source_system": "postgres_cdc",
-                        "sync_timestamp": datetime.utcnow(),
-                    }
-                )
-
-            # Insert into Snowflake TRANSACTIONS_CDC table
+            # Insert into Snowflake TRANSACTIONS_POSTGRES table
             insert_query = """
-            INSERT INTO TRANSACTIONS_CDC (
+            INSERT INTO TRANSACTIONS_POSTGRES (
                 tx_id, user_id, amount, currency, merchant, category,
-                timestamp, ingested_at, source_system, sync_timestamp
+                timestamp, ingested_at
             ) VALUES (
-                %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                %s, %s, %s, %s, %s, %s, %s, %s
             )
             """
 
-            # Execute batch insert
+            # Execute batch insert directly from PostgreSQL results
             sf_conn = sf_hook.get_conn()
             sf_cursor = sf_conn.cursor()
 
             rows_inserted = 0
-            for row_data in data_to_insert:
+            for row in pg_records:
                 try:
                     sf_cursor.execute(
                         insert_query,
                         (
-                            row_data["tx_id"],
-                            row_data["user_id"],
-                            row_data["amount"],
-                            row_data["currency"],
-                            row_data["merchant"],
-                            row_data["category"],
-                            row_data["timestamp"],
-                            row_data["ingested_at"],
-                            row_data["source_system"],
-                            row_data["sync_timestamp"],
+                            row[0],  # tx_id
+                            row[1],  # user_id
+                            row[2],  # amount
+                            row[3],  # currency
+                            row[4],  # merchant
+                            row[5],  # category
+                            row[6],  # timestamp
+                            row[7],  # ingested_at
                         ),
                     )
                     rows_inserted += 1
                 except Exception as e:
-                    print(f"Error inserting row {row_data['tx_id']}: {e}")
+                    print(f"Error inserting row {row[0]}: {e}")
                     continue
-
-            # Update CDC sync log
-            current_sync_time = datetime.utcnow()
-            sync_log_query = """
-            INSERT INTO TRANSACTIONS_CDC_SYNC_LOG (
-                sync_type, last_sync_timestamp, rows_synced, sync_timestamp
-            ) VALUES (%s, %s, %s, %s)
-            """
-            sf_cursor.execute(
-                sync_log_query,
-                ("postgres_cdc", current_sync_time, rows_inserted, current_sync_time),
-            )
 
             sf_conn.commit()
             sf_cursor.close()
             sf_conn.close()
 
-            print(
-                f"Successfully synced {rows_inserted} rows from PostgreSQL to Snowflake"
-            )
-            return {
-                "rows_synced": rows_inserted,
-                "last_sync": current_sync_time,
-                "source": "postgres_cdc",
-            }
+            print(f"Successfully synced {rows_inserted} rows from PostgreSQL")
+            return {"rows_synced": rows_inserted}
 
         except Exception as e:
-            print(f"Error in postgres_to_snowflake_cdc: {e}")
+            print(f"Error in postgres_to_snowflake: {e}")
             raise
 
     @task()
@@ -218,45 +297,52 @@ def batch_data_ingestion_dag():
             try:
                 print(f"Processing file: {csv_file.name}")
 
-                # Read CSV with polars
-                df = pl.read_csv(csv_file)
+                # Read CSV with standard Python csv module
+                import csv
 
-                # Ensure required columns exist
-                required_columns = [
-                    "tx_id",
-                    "user_id",
-                    "amount",
-                    "currency",
-                    "merchant",
-                    "category",
-                    "timestamp",
-                ]
-                missing_columns = [
-                    col for col in required_columns if col not in df.columns
-                ]
+                # Ensure required columns exist by reading header first
+                with open(csv_file, "r") as f:
+                    reader = csv.reader(f)
+                    header = next(reader)
 
-                if missing_columns:
-                    print(
-                        f"Skipping {csv_file.name} - missing columns: {missing_columns}"
-                    )
-                    continue
+                    required_columns = [
+                        "tx_id",
+                        "user_id",
+                        "amount",
+                        "currency",
+                        "merchant",
+                        "category",
+                        "timestamp",
+                    ]
+                    missing_columns = [
+                        col for col in required_columns if col not in header
+                    ]
 
-                # Prepare data for Snowflake insertion
-                data_to_insert = []
-                for row in df.iter_rows():
-                    data_to_insert.append(
-                        {
-                            "tx_id": row[0],
-                            "user_id": row[1],
-                            "amount": row[2],
-                            "currency": row[3],
-                            "merchant": row[4],
-                            "category": row[5],
-                            "timestamp": row[6],
-                            "source_file": csv_file.name,
-                            "ingested_at": datetime.utcnow(),
-                        }
-                    )
+                    if missing_columns:
+                        print(
+                            f"Skipping {csv_file.name} - missing columns: {missing_columns}"
+                        )
+                        continue
+
+                    # Prepare data for Snowflake insertion
+                    data_to_insert = []
+                    for row in reader:
+                        if len(row) >= 7:  # Ensure we have enough columns
+                            data_to_insert.append(
+                                {
+                                    "tx_id": row[0],
+                                    "user_id": row[1],
+                                    "amount": row[2],
+                                    "currency": row[3],
+                                    "merchant": row[4],
+                                    "category": row[5],
+                                    "timestamp": row[6],
+                                    "source_file": csv_file.name,
+                                    "ingested_at": datetime.now(
+                                        timezone.utc
+                                    ),  # Keep UTC for database consistency
+                                }
+                            )
 
                 # Insert into Snowflake TRANSACTIONS_BATCH table
                 insert_query = """
@@ -321,12 +407,17 @@ def batch_data_ingestion_dag():
             "source": "csv_batch",
         }
 
-    # Execute both tasks independently (no dependencies)
-    postgres_to_snowflake_cdc()
-    csv_to_snowflake_batch()
+    # Execute connection test first, then main tasks only if test passes
+    # In TaskFlow API, we use dependencies to ensure proper execution order
+    connection_test = test_connections()
 
-    # Both tasks can run in parallel since they're independent
-    # No need to set dependencies between them
+    # Main tasks depend on successful connection test
+    postgres_task = postgres_to_snowflake()
+    csv_task = csv_to_snowflake_batch()
+
+    # Set dependencies: main tasks only run after connection test succeeds
+    postgres_task.set_upstream(connection_test)
+    csv_task.set_upstream(connection_test)
 
 
 # Create the DAG instance

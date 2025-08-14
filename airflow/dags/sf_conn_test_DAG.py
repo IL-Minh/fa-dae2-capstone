@@ -5,7 +5,7 @@ from utils.etl_sample import extract, load, transform
 
 @dag(
     schedule=None,
-    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
+    start_date=pendulum.datetime(2021, 1, 1, tz="Asia/Bangkok"),
     catchup=False,
     tags=["example"],
 )
