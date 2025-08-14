@@ -1,0 +1,193 @@
+[0m19:32:37.714514 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c8f3d40>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10cbbf8c0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10cbbf320>]}
+
+
+============================== 19:32:37.737494 | 9eaf3638-b091-4f66-8d4a-ad71cc8cc005 ==============================
+[0m19:32:37.737494 [info ] [MainThread]: Running with dbt=1.10.8
+[0m19:32:37.737830 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'fail_fast': 'False', 'version_check': 'True', 'log_path': 'logs', 'profiles_dir': '/Users/minhngo/.dbt', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'static_parser': 'True', 'log_format': 'default', 'introspect': 'True', 'target_path': 'None', 'invocation_command': 'dbt init', 'send_anonymous_usage_stats': 'True'}
+[0m19:33:52.616466 [debug] [MainThread]: Starter project path: /Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/.venv/lib/python3.12/site-packages/dbt/include/starter_project
+[0m19:33:52.669997 [info ] [MainThread]:
+Your new dbt project "dbt_sf" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m19:33:52.673414 [info ] [MainThread]: Setting up your profile.
+[0m19:36:00.228050 [info ] [MainThread]: Profile dbt_sf written to /Users/minhngo/.dbt/profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m19:36:00.233191 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 202.52328, "process_in_blocks": "0", "process_kernel_time": 0.510536, "process_mem_max_rss": "143753216", "process_out_blocks": "0", "process_user_time": 1.659468}
+[0m19:36:00.237752 [debug] [MainThread]: Command `dbt init` succeeded at 19:36:00.237133 after 202.53 seconds
+[0m19:36:00.240397 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10cbebc80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e9d6ff0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10d7666c0>]}
+[0m19:36:00.241982 [debug] [MainThread]: Flushing usage events
+[0m19:36:01.591268 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m19:41:22.421535 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1071caa80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10863ca70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10863c6b0>]}
+
+
+============================== 19:41:22.423942 | 4b8dc5a5-05eb-418d-ac6b-f217118e5c39 ==============================
+[0m19:41:22.423942 [info ] [MainThread]: Running with dbt=1.10.8
+[0m19:41:22.424220 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'fail_fast': 'False', 'debug': 'False', 'log_path': 'logs', 'profiles_dir': '/Users/minhngo/.dbt', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'None', 'log_format': 'default', 'static_parser': 'True', 'introspect': 'True', 'invocation_command': 'dbt debug', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'send_anonymous_usage_stats': 'True'}
+[0m19:41:22.465724 [info ] [MainThread]: dbt version: 1.10.8
+[0m19:41:22.465957 [info ] [MainThread]: python version: 3.12.3
+[0m19:41:22.466099 [info ] [MainThread]: python path: /Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/.venv/bin/python3
+[0m19:41:22.466227 [info ] [MainThread]: os info: macOS-15.6-arm64-arm-64bit
+[0m19:41:22.468158 [info ] [MainThread]: Error importing adapter: No module named 'dbt.adapters.duckdb'
+[0m19:41:22.691053 [info ] [MainThread]: Using profiles dir at /Users/minhngo/.dbt
+[0m19:41:22.691335 [info ] [MainThread]: Using profiles.yml file at /Users/minhngo/.dbt/profiles.yml
+[0m19:41:22.691491 [info ] [MainThread]: Using dbt_project.yml file at /Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/dbt_project.yml
+[0m19:41:22.691638 [info ] [MainThread]: Configuration:
+[0m19:41:22.691770 [info ] [MainThread]:   profiles.yml file [[31mERROR invalid[0m]
+[0m19:41:22.691894 [info ] [MainThread]:   dbt_project.yml file [[31mERROR not found[0m]
+[0m19:41:22.692026 [info ] [MainThread]: Required dependencies:
+[0m19:41:22.692260 [debug] [MainThread]: Executing "git --help"
+[0m19:41:22.700444 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Reset current HEAD to the specified state\n   switch     Switch branches\n   tag        Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m19:41:22.700828 [debug] [MainThread]: STDERR: "b''"
+[0m19:41:22.700970 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m19:41:22.701121 [info ] [MainThread]: Connection test skipped since no profile was found
+[0m19:41:22.701333 [info ] [MainThread]: [31m2 checks failed:[0m
+[0m19:41:22.701472 [info ] [MainThread]: Could not load dbt_project.yml
+Profile loading failed for the following reason:
+Runtime Error
+  Credentials in profile "dbt_duckdb_ci_demo", target "dev" invalid: Runtime Error
+    Could not find adapter type duckdb!
+
+
+[0m19:41:22.701608 [info ] [MainThread]: Project loading failed for the following reason:
+ project path </Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/dbt_project.yml> not found
+
+[0m19:41:22.701991 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_success": false, "command_wall_clock_time": 0.31240204, "process_in_blocks": "0", "process_kernel_time": 0.18258, "process_mem_max_rss": "128155648", "process_out_blocks": "0", "process_user_time": 0.623908}
+[0m19:41:22.702462 [debug] [MainThread]: Command `dbt debug` failed at 19:41:22.702419 after 0.31 seconds
+[0m19:41:22.702693 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1087d2d80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x108e996a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10846fc20>]}
+[0m19:41:22.702887 [debug] [MainThread]: Flushing usage events
+[0m19:41:25.111403 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m19:44:03.310797 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107403d40>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11036fc80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1105405f0>]}
+
+
+============================== 19:44:03.313428 | a0c5ecdc-ffbe-458d-a387-96d8b6a83b7e ==============================
+[0m19:44:03.313428 [info ] [MainThread]: Running with dbt=1.10.8
+[0m19:44:03.313713 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': './dbt', 'version_check': 'True', 'debug': 'False', 'log_path': 'logs', 'warn_error': 'None', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'log_format': 'default', 'static_parser': 'True', 'introspect': 'True', 'invocation_command': 'dbt debug', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'send_anonymous_usage_stats': 'True'}
+[0m19:44:03.328395 [info ] [MainThread]: dbt version: 1.10.8
+[0m19:44:03.328689 [info ] [MainThread]: python version: 3.12.3
+[0m19:44:03.328842 [info ] [MainThread]: python path: /Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/.venv/bin/python3
+[0m19:44:03.328981 [info ] [MainThread]: os info: macOS-15.6-arm64-arm-64bit
+[0m19:44:03.329147 [info ] [MainThread]: Using profiles dir at ./dbt
+[0m19:44:03.329288 [info ] [MainThread]: Using profiles.yml file at ./dbt/profiles.yml
+[0m19:44:03.329491 [info ] [MainThread]: Using dbt_project.yml file at /Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/dbt_project.yml
+[0m19:44:03.329678 [info ] [MainThread]: Configuration:
+[0m19:44:03.329903 [info ] [MainThread]:   profiles.yml file [[31mERROR not found[0m]
+[0m19:44:03.330115 [info ] [MainThread]:   dbt_project.yml file [[31mERROR not found[0m]
+[0m19:44:03.330257 [info ] [MainThread]: Required dependencies:
+[0m19:44:03.330497 [debug] [MainThread]: Executing "git --help"
+[0m19:44:03.347371 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Reset current HEAD to the specified state\n   switch     Switch branches\n   tag        Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m19:44:03.347976 [debug] [MainThread]: STDERR: "b''"
+[0m19:44:03.348141 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m19:44:03.348289 [info ] [MainThread]: Connection test skipped since no profile was found
+[0m19:44:03.348539 [info ] [MainThread]: [31m2 checks failed:[0m
+[0m19:44:03.348668 [info ] [MainThread]: dbt looked for a profiles.yml file in ./dbt/profiles.yml, but did
+not find one. For more information on configuring your profile, consult the
+documentation:
+
+https://docs.getdbt.com/docs/configure-your-profile
+
+
+[0m19:44:03.348806 [info ] [MainThread]: Project loading failed for the following reason:
+ project path </Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/dbt_project.yml> not found
+
+[0m19:44:03.349215 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_success": false, "command_wall_clock_time": 0.07003075, "process_in_blocks": "0", "process_kernel_time": 0.151243, "process_mem_max_rss": "105922560", "process_out_blocks": "0", "process_user_time": 0.54353}
+[0m19:44:03.349477 [debug] [MainThread]: Command `dbt debug` failed at 19:44:03.349435 after 0.07 seconds
+[0m19:44:03.349729 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1105c2b10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1105c3a70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107434f80>]}
+[0m19:44:03.349925 [debug] [MainThread]: Flushing usage events
+[0m19:44:04.758995 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m19:44:36.956918 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x12a31a780>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x12b040920>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x12b040560>]}
+
+
+============================== 19:44:36.959767 | 3d092640-5919-4977-bd1a-980c39c30fe5 ==============================
+[0m19:44:36.959767 [info ] [MainThread]: Running with dbt=1.10.8
+[0m19:44:36.960096 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/.dbt', 'version_check': 'True', 'debug': 'False', 'log_path': 'logs', 'warn_error': 'None', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'invocation_command': 'dbt debug', 'static_parser': 'True', 'log_format': 'default', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m19:44:36.975972 [info ] [MainThread]: dbt version: 1.10.8
+[0m19:44:36.976263 [info ] [MainThread]: python version: 3.12.3
+[0m19:44:36.976410 [info ] [MainThread]: python path: /Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/.venv/bin/python3
+[0m19:44:36.976537 [info ] [MainThread]: os info: macOS-15.6-arm64-arm-64bit
+[0m19:44:36.987391 [error] [MainThread]: Encountered an error:
+Parsing Error
+  Env var required but not provided: 'SNOWFLAKE_ACCOUNT'
+[0m19:44:36.987741 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_success": false, "command_wall_clock_time": 0.062267125, "process_in_blocks": "0", "process_kernel_time": 0.141035, "process_mem_max_rss": "107233280", "process_out_blocks": "0", "process_user_time": 0.547363}
+[0m19:44:36.987956 [debug] [MainThread]: Command `dbt debug` failed at 19:44:36.987917 after 0.06 seconds
+[0m19:44:36.988120 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x12b040800>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x12a8efa40>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x12a31a780>]}
+[0m19:44:36.988292 [debug] [MainThread]: Flushing usage events
+[0m19:44:38.056637 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m19:52:23.499556 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1045303e0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105a3d340>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105a3cbc0>]}
+
+
+============================== 19:52:23.502143 | 70afca46-f1d4-440d-9403-6941400922e1 ==============================
+[0m19:52:23.502143 [info ] [MainThread]: Running with dbt=1.10.8
+[0m19:52:23.502430 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'fail_fast': 'False', 'profiles_dir': '/Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/.dbt', 'log_path': 'logs', 'debug': 'False', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'invocation_command': 'dbt debug', 'static_parser': 'True', 'introspect': 'True', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m19:52:23.515113 [info ] [MainThread]: dbt version: 1.10.8
+[0m19:52:23.515365 [info ] [MainThread]: python version: 3.12.3
+[0m19:52:23.515525 [info ] [MainThread]: python path: /Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/.venv/bin/python3
+[0m19:52:23.515661 [info ] [MainThread]: os info: macOS-15.6-arm64-arm-64bit
+[0m19:52:23.731063 [info ] [MainThread]: Using profiles dir at /Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/.dbt
+[0m19:52:23.731346 [info ] [MainThread]: Using profiles.yml file at /Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/.dbt/profiles.yml
+[0m19:52:23.731517 [info ] [MainThread]: Using dbt_project.yml file at /Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/dbt_project.yml
+[0m19:52:23.735840 [info ] [MainThread]: adapter type: snowflake
+[0m19:52:23.735992 [info ] [MainThread]: adapter version: 1.10.0
+[0m19:52:23.736145 [info ] [MainThread]: Configuration:
+[0m19:52:23.736278 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m19:52:23.736428 [info ] [MainThread]:   dbt_project.yml file [[31mERROR not found[0m]
+[0m19:52:23.736554 [info ] [MainThread]: Required dependencies:
+[0m19:52:23.736758 [debug] [MainThread]: Executing "git --help"
+[0m19:52:23.751226 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Reset current HEAD to the specified state\n   switch     Switch branches\n   tag        Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m19:52:23.751724 [debug] [MainThread]: STDERR: "b''"
+[0m19:52:23.751899 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m19:52:23.752069 [info ] [MainThread]: Connection:
+[0m19:52:23.752236 [info ] [MainThread]:   account: GEZJPYC-FOUNDRY-AI-ACADEMY
+[0m19:52:23.752371 [info ] [MainThread]:   user: T0
+[0m19:52:23.752500 [info ] [MainThread]:   database: DB_T0
+[0m19:52:23.752623 [info ] [MainThread]:   warehouse: WH_T0
+[0m19:52:23.752744 [info ] [MainThread]:   role: RL_T0
+[0m19:52:23.752870 [info ] [MainThread]:   schema: SC_RAW
+[0m19:52:23.752996 [info ] [MainThread]:   authenticator: None
+[0m19:52:23.753117 [info ] [MainThread]:   oauth_client_id: None
+[0m19:52:23.753238 [info ] [MainThread]:   query_tag: None
+[0m19:52:23.753356 [info ] [MainThread]:   client_session_keep_alive: False
+[0m19:52:23.753477 [info ] [MainThread]:   host: None
+[0m19:52:23.753598 [info ] [MainThread]:   port: None
+[0m19:52:23.753721 [info ] [MainThread]:   proxy_host: None
+[0m19:52:23.753839 [info ] [MainThread]:   proxy_port: None
+[0m19:52:23.753968 [info ] [MainThread]:   protocol: None
+[0m19:52:23.754088 [info ] [MainThread]:   connect_retries: 1
+[0m19:52:23.754205 [info ] [MainThread]:   connect_timeout: None
+[0m19:52:23.754324 [info ] [MainThread]:   retry_on_database_errors: False
+[0m19:52:23.754440 [info ] [MainThread]:   retry_all: False
+[0m19:52:23.754574 [info ] [MainThread]:   insecure_mode: False
+[0m19:52:23.754691 [info ] [MainThread]:   reuse_connections: True
+[0m19:52:23.754812 [info ] [MainThread]:   s3_stage_vpce_dns_name: None
+[0m19:52:23.755120 [info ] [MainThread]: Registered adapter: snowflake=1.10.0
+[0m19:52:23.822283 [debug] [MainThread]: Acquiring new snowflake connection 'debug'
+[0m19:52:23.954452 [debug] [MainThread]: Using snowflake connection "debug"
+[0m19:52:23.954691 [debug] [MainThread]: On debug: select 1 as id
+[0m19:52:23.954839 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m19:52:25.875979 [debug] [MainThread]: SQL status: SUCCESS 1 in 1.921 seconds
+[0m19:52:25.878452 [info ] [MainThread]:   Connection test: [[32mOK connection ok[0m]
+
+[0m19:52:25.879431 [info ] [MainThread]: [31m1 check failed:[0m
+[0m19:52:25.880154 [info ] [MainThread]: Project loading failed for the following reason:
+ project path </Users/minhngo/Repo/FoundryAI/fa-dae2-capstone/dbt_project.yml> not found
+
+[0m19:52:25.881371 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_success": false, "command_wall_clock_time": 2.4186008, "process_in_blocks": "0", "process_kernel_time": 0.269092, "process_mem_max_rss": "146948096", "process_out_blocks": "0", "process_user_time": 0.883893}
+[0m19:52:25.882243 [debug] [MainThread]: Command `dbt debug` failed at 19:52:25.882097 after 2.42 seconds
+[0m19:52:25.882967 [debug] [MainThread]: Connection 'debug' was left open.
+[0m19:52:25.883622 [debug] [MainThread]: On debug: Close
+[0m19:52:26.401404 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10586d0a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106b19c10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1068678f0>]}
+[0m19:52:26.402941 [debug] [MainThread]: Flushing usage events
+[0m19:52:27.703314 [debug] [MainThread]: An error was encountered while trying to flush usage events

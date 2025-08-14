@@ -1,0 +1,14 @@
+dbt_sf:
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+      private_key_passphrase: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_FILE_PWD') }}"
+      private_key_path: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_FILE_PATH') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE') }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA') }}"
+      threads: 1
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
+  target: dev

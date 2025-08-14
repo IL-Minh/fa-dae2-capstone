@@ -11,6 +11,7 @@ dependencies = [
     "snowflake-connector-python~=3.16",
     "faker>=25",
     "confluent-kafka~=2.4",
+    "dbt-snowflake>=1.10.0",
 ]
 
 [dependency-groups]
