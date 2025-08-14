@@ -29,6 +29,17 @@ clean-targets: # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   dbt_sf:
-    # Config indicated by + and applies to all files under models/example/
-    example:
+    # Staging models - views for fast development
+    staging:
       +materialized: view
+      +tags: ["staging"]
+
+    # Intermediate models - ephemeral for performance
+    intermediate:
+      +materialized: ephemeral
+      +tags: ["intermediate"]
+
+    # Mart models - tables for query performance
+    marts:
+      +materialized: table
+      +tags: ["marts"]

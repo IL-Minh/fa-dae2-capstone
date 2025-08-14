@@ -28,6 +28,8 @@ x-airflow-common: &airflow-common
     - ${AIRFLOW_PROJ_DIR:-.}/.secret:/opt/airflow/.secret
     - ${AIRFLOW_PROJ_DIR:-.}/utils:/opt/airflow/utils
     - ${AIRFLOW_PROJ_DIR:-.}/loaders:/opt/airflow/loaders
+    - ${AIRFLOW_PROJ_DIR:-.}/dbt_sf:/opt/airflow/dbt_sf
+    - ${AIRFLOW_PROJ_DIR:-.}/.dbt:/opt/airflow/.dbt
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on: &airflow-common-depends-on
     redis:

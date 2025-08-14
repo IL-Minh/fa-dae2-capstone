@@ -6,3 +6,7 @@ Variable
 add these for dbt, easier to manage with current folder struct.
 DBT_PROFILES_DIR
 DBT_PROJECT_DIR
+
+
+Export requirement.txt before building docker image
+```uv export --format requirements-txt --no-dev > requirements.txt```

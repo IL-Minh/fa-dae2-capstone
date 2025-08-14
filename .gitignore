@@ -130,3 +130,5 @@ airflow/logs/
 
 # dbt
 .dbt/.user.yml
+
+logs/

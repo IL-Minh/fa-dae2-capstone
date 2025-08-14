@@ -15,6 +15,9 @@ COPY requirements.txt ./
 # This approach is simple, reliable, and uses uv-generated dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Add dbt to PATH globally so all tasks can find it
+ENV PATH="/home/airflow/.local/bin:${PATH}"
+
 # -----------------------------
 # Optional: Copy project files - no need for now as all are volumn mounted
 # -----------------------------

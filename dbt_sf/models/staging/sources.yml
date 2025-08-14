@@ -1,0 +1,90 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw data tables from Airflow ingestion"
+    database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+    schema: "{{ env_var('SNOWFLAKE_SCHEMA') }}"
+
+    tables:
+      - name: TRANSACTIONS_STREAMING_KAFKA
+        description: "Raw streaming transaction data from Kafka → PostgreSQL pipeline"
+        columns:
+          - name: tx_id
+            description: "Unique transaction identifier"
+            tests:
+              - not_null
+              - unique
+          - name: user_id
+            description: "User identifier"
+            tests:
+              - not_null
+          - name: amount
+            description: "Transaction amount"
+            tests:
+              - not_null
+          - name: currency
+            description: "Transaction currency"
+            tests:
+              - not_null
+          - name: merchant
+            description: "Merchant name"
+            tests:
+              - not_null
+          - name: category
+            description: "Transaction category"
+            tests:
+              - not_null
+          - name: timestamp
+            description: "Transaction timestamp"
+            tests:
+              - not_null
+          - name: ingested_at
+            description: "When data was ingested into PostgreSQL"
+            tests:
+              - not_null
+          - name: airflow_ingested_at
+            description: "When Airflow processed the data"
+            tests:
+              - not_null
+
+      - name: TRANSACTIONS_BATCH_CSV
+        description: "Raw batch transaction data from CSV files"
+        columns:
+          - name: tx_id
+            description: "Unique transaction identifier"
+            tests:
+              - not_null
+              - unique
+          - name: user_id
+            description: "User identifier"
+            tests:
+              - not_null
+          - name: amount
+            description: "Transaction amount"
+            tests:
+              - not_null
+          - name: currency
+            description: "Transaction currency"
+            tests:
+              - not_null
+          - name: merchant
+            description: "Merchant name"
+            tests:
+              - not_null
+          - name: category
+            description: "Transaction category"
+            tests:
+              - not_null
+          - name: timestamp
+            description: "Transaction timestamp"
+            tests:
+              - not_null
+          - name: source_file
+            description: "Source CSV filename"
+            tests:
+              - not_null
+          - name: ingested_at
+            description: "When Airflow processed the data"
+            tests:
+              - not_null
