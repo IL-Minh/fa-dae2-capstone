@@ -4,7 +4,7 @@ WORKDIR /app
 COPY pyproject.toml uv.lock ./
 RUN pip install uv && uv sync --frozen
 
-COPY producers ./producers
+COPY kafka ./kafka
 
 # ENV KAFKA_BOOTSTRAP_SERVERS=localhost:9092
-CMD ["uv", "run", "producers/kafka_producer_faker.py"]
+CMD ["uv", "run", "kafka/kafka_producer_faker.py"]

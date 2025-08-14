@@ -1,4 +1,5 @@
 services:
+  # Core Infrastructure Services (start these for development)
   postgres:
     image: postgres:17.4
     environment:
@@ -54,6 +55,7 @@ services:
       - postgres_network
     restart: unless-stopped
 
+  # Application Services (start these separately for testing)
   producer:
     build:
       context: .
@@ -66,6 +68,7 @@ services:
     networks:
       - postgres_network
     restart: unless-stopped
+    profiles: ["app"]
 
   consumer:
     build:
@@ -86,6 +89,7 @@ services:
     networks:
       - postgres_network
     restart: unless-stopped
+    profiles: ["app"]
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
