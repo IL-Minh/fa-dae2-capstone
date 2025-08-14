@@ -143,3 +143,150 @@ SELECT * FROM users;
 - If port 5432 is already in use, change the port mapping in `docker-compose.yml`
 - If you need to reset the database, run `docker-compose down -v` and then `docker-compose up -d`
 - Check container logs with `docker-compose logs postgres`
+
+## Batch Data Ingestion DAG
+
+The project includes a comprehensive Airflow DAG for batch data ingestion that handles two independent data sources:
+
+### Overview
+
+**DAG Name**: `batch_data_ingestion_dag`
+**Schedule**: Every 15 minutes
+**Purpose**: Synchronize data from PostgreSQL (with CDC) and CSV files to Snowflake
+
+### Tasks
+
+1. **PostgreSQL to Snowflake CDC Task** (`postgres_to_snowflake_cdc`)
+   - Reads new/updated records from PostgreSQL `transactions_sink` table
+   - Implements Change Data Capture (CDC) using timestamp tracking
+   - Lands data in Snowflake `TRANSACTIONS_CDC` table
+   - Tracks sync history in `TRANSACTIONS_CDC_SYNC_LOG` table
+
+2. **CSV to Snowflake Batch Task** (`csv_to_snowflake_batch`)
+   - Processes CSV files from `data/incoming/` folder
+   - Lands data in Snowflake `TRANSACTIONS_BATCH` table
+   - Tracks source file information
+   - Independent of PostgreSQL task
+
+### Setup Instructions
+
+#### 1. Create Snowflake Tables
+
+Run the bootstrap script in Snowflake:
+
+```sql
+-- Execute in Snowflake worksheet
+-- Set your role and warehouse first
+USE ROLE YOUR_ROLE;
+USE WAREHOUSE YOUR_WAREHOUSE;
+
+-- Run the bootstrap script
+-- Copy content from snowflake/bootstrap_batch_ingestion.sql
+```
+
+This creates:
+- `TRANSACTIONS_CDC` - for PostgreSQL CDC data
+- `TRANSACTIONS_BATCH` - for CSV batch data
+- `TRANSACTIONS_CDC_SYNC_LOG` - for CDC tracking
+- `V_TRANSACTIONS_UNIFIED` - unified view of all data
+
+#### 2. Set Up PostgreSQL Connection
+
+The DAG needs to connect to the kafka PostgreSQL instance. Run:
+
+```bash
+# From project root
+./scripts/setup_postgres_connection.sh
+```
+
+This creates the `postgres_kafka_default` connection in Airflow.
+
+#### 3. Verify Snowflake Connection
+
+Ensure the `snowflake_default` connection is already set up:
+
+```bash
+# From project root
+./scripts/setup_airflow_connections.sh
+```
+
+#### 4. Start the DAG
+
+The DAG will automatically start running every 15 minutes once:
+- All connections are configured
+- Snowflake tables are created
+- Airflow is running
+
+### Data Flow
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   PostgreSQL    │    │     Airflow      │    │    Snowflake    │
+│ transactions_sink│───▶│  CDC Task       │───▶│ TRANSACTIONS_CDC│
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+                                │
+                                ▼
+                       ┌──────────────────┐    ┌─────────────────┐
+                       │  CSV Task        │───▶│TRANSACTIONS_BATCH│
+                       └──────────────────┘    └─────────────────┘
+                                │
+                                ▼
+                       ┌──────────────────┐
+                       │data/incoming/    │
+                       │*.csv files       │
+                       └──────────────────┘
+```
+
+### CDC Implementation
+
+The PostgreSQL task implements simple CDC by:
+- Tracking the last sync timestamp in `TRANSACTIONS_CDC_SYNC_LOG`
+- Querying only records with `ingested_at > last_sync_timestamp`
+- Recording sync metadata for audit trails
+- Handling incremental updates efficiently
+
+### Monitoring
+
+- **Airflow UI**: Monitor task execution and logs
+- **Snowflake**: Query sync logs and data tables
+- **Logs**: Check Airflow task logs for detailed execution info
+
+### Tables Schema
+
+#### TRANSACTIONS_CDC
+```sql
+CREATE TABLE TRANSACTIONS_CDC (
+    TX_ID STRING PRIMARY KEY,
+    USER_ID INTEGER,
+    AMOUNT NUMBER(18,2),
+    CURRENCY STRING,
+    MERCHANT STRING,
+    CATEGORY STRING,
+    TIMESTAMP TIMESTAMP_NTZ,
+    INGESTED_AT TIMESTAMP_NTZ,
+    SOURCE_SYSTEM STRING,
+    SYNC_TIMESTAMP TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### TRANSACTIONS_BATCH
+```sql
+CREATE TABLE TRANSACTIONS_BATCH (
+    TX_ID STRING PRIMARY KEY,
+    USER_ID INTEGER,
+    AMOUNT NUMBER(18,2),
+    CURRENCY STRING,
+    MERCHANT STRING,
+    CATEGORY STRING,
+    TIMESTAMP TIMESTAMP_NTZ,
+    SOURCE_FILE STRING,
+    INGESTED_AT TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Troubleshooting
+
+1. **Connection Issues**: Verify both PostgreSQL and Snowflake connections in Airflow
+2. **Missing Tables**: Ensure Snowflake bootstrap script has been executed
+3. **Permission Errors**: Check Snowflake role permissions for the tables
+4. **Data Type Mismatches**: Verify CSV column types match expected schema

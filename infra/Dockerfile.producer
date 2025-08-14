@@ -6,7 +6,5 @@ RUN pip install uv && uv sync --frozen
 
 COPY producers ./producers
 
-ENV KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+# ENV KAFKA_BOOTSTRAP_SERVERS=localhost:9092
 CMD ["uv", "run", "producers/kafka_producer_faker.py"]
-
-
