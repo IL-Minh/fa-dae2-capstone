@@ -18,7 +18,7 @@ The system uses **two Docker networks** with **cross-network communication** for
 ### **Network 2: Airflow Network (`airflow_network`)**
 - **Purpose**: Airflow orchestration services
 - **Services**:
-  - `airflow-postgres` - PostgreSQL for Airflow metadata
+  - `postgres` - PostgreSQL for Airflow metadata
   - `redis` - Redis for Celery
   - `airflow-scheduler` - Airflow scheduler
   - `airflow-worker` - Airflow worker
@@ -145,7 +145,7 @@ docker compose -f kafka-docker-compose.yml logs kafka-postgres
 ## Best Practices
 
 ### **1. Service Naming**
-- Use descriptive service names (`kafka-postgres`, `airflow-postgres`)
+- Use descriptive service names (`kafka-postgres`, `postgres`)
 - Avoid generic names that could cause conflicts
 
 ### **2. Network Design**

@@ -1,292 +1,297 @@
-# PostgreSQL Docker Setup
+# FA-DAE2-Capstone: Data Engineering Pipeline
 
-A simple PostgreSQL database setup using Docker for learning and development.
+A comprehensive data engineering project that demonstrates a complete data pipeline from Kafka streaming to batch processing with Airflow orchestration and Snowflake data warehousing.
 
-## Quick Start
+## 🏗️ Project Architecture
 
-### 1. Start PostgreSQL
+This project implements a modern data engineering architecture with:
+
+- **Kafka Ecosystem**: Real-time streaming with producer/consumer patterns
+- **PostgreSQL**: Transactional data storage and streaming sink
+- **Airflow**: Workflow orchestration and scheduling
+- **Snowflake**: Cloud data warehouse for analytics
+- **Docker Compose**: Containerized development environment
+
+## 📁 Project Structure
+
+```
+fa-dae2-capstone/
+├── airflow/                          # Airflow orchestration
+│   ├── dags/
+│   │   ├── batch_data_ingestion_dag.py  # Main DAG for data ingestion
+│   │   └── utils/                    # Modular utility classes
+│   │       ├── connection_test.py    # Connection validation utilities
+│   │       ├── postgres_to_snowflake_processor.py  # PostgreSQL processing
+│   │       └── snowflake_csv_stage_loader.py       # CSV bulk loading
+│   └── config/                       # Airflow configuration
+├── kafka/                            # Kafka ecosystem
+│   ├── kafka_producer_faker.py       # Fake transaction producer
+│   ├── kafka_to_postgres.py          # Kafka consumer to PostgreSQL
+│   ├── utils/                        # Kafka utilities
+│   │   ├── faker_generator.py        # Fake data generation
+│   │   ├── postgres_client.py        # PostgreSQL operations
+│   │   └── avro_utils.py             # Avro serialization (placeholder)
+│   └── README.md                     # Kafka setup documentation
+├── scripts/                          # Setup and utility scripts
+│   ├── setup_airflow_postgres_connection.sh    # PostgreSQL connection setup
+│   ├── setup_airflow_snowflake_connection.sh   # Snowflake connection setup
+│   ├── sf_conn.py                    # Snowflake connection utility
+│   └── snowflake_bootstrap_batch_ingestion.sql # Snowflake schema setup
+├── data/                             # Data files
+│   └── incoming/                     # CSV files for batch processing
+├── infra/                            # Docker infrastructure
+│   ├── Dockerfile.airflow            # Airflow container
+│   ├── Dockerfile.consumer           # Kafka consumer container
+│   └── Dockerfile.producer           # Kafka producer container
+├── airflow-docker-compose.yml        # Airflow services
+├── kafka-docker-compose.yml          # Kafka ecosystem services
+└── requirements.txt                  # Python dependencies
+```
+
+## 🚀 Quick Start
+
+### 1. Environment Setup
 
 ```bash
-# Start the database
-docker-compose up -d
+# Clone the repository
+git clone <repository-url>
+cd fa-dae2-capstone
 
-# Check if the service is running
-docker-compose ps
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your credentials
+
+# Set Airflow UID (required for Docker)
+export AIRFLOW_UID=$(id -u)
 ```
 
-### 2. Access Your Database
-
-**PostgreSQL Database:**
-- Host: `localhost`
-- Port: `5432`
-- Database: `postgres` (or your custom database name)
-- Username: `postgres` (or your custom username)
-- Password: `your_password` (from your .env file)
-
-### 3. Connect with DBeaver
-
-1. Download and install DBeaver Community from https://dbeaver.io/download/
-2. Open DBeaver and click "New Database Connection"
-3. Select PostgreSQL from the database list
-4. Fill in connection details:
-   - Host: `localhost`
-   - Port: `5432`
-   - Database: `postgres` (or your custom database name)
-   - Username: `postgres` (or your custom username)
-   - Password: `your_password` (from your .env file)
-5. Test the connection and click "Finish"
-
-## Dependency Management with uv
-
-This project uses `uv` for dependency management. Follow these steps to manage dependencies and generate a `requirements.txt` file for Docker builds:
-
-### 1. Install uv
-
-Make sure you have `uv` installed on your local machine. You can install it via pip:
+### 2. Start Infrastructure Services
 
 ```bash
-pip install uv
+# Start Kafka ecosystem (PostgreSQL, Kafka, Kafdrop)
+docker compose -f kafka-docker-compose.yml up -d
+
+# Start Airflow ecosystem
+docker compose -f airflow-docker-compose.yml up -d
 ```
 
-### 2. Export Dependencies
-
-Use `uv` to export your dependencies to a `requirements.txt` file:
+### 3. Set Up Airflow Connections
 
 ```bash
-uv export --format requirements-txt --no-dev > requirements.txt
-```
-
-### 3. Docker Build
-
-The Dockerfile is set up to use the `requirements.txt` file for installing dependencies:
-
-```dockerfile
-# Copy requirements.txt generated by uv
-COPY requirements.txt ./
-
-# Install dependencies from requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-```
-
-This approach ensures that all dependencies are managed consistently and installed reliably in the Docker environment.
-
-## Useful Commands
-
-```bash
-# Start database
-docker-compose up -d
-
-# Stop database
-docker-compose down
-
-# View logs
-docker-compose logs postgres
-
-# Access PostgreSQL directly via command line
-docker exec -it postgres_db psql -U postgres -d postgres
-
-# Remove everything (including data)
-docker-compose down -v
-```
-
-## Environment Configuration
-
-This project uses environment variables for configuration. Create a `.env` file in the root directory with your specific settings:
-
-```bash
-# Example .env file
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=your_secure_password
-POSTGRES_DB=postgres
-POSTGRES_PORT=5432
-```
-
-The `.env` file is already in `.gitignore` to keep your credentials secure.
-
-## Learning PostgreSQL
-
-### Basic SQL Commands to Try
-
-```sql
--- List all databases
-\l
-
--- Connect to a database
-\c database_name
-
--- List all tables
-\dt
-
--- Describe a table
-\d table_name
-
--- Basic SELECT query
-SELECT * FROM table_name LIMIT 10;
-
--- Create a simple table
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100),
-    email VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Insert data
-INSERT INTO users (name, email) VALUES ('John Doe', 'john@example.com');
-
--- Query data
-SELECT * FROM users;
-```
-
-## Troubleshooting
-
-- If port 5432 is already in use, change the port mapping in `docker-compose.yml`
-- If you need to reset the database, run `docker-compose down -v` and then `docker-compose up -d`
-- Check container logs with `docker-compose logs postgres`
-
-## Batch Data Ingestion DAG
-
-The project includes a comprehensive Airflow DAG for batch data ingestion that handles two independent data sources:
-
-### Overview
-
-**DAG Name**: `batch_data_ingestion_dag`
-**Schedule**: Every 15 minutes
-**Purpose**: Synchronize data from PostgreSQL (with CDC) and CSV files to Snowflake
-
-### Tasks
-
-1. **PostgreSQL to Snowflake CDC Task** (`postgres_to_snowflake_cdc`)
-   - Reads new/updated records from PostgreSQL `transactions_sink` table
-   - Implements Change Data Capture (CDC) using timestamp tracking
-   - Lands data in Snowflake `TRANSACTIONS_CDC` table
-   - Tracks sync history in `TRANSACTIONS_CDC_SYNC_LOG` table
-
-2. **CSV to Snowflake Batch Task** (`csv_to_snowflake_batch`)
-   - Processes CSV files from `data/incoming/` folder
-   - Lands data in Snowflake `TRANSACTIONS_BATCH` table
-   - Tracks source file information
-   - Independent of PostgreSQL task
-
-### Setup Instructions
-
-#### 1. Create Snowflake Tables
-
-Run the bootstrap script in Snowflake:
-
-```sql
--- Execute in Snowflake worksheet
--- Set your role and warehouse first
-USE ROLE YOUR_ROLE;
-USE WAREHOUSE YOUR_WAREHOUSE;
-
--- Run the bootstrap script
--- Copy content from snowflake/bootstrap_batch_ingestion.sql
-```
-
-This creates:
-- `TRANSACTIONS_CDC` - for PostgreSQL CDC data
-- `TRANSACTIONS_BATCH` - for CSV batch data
-- `TRANSACTIONS_CDC_SYNC_LOG` - for CDC tracking
-- `V_TRANSACTIONS_UNIFIED` - unified view of all data
-
-#### 2. Set Up PostgreSQL Connection
-
-The DAG needs to connect to the kafka PostgreSQL instance. Run:
-
-```bash
-# From project root
+# Set up PostgreSQL connection (for Kafka PostgreSQL)
 ./scripts/setup_airflow_postgres_connection.sh
-```
 
-This creates the `postgres_kafka_default` connection in Airflow.
-
-#### 3. Verify Snowflake Connection
-
-Ensure the `snowflake_default` connection is already set up:
-
-```bash
-# From project root
+# Set up Snowflake connection
 ./scripts/setup_airflow_snowflake_connection.sh
 ```
 
-#### 4. Start the DAG
+### 4. Bootstrap Snowflake
 
-The DAG will automatically start running every 15 minutes once:
-- All connections are configured
-- Snowflake tables are created
-- Airflow is running
-
-### Data Flow
-
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   PostgreSQL    │    │     Airflow      │    │    Snowflake    │
-│ transactions_sink│───▶│  CDC Task       │───▶│ TRANSACTIONS_CDC│
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                                │
-                                ▼
-                       ┌──────────────────┐    ┌─────────────────┐
-                       │  CSV Task        │───▶│TRANSACTIONS_BATCH│
-                       └──────────────────┘    └─────────────────┘
-                                │
-                                ▼
-                       ┌──────────────────┐
-                       │data/incoming/    │
-                       │*.csv files       │
-                       └──────────────────┘
-```
-
-### CDC Implementation
-
-The PostgreSQL task implements simple CDC by:
-- Tracking the last sync timestamp in `TRANSACTIONS_CDC_SYNC_LOG`
-- Querying only records with `ingested_at > last_sync_timestamp`
-- Recording sync metadata for audit trails
-- Handling incremental updates efficiently
-
-### Monitoring
-
-- **Airflow UI**: Monitor task execution and logs
-- **Snowflake**: Query sync logs and data tables
-- **Logs**: Check Airflow task logs for detailed execution info
-
-### Tables Schema
-
-#### TRANSACTIONS_CDC
+Execute the SQL script in Snowflake:
 ```sql
-CREATE TABLE TRANSACTIONS_CDC (
-    TX_ID STRING PRIMARY KEY,
-    USER_ID INTEGER,
-    AMOUNT NUMBER(18,2),
-    CURRENCY STRING,
-    MERCHANT STRING,
-    CATEGORY STRING,
-    TIMESTAMP TIMESTAMP_NTZ,
-    INGESTED_AT TIMESTAMP_NTZ,
-    SOURCE_SYSTEM STRING,
-    SYNC_TIMESTAMP TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP
-);
+-- Run scripts/snowflake_bootstrap_batch_ingestion.sql
+-- This creates tables and stages for data ingestion
 ```
 
-#### TRANSACTIONS_BATCH
-```sql
-CREATE TABLE TRANSACTIONS_BATCH (
-    TX_ID STRING PRIMARY KEY,
-    USER_ID INTEGER,
-    AMOUNT NUMBER(18,2),
-    CURRENCY STRING,
-    MERCHANT STRING,
-    CATEGORY STRING,
-    TIMESTAMP TIMESTAMP_NTZ,
-    SOURCE_FILE STRING,
-    INGESTED_AT TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP
-);
+## 🔄 Data Flow
+
+### Streaming Pipeline (Kafka → PostgreSQL)
+```
+Fake Transactions → Kafka Producer → Kafka Topic → Consumer → PostgreSQL
 ```
 
-### Troubleshooting
+### Batch Pipeline (Airflow)
+```
+CSV Files → Airflow DAG → Snowflake (COPY INTO)
+PostgreSQL → Airflow DAG → Snowflake (Streaming)
+```
 
-1. **Connection Issues**: Verify both PostgreSQL and Snowflake connections in Airflow
-2. **Missing Tables**: Ensure Snowflake bootstrap script has been executed
-3. **Permission Errors**: Check Snowflake role permissions for the tables
-4. **Data Type Mismatches**: Verify CSV column types match expected schema
+## 📊 Airflow DAG: Batch Data Ingestion
+
+The main DAG (`batch_data_ingestion_dag`) orchestrates two independent data ingestion tasks:
+
+### Tasks
+
+1. **Connection Test** (`test_connections`)
+   - Validates PostgreSQL, Snowflake, and CSV file availability
+   - Ensures prerequisites are met before main tasks run
+
+2. **PostgreSQL to Snowflake** (`postgres_to_snowflake`)
+   - Extracts data from Kafka PostgreSQL `transactions_sink` table
+   - Loads into Snowflake `TRANSACTIONS_STREAMING_KAFKA` table
+   - Implements simple inserts (no CDC complexity)
+
+3. **CSV to Snowflake Batch** (`csv_to_snowflake_batch`)
+   - Processes CSV files from `data/incoming/` folder
+   - Uses Snowflake staging and `COPY INTO` for efficient bulk loading
+   - Loads into Snowflake `TRANSACTIONS_BATCH_CSV` table
+
+### DAG Configuration
+- **Schedule**: Every 15 minutes
+- **Timezone**: Asia/Bangkok (GMT+7)
+- **Dependencies**: Connection test → [PostgreSQL task, CSV task]
+
+## 🏗️ Modular Architecture
+
+### Utility Classes
+
+The DAG uses modular utility classes for maintainability:
+
+- **`ConnectionTest`**: Validates all external connections
+- **`PostgresToSnowflakeProcessor`**: Handles PostgreSQL data extraction and Snowflake loading
+- **`SnowflakeCSVStageLoader`**: Manages CSV processing and bulk loading via Snowflake stages
+
+### Benefits
+- **Reusability**: Utility classes can be used across multiple DAGs
+- **Testability**: Individual components can be tested in isolation
+- **Maintainability**: Clear separation of concerns
+- **Logging**: Structured logging instead of print statements
+
+## 🐳 Docker Compose Architecture
+
+### Kafka Ecosystem (`kafka-docker-compose.yml`)
+- **Core Services** (always running):
+  - `kafka-postgres`: PostgreSQL for transaction sink
+  - `kafka`: Apache Kafka broker
+  - `kafdrop`: Web UI for Kafka monitoring
+- **Application Services** (profile: "app"):
+  - `producer`: Fake transaction generator
+  - `consumer`: Kafka to PostgreSQL consumer
+
+### Airflow Ecosystem (`airflow-docker-compose.yml`)
+- **PostgreSQL**: Airflow metadata database
+- **Airflow Services**: Scheduler, worker, webserver, triggerer
+- **Cross-Network**: Connects to Kafka PostgreSQL for data access
+
+### Service Management
+
+```bash
+# Start only infrastructure (no producer/consumer)
+docker compose -f kafka-docker-compose.yml up -d
+
+# Start application services
+docker compose -f kafka-docker-compose.yml --profile app up -d
+
+# Start Airflow
+docker compose -f airflow-docker-compose.yml up -d
+
+# Stop specific services
+docker compose -f kafka-docker-compose.yml --profile app down
+docker compose -f airflow-docker-compose.yml down
+```
+
+## 🔧 Development Workflow
+
+### Local Testing
+
+```bash
+# Test Kafka producer locally
+uv run kafka/kafka_producer_faker.py
+
+# Test Kafka consumer locally
+uv run kafka/kafka_to_postgres.py
+
+# Test CSV processing logic
+uv run scripts/generate_monthly_transaction_csv.py
+```
+
+### Dependency Management
+
+This project uses `uv` for dependency management:
+
+```bash
+# Export dependencies for Docker
+uv export --format requirements-txt --no-dev > requirements.txt
+
+# Install dependencies locally
+uv sync
+```
+
+## 📋 Snowflake Schema
+
+### Tables
+
+1. **`TRANSACTIONS_STREAMING_KAFKA`**
+   - Streaming data from Kafka → PostgreSQL pipeline
+   - Includes `AIRFLOW_INGESTED_AT` timestamp
+
+2. **`TRANSACTIONS_BATCH_CSV`**
+   - Batch data from CSV files
+   - Includes `SOURCE_FILE` and `INGESTED_AT` tracking
+
+### Stage
+- **`STG_TRANSACTIONS_BATCH_CSV`**: Permanent stage for CSV bulk loading
+- Configured with `TIMESTAMP_FORMAT = 'AUTO'` for automatic timestamp detection
+
+## 🔍 Monitoring and Debugging
+
+### Airflow UI
+- **URL**: http://localhost:8080
+- **Username**: `airflow`
+- **Password**: `airflow`
+
+### Kafdrop
+- **URL**: http://localhost:9000
+- **Purpose**: Monitor Kafka topics, messages, and consumer groups
+
+### Logs
+- **Airflow**: Check task logs in Airflow UI
+- **Docker**: `docker compose logs <service-name>`
+- **Local**: Scripts output structured logging
+
+## 🚨 Troubleshooting
+
+### Common Issues
+
+1. **Docker Compose Profiles**
+   - Producer/consumer services use `profiles: ["app"]`
+   - Use `--profile app` to manage these services
+
+2. **Network Issues**
+   - Airflow connects to Kafka PostgreSQL via external network
+   - Ensure `kafka_network` is properly configured
+
+3. **Timezone Issues**
+   - Airflow configured for Asia/Bangkok (GMT+7)
+   - DAGs use local timezone for scheduling
+
+4. **Connection Issues**
+   - Verify Airflow connections in UI
+   - Check environment variables in `.env` file
+
+### Useful Commands
+
+```bash
+# Clean up Docker resources
+docker compose down -v
+docker network prune
+docker system prune
+
+# Check service status
+docker compose ps
+docker compose logs <service>
+
+# Rebuild specific service
+docker compose build <service>
+docker compose up -d <service>
+```
+
+## 📚 Documentation
+
+- **`kafka/README.md`**: Detailed Kafka setup and usage
+- **`NETWORK_ARCHITECTURE.md`**: Docker networking explanation
+- **`SETUP_BATCH_DAG.md`**: Airflow DAG setup guide
+- **`capstone_design.md`**: Project design documentation
+- **`capstone_implementation_plan.md`**: Implementation roadmap
+
+## 🤝 Contributing
+
+1. Follow the modular architecture pattern
+2. Use structured logging instead of print statements
+3. Place utility classes in appropriate `utils/` directories
+4. Update documentation for any architectural changes
+5. Test locally before committing
+
+## 📄 License
+
+This project is part of the Data AI Engineering capstone project.
