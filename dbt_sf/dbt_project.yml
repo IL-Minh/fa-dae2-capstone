@@ -47,3 +47,16 @@ models:
       +materialized: table
       +tags: ["marts"]
       +schema: SC_MRT
+
+    # Raw models - for source data
+    # raw:
+    #   +materialized: view
+    #   +tags: ["raw"]
+    #   +schema: SC_RAW
+
+# Configuring snapshots
+snapshots:
+  dbt_sf:
+    +target_database: DB_T0
+    +target_schema: SC_INT
+    +tags: ["snapshots"]

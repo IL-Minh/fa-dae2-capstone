@@ -47,19 +47,19 @@ class FakerGenerator:
             f"Faker generator initialized with {len(self.categories)} categories"
         )
 
-    def generate_transaction(self, user_id: int = None) -> Dict[str, Any]:
+    def generate_transaction(self, user_id: str = None) -> Dict[str, Any]:
         """
         Generate a single transaction event.
 
         Args:
-            user_id: Optional user ID override, otherwise random between 1-10
+            user_id: Optional user ID override, otherwise generates random UUID
 
         Returns:
             Dict containing transaction data
         """
         # Generate user ID if not provided
         if user_id is None:
-            user_id = self.rng.randint(1, 10)
+            user_id = self.fake.uuid4()  # Use UUID instead of integer
 
         # Generate transaction data
         transaction = {
@@ -78,7 +78,7 @@ class FakerGenerator:
         return transaction
 
     def generate_transactions_batch(
-        self, count: int, user_id: int = None
+        self, count: int, user_id: str = None
     ) -> list[Dict[str, Any]]:
         """
         Generate multiple transaction events.

@@ -1,14 +1,14 @@
 version: 2
 
 models:
-  - name: int_transactions_deduplicated
-    description: "Intermediate model for deduplicated transactions with business logic and incremental processing"
+  - name: int_transactions
+    description: "Intermediate model for transactions with business logic and incremental processing"
     config:
-      tags: ["intermediate", "transactions", "deduplicated"]
+      tags: ["intermediate", "transactions"]
 
     columns:
       - name: tx_id
-        description: "Unique transaction identifier after deduplication"
+        description: "Unique transaction identifier"
         tests:
           - not_null
           - unique

@@ -7,7 +7,7 @@
 }}
 
 with source as (
-    select * from {{ ref('int_transactions_deduplicated') }}
+    select * from {{ ref('int_transactions') }}
 ),
 
 daily_metrics as (

@@ -4,7 +4,9 @@ import json
 import logging
 import os
 import time
+from pathlib import Path
 
+import polars as pl
 from confluent_kafka import Producer
 from dotenv import load_dotenv
 
@@ -20,11 +22,120 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+def load_user_ids_from_csv() -> list[str]:
+    """Load user IDs from the generated user registration CSV files"""
+    try:
+        incoming_dir = Path("data/incoming")
+        if not incoming_dir.exists():
+            logger.warning("data/incoming directory not found, using random user IDs")
+            return []
+
+        # Find user registration CSV files
+        user_files = list(incoming_dir.glob("user_registrations_*.csv"))
+        if not user_files:
+            logger.warning(
+                "No user registration CSV files found, using random user IDs"
+            )
+            return []
+
+        # Use the most recent file
+        latest_file = max(user_files, key=lambda f: f.stat().st_mtime)
+        logger.info(f"Loading user IDs from: {latest_file}")
+
+        # Read the CSV and extract user IDs
+        df = pl.read_csv(latest_file)
+        user_ids = df["user_id"].to_list()
+        logger.info(f"Loaded {len(user_ids)} user IDs from CSV")
+        return user_ids
+
+    except Exception as e:
+        logger.error(f"Failed to load user IDs from CSV: {e}")
+        logger.info("Falling back to random user IDs")
+        return []
+
+
+def generate_streaming_transaction(faker_gen, user_ids: list[str]) -> dict:
+    """Generate a transaction with different characteristics than batch data"""
+    import random
+
+    # Use real user IDs if available, otherwise generate random ones
+    if user_ids:
+        user_id = random.choice(user_ids)
+    else:
+        user_id = faker_gen.generate_transaction()["user_id"]
+
+    # Different categories for streaming vs batch (more real-time focused)
+    streaming_categories = [
+        "online_shopping",
+        "food_delivery",
+        "ride_sharing",
+        "streaming_services",
+        "gaming",
+        "social_media",
+        "mobile_apps",
+        "digital_subscriptions",
+        "crypto_trading",
+        "peer_to_peer",
+        "micro_transactions",
+        "instant_transfers",
+    ]
+
+    # Different merchant patterns for streaming (more tech/digital focused)
+    streaming_merchants = [
+        "Amazon",
+        "Uber",
+        "Netflix",
+        "Spotify",
+        "DoorDash",
+        "Lyft",
+        "Steam",
+        "App Store",
+        "Google Play",
+        "PayPal",
+        "Venmo",
+        "Cash App",
+        "Robinhood",
+        "Coinbase",
+        "Twitch",
+        "Discord",
+        "Zoom",
+        "Slack",
+        "Notion",
+        "Figma",
+    ]
+
+    # Generate transaction with streaming characteristics
+    transaction = faker_gen.generate_transaction()
+
+    # Override with streaming-specific data
+    transaction.update(
+        {
+            "user_id": user_id,
+            "category": random.choice(streaming_categories),
+            "merchant": random.choice(streaming_merchants),
+            "source_system": "streaming_kafka",  # Mark as streaming source
+            "transaction_type": "real_time",  # Different from batch
+            "processing_time_ms": random.randint(
+                50, 500
+            ),  # Simulate real-time processing
+        }
+    )
+
+    return transaction
+
+
 def main() -> None:
     load_dotenv()
 
     # Initialize faker generator
     faker_gen = get_faker_generator()
+
+    # Load user IDs from generated CSV files
+    user_ids = load_user_ids_from_csv()
+    if user_ids:
+        logger.info(f"Using {len(user_ids)} real user IDs from CSV files")
+    else:
+        logger.info("Using randomly generated user IDs")
 
     # Get Kafka configuration from environment
     bootstrap = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
@@ -59,8 +170,8 @@ def main() -> None:
         logger.info("Starting to produce messages...")
 
         while True:
-            # Generate transaction using our modular faker generator
-            event = faker_gen.generate_transaction()
+            # Generate transaction using our modified generator
+            event = generate_streaming_transaction(faker_gen, user_ids)
 
             # Produce message
             producer.produce(
@@ -70,7 +181,7 @@ def main() -> None:
 
             message_count += 1
             logger.info(
-                f"Produced message #{message_count}: tx_id={event['tx_id']} | amount={event['amount']} | category={event['category']} | user={event['user_id']}"
+                f"Produced message #{message_count}: tx_id={event['tx_id']} | amount={event['amount']} | category={event['category']} | user={event['user_id']} | source={event.get('source_system', 'unknown')}"
             )
 
             # Log every 10 messages for monitoring

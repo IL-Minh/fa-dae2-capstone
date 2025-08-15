@@ -1,18 +1,18 @@
 {{
   config(
     materialized='table',
-    tags=['marts', 'dimensions', 'users', 'current']
+    tags=['marts', 'dimensions', 'users', 'scd2', 'historical']
   )
 }}
 
-with user_scd2 as (
-    select * from {{ ref('dim_users_scd2') }}
+with user_snapshot as (
+    select * from {{ ref('int_users_snapshot') }}
 ),
 
 final as (
     select
-        -- Generate surrogate key for the dimension
-        {{ dbt_utils.generate_surrogate_key(['user_id']) }} as user_key,
+        -- Generate surrogate key for the dimension (includes snapshot version)
+        {{ dbt_utils.generate_surrogate_key(['user_id', 'dbt_valid_from']) }} as user_key,
 
         -- Business keys
         user_id,
@@ -39,16 +39,19 @@ final as (
         is_active,
         source_system,
 
-        -- Current record metadata
-        effective_date,
-        end_date,
-        is_current,
+        -- SCD2 fields from snapshot
+        dbt_valid_from as effective_date,
+        dbt_valid_to as end_date,
+        case
+            when dbt_valid_to is null then true
+            else false
+        end as is_current,
         dbt_updated_at,
+        dbt_scd_id,
 
         -- Metadata
         current_timestamp() as dbt_processed_at
-    from user_scd2
-    where is_current = true  -- Only current/latest customer records
+    from user_snapshot
 )
 
 select * from final

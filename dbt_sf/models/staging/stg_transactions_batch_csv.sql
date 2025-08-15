@@ -12,7 +12,7 @@ with source as (
 cleaned as (
     select
         tx_id::{{ dbt.type_string() }} as tx_id,
-        user_id::{{ dbt.type_int() }} as user_id,
+        user_id::{{ dbt.type_string() }} as user_id,  -- Fixed: UUIDs are strings, not integers
         amount::{{ dbt.type_numeric() }} as amount,
         currency::{{ dbt.type_string() }} as currency,
         merchant::{{ dbt.type_string() }} as merchant,

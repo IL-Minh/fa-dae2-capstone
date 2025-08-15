@@ -6,14 +6,14 @@
 }}
 
 with transactions as (
-    select * from {{ ref('int_transactions_deduplicated') }}
+    select * from {{ ref('int_transactions') }}
 ),
 
 final as (
     select
         -- Business keys
-        tx_id,
-        user_id,
+        t.tx_id,
+        t.user_id,
 
         -- Foreign keys to dimensions
         du.user_key,
@@ -23,17 +23,17 @@ final as (
         dd.date_key,
 
         -- Fact measures
-        amount,
+        t.amount,
         1 as transaction_count,
 
         -- Transaction attributes
-        timestamp,
-        source_system,
+        t.timestamp,
+        t.source_system,
 
         -- Metadata
-        ingested_at,
-        processed_at,
-        dbt_processed_at
+        t.ingested_at,
+        t.processed_at,
+        current_timestamp() as dbt_processed_at
     from transactions t
     left join {{ ref('dim_users') }} du on t.user_id = du.user_id and du.is_current = true
     left join {{ ref('dim_merchants') }} dm on t.merchant = dm.merchant_name and dm.is_current = true

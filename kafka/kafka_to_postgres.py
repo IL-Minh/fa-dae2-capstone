@@ -31,6 +31,11 @@ def main() -> None:
         logger.error("Failed to create transactions table. Exiting.")
         return
 
+    # Clean up any existing mixed data types
+    if not pg_client.cleanup_existing_data():
+        logger.error("Failed to cleanup existing data. Exiting.")
+        return
+
     # Get initial row count
     initial_count = pg_client.get_row_count()
     logger.info(

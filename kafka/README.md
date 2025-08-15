@@ -1,238 +1,152 @@
-# Kafka Scripts
+# Kafka Pipeline
 
-This folder contains the Kafka producer and consumer scripts for the data pipeline, organized with a modular architecture for better maintainability and reusability.
+## Overview
+This directory contains the Kafka producer and consumer scripts that simulate real-time transaction streaming for our data pipeline demo.
 
-## Scripts
+## Components
 
-### `kafka_producer_faker.py`
-Generates fake transaction data and sends it to the `transactions` Kafka topic.
+### **kafka_producer_faker.py**
+- **Purpose**: Generates simulated real-time transactions and publishes them to Kafka
+- **Topic**: `transactions`
+- **Frequency**: Every 10 seconds
+- **Data**: Simulated financial transactions with realistic patterns
 
-**Features:**
-- Generates realistic transaction data using Faker
-- Configurable message interval (default: 10 seconds)
-- Comprehensive logging with structured format
-- Producer configuration for reliability (acks=all, retries=3)
-- Graceful shutdown handling
+### **kafka_to_postgres.py**
+- **Purpose**: Consumes transactions from Kafka and stores them in PostgreSQL
+- **Database**: `kafka_sink` (PostgreSQL)
+- **Table**: `transactions_sink`
+- **Processing**: Real-time consumption and storage
 
-**Usage:**
+## ⚠️ **Important Design Note: Circular Dependency**
+
+### **Current Implementation**
+The Kafka producer has a **circular dependency** that's important to understand:
+
+1. **`generate_monthly_data.py`** creates user registration CSV files
+2. **`kafka_producer_faker.py`** reads those CSV files to get user IDs
+3. **Kafka producer** generates streaming transactions using those same user IDs
+4. **Both sources** (batch CSV + streaming Kafka) now reference the same users
+
+### **Why This Exists**
+- **Demo purposes**: Ensures referential integrity for dimensional modeling
+- **Realistic simulation**: Shows how different data sources can share common entities
+- **Testing**: Validates that our dimensional model can handle unified user data
+
+### **Production Alternative**
+In production, this would be handled by:
+- Master Data Management (MDM) systems
+- Identity resolution services
+- Real-time user registration events
+- Database lookups for user validation
+
+## Configuration
+
+### **Environment Variables**
+- `KAFKA_BOOTSTRAP_SERVERS`: Kafka bootstrap servers (loaded from .env file)
+- `POSTGRES_HOST`: PostgreSQL host (default: localhost)
+- `POSTGRES_PORT`: PostgreSQL port (default: 5432)
+- `POSTGRES_DB`: PostgreSQL database name
+- `POSTGRES_USER`: PostgreSQL username
+- `POSTGRES_PASSWORD`: PostgreSQL password
+
+### **Kafka Configuration**
+- **Bootstrap Servers**: localhost:9092 (internal Docker network)
+- **Topic**: transactions
+- **Partitions**: Default
+- **Replication**: 1 (single broker for demo)
+
+## Usage
+
+### **Start the Pipeline**
 ```bash
-# Run locally (uses .env file automatically)
+# 1. Start Kafka and PostgreSQL (from root directory)
+docker compose -f kafka-docker-compose.yml up -d
+
+# 2. Start the producer (generates transactions)
 uv run kafka/kafka_producer_faker.py
 
-# Or run in Docker (after starting infrastructure)
-docker compose -f kafka-docker-compose.yml --profile app up producer
-```
-
-**Configuration:**
-- `KAFKA_BOOTSTRAP_SERVERS`: Kafka bootstrap servers (loaded from .env file)
-- Message interval: 10 seconds (hardcoded)
-- Categories: groceries, rent, salary, entertainment, utilities, transport, health
-
-**Note:** All environment variables are automatically loaded from the `.env` file in the project root.
-
-### `kafka_to_postgres.py`
-Consumes messages from the `transactions` Kafka topic and stores them in PostgreSQL.
-
-**Features:**
-- Consumes from `transactions` topic
-- Stores data in `transactions_sink` table
-- Handles duplicate transactions gracefully
-- Comprehensive error handling and logging
-- Progress monitoring and statistics
-- **Modular design** using `utils/postgres_client.py`
-
-**Usage:**
-```bash
-# Run locally (uses .env file automatically)
+# 3. Start the consumer (stores in PostgreSQL)
 uv run kafka/kafka_to_postgres.py
-
-# Or run in Docker (after starting infrastructure)
-docker compose -f kafka-docker-compose.yml --profile app up consumer
 ```
 
-**Configuration:**
-- `KAFKA_BOOTSTRAP_SERVERS`: Kafka bootstrap servers (loaded from .env file)
-- `POSTGRES_*`: PostgreSQL connection parameters (loaded from .env file)
-- Consumer group: `transactions-consumer`
-- Auto-commit: enabled with 5-second intervals
-
-**Note:** All environment variables are automatically loaded from the `.env` file in the project root.
-
-## Utils
-
-### `utils/postgres_client.py`
-Modular PostgreSQL client module for database operations.
-
-**Features:**
-- Connection management with automatic cleanup
-- Table creation and verification
-- Transaction insertion (single and batch)
-- Error handling and logging
-- Environment variable configuration
-- Connection testing and health checks
-
-**Usage:**
-```python
-from utils.postgres_client import get_postgres_client
-
-# Get client instance
-pg_client = get_postgres_client()
-
-# Test connection
-if pg_client.test_connection():
-    # Create table
-    pg_client.create_transactions_table()
-
-    # Insert transaction
-    success = pg_client.insert_transaction(transaction_data)
-
-    # Get row count
-    count = pg_client.get_row_count()
-```
-
-### `utils/faker_generator.py`
-Modular fake data generator for testing and development.
-
-**Features:**
-- Transaction data generation with Faker
-- Configurable categories and currencies
-- Batch generation capabilities
-- Seed setting for reproducible data
-- Extensible category management
-
-**Usage:**
-```python
-from utils.faker_generator import get_faker_generator
-
-# Get generator instance
-faker_gen = get_faker_generator()
-
-# Generate single transaction
-transaction = faker_gen.generate_transaction()
-
-# Generate batch of transactions
-transactions = faker_gen.generate_transactions_batch(100)
-
-# Add custom category
-faker_gen.add_category("gaming")
-
-# Set seed for reproducible data
-faker_gen.set_seed(42)
-```
-
-## Local Development Workflow
-
-### **Environment Configuration**
-- **Local scripts**: Automatically use `.env` file configuration
-- **Docker containers**: Use container networking (`kafka:9092`, `postgres:5432`)
-- **Host access**: Kafka available at `localhost:29092`, PostgreSQL at `localhost:5432`
-
-### **Development Steps**
-
-1. **Start Infrastructure Only:**
-   ```bash
-   docker compose -f kafka-docker-compose.yml up -d
-   ```
-
-2. **Test Producer Locally:**
-   ```bash
-   # Uses .env file automatically for configuration
-   uv run kafka/kafka_producer_faker.py
-   ```
-
-3. **Test Consumer Locally:**
-   ```bash
-   # Uses .env file automatically for configuration
-   uv run kafka/kafka_to_postgres.py
-   ```
-
-4. **Monitor with Kafdrop:**
-   - Open http://localhost:9000
-   - Watch messages flow through topics
-   - Monitor consumer groups and lag
-
-## Docker Compose Commands
-
-The docker-compose file uses profiles to separate infrastructure from application services:
-
-### **Service Groups:**
-- **Infrastructure Services**: `kafka-postgres`, `kafka`, `kafdrop` (core services)
-- **Application Services**: `producer`, `consumer` (data processing)
-
-### **Important: Profile Management**
-**Why `docker compose down` doesn't stop producer/consumer:**
-
-The `producer` and `consumer` services are defined with `profiles: ["app"]`. This means:
-- **Default behavior**: `docker compose up/down` (no profile) only manages infrastructure services
-- **Profile-specific**: `docker compose --profile app up/down` manages ALL services including producer/consumer
-- **This is intentional**: Allows infrastructure to run continuously while starting/stopping application services as needed
-
-### **Starting Services:**
-
-#### **1. Start Only Infrastructure (Default):**
-```bash
-docker compose -f kafka-docker-compose.yml up -d
-```
-This starts:
-- ✅ `postgres` - PostgreSQL database
-- ✅ `kafka` - Kafka broker
-- ✅ `kafdrop` - Kafka monitoring UI
-
-#### **2. Start Infrastructure + Producer + Consumer:**
-```bash
-docker compose -f kafka-docker-compose.yml --profile app up -d
-```
-This starts everything:
-- ✅ `postgres` - PostgreSQL database
-- ✅ `kafka` - Kafka broker
-- ✅ `kafdrop` - Kafka monitoring UI
-- ✅ `producer` - Kafka producer (generates fake data)
-- ✅ `consumer` - Kafka consumer (stores data in PostgreSQL)
-
-#### **3. Start Specific Services:**
-```bash
-# Start infrastructure first
-docker compose -f kafka-docker-compose.yml up -d
-
-# Then start producer only
-docker compose -f kafka-docker-compose.yml --profile app up producer
-
-# Or start consumer only
-docker compose -f kafka-docker-compose.yml --profile app up consumer
-```
-
-#### **4. Stop Services:**
-```bash
-# Stop infrastructure services only (default)
-docker compose -f kafka-docker-compose.yml down
-
-# Stop ALL services including producer/consumer
-docker compose -f kafka-docker-compose.yml --profile app down
-
-# Stop with cleanup (removes volumes)
-docker compose -f kafka-docker-compose.yml --profile app down -v
-```
-
-## Logging
-
-Both scripts use structured logging with:
-- Timestamp and log level
-- Service identifier ([PRODUCER] or [CONSUMER])
-- Detailed message information
-- Progress tracking and statistics
-- Error handling with stack traces
+### **Monitor the Pipeline**
+- **Kafka Topics**: Use Kafdrop at http://localhost:9000
+- **PostgreSQL**: Connect to localhost:5432, database `kafka_sink`
+- **Logs**: Check console output for both producer and consumer
 
 ## Data Flow
 
 ```
-Faker Producer → Kafka Topic → Consumer → PostgreSQL
-     ↓              ↓           ↓          ↓
-  Fake Data    transactions  Process   transactions_sink
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│  Faker Data     │    │     Kafka       │    │   PostgreSQL    │
+│   Generator     │───▶│    Producer     │───▶│   Consumer      │
+│                 │    │                 │    │                 │
+│ Generates       │    │ Publishes to    │    │ Stores in       │
+│ transactions    │    │ topic:transactions│   │ transactions_sink│
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+## Data Schema
+
+### **Transaction Message (JSON)**
+```json
+{
+  "tx_id": "uuid",
+  "user_id": "uuid",
+  "amount": 123.45,
+  "currency": "USD",
+  "merchant": "Amazon",
+  "category": "online_shopping",
+  "timestamp": "2025-08-15T10:30:00Z",
+  "source_system": "streaming_kafka",
+  "transaction_type": "real_time",
+  "processing_time_ms": 150
+}
+```
+
+### **PostgreSQL Table Schema**
+```sql
+CREATE TABLE transactions_sink (
+    tx_id VARCHAR PRIMARY KEY,
+    user_id VARCHAR NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    currency VARCHAR(3) NOT NULL,
+    merchant VARCHAR(255) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    timestamp TIMESTAMP NOT NULL,
+    ingested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ```
 
 ## Troubleshooting
 
-- **Connection Issues**: Verify Kafka and PostgreSQL are running
-- **Port Conflicts**: Ensure ports 29092 (Kafka) and 5432 (PostgreSQL) are available
-- **Environment Variables**: Check all required env vars are set
-- **Dependencies**: Ensure `uv` and required packages are installed
+### **Common Issues**
+1. **Connection refused**: Ensure Kafka and PostgreSQL are running
+2. **Topic not found**: Check if Kafka is healthy and topics are created
+3. **Authentication failed**: Verify PostgreSQL credentials in .env file
+
+### **Debug Commands**
+```bash
+# Check Kafka health
+docker compose -f kafka-docker-compose.yml ps
+
+# View Kafka logs
+docker compose -f kafka-docker-compose.yml logs kafka
+
+# Check PostgreSQL connection
+docker compose -f kafka-docker-compose.yml logs kafka-postgres
+```
+
+## Performance
+
+### **Current Settings**
+- **Producer**: 1 message every 10 seconds
+- **Consumer**: Real-time processing
+- **Batch Size**: 1 message per batch
+- **Retries**: 3 attempts for failed messages
+
+### **Scaling Considerations**
+- Increase producer frequency for higher throughput
+- Implement batch processing in consumer
+- Add multiple consumer instances
+- Use partitioning for parallel processing

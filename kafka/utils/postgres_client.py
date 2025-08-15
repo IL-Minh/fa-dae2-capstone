@@ -97,31 +97,76 @@ class PostgresClient:
     def create_transactions_table(self) -> bool:
         """
         Create the transactions_sink table if it doesn't exist.
+        If the table exists with wrong schema, drop and recreate it.
 
         Returns:
             bool: True if table created/exists, False otherwise
         """
-        create_sql = """
-        CREATE TABLE IF NOT EXISTS transactions_sink (
-            tx_id TEXT PRIMARY KEY,
-            user_id INTEGER,
-            amount NUMERIC,
-            currency TEXT,
-            merchant TEXT,
-            category TEXT,
-            timestamp TIMESTAMP,
-            ingested_at TIMESTAMP DEFAULT now()
-        )
+        # First, check if table exists and has correct schema
+        check_schema_sql = """
+        SELECT column_name, data_type
+        FROM information_schema.columns
+        WHERE table_name = 'transactions_sink'
+        AND column_name = 'user_id'
         """
 
         try:
             with self.get_connection() as conn:
                 with conn.cursor() as cur:
+                    # Check current schema
+                    cur.execute(check_schema_sql)
+                    result = cur.fetchone()
+
+                    # If table exists but user_id is INTEGER, drop and recreate
+                    if result and result[1] == "integer":
+                        logger.info(
+                            "Table exists with wrong schema (user_id is INTEGER). Dropping and recreating..."
+                        )
+                        cur.execute("DROP TABLE IF EXISTS transactions_sink")
+                        logger.info("Old table dropped")
+
+                    # Create table with correct schema
+                    create_sql = """
+                    CREATE TABLE IF NOT EXISTS transactions_sink (
+                        tx_id TEXT PRIMARY KEY,
+                        user_id TEXT,
+                        amount NUMERIC,
+                        currency TEXT,
+                        merchant TEXT,
+                        category TEXT,
+                        timestamp TIMESTAMP,
+                        ingested_at TIMESTAMP DEFAULT now()
+                    )
+                    """
+
                     cur.execute(create_sql)
                     logger.info("Transactions table created/verified successfully")
                     return True
+
         except Exception as e:
             logger.error(f"Failed to create transactions table: {e}")
+            return False
+
+    def cleanup_existing_data(self) -> bool:
+        """
+        Clean up all existing data from transactions_sink table.
+        This ensures we start fresh with the correct schema.
+
+        Returns:
+            bool: True if cleanup successful, False otherwise
+        """
+        try:
+            with self.get_connection() as conn:
+                with conn.cursor() as cur:
+                    # Delete all existing data
+                    cur.execute("DELETE FROM transactions_sink")
+                    deleted_count = cur.rowcount
+                    logger.info(
+                        f"Cleaned up {deleted_count} existing rows from transactions_sink"
+                    )
+                    return True
+        except Exception as e:
+            logger.error(f"Failed to cleanup existing data: {e}")
             return False
 
     def get_row_count(self) -> int:

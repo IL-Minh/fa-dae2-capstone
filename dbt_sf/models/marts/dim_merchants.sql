@@ -6,7 +6,7 @@
 }}
 
 with merchant_data as (
-    select distinct
+    select
         merchant,
         category,
         -- Extract business type from merchant name patterns
@@ -70,6 +70,7 @@ final as (
         -- Metadata
         current_timestamp() as dbt_processed_at
     from merchant_data
+    qualify row_number() over (partition by merchant order by ingested_at desc) = 1
 )
 
 select * from final

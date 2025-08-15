@@ -3,11 +3,7 @@ Snowflake loading utilities for Airflow DAGs.
 Provides reusable functions for processing CSV files and bulk loading into Snowflake.
 """
 
-import csv
 import logging
-import os
-import tempfile
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -67,7 +63,7 @@ class SnowflakeCSVStageLoader:
 
     def _process_single_csv(self, csv_file: Path) -> Dict[str, Any]:
         """
-        Process a single CSV file and load it into Snowflake.
+        Process a single CSV file and load it into Snowflake using batch processing.
 
         Args:
             csv_file: Path to the CSV file
@@ -77,145 +73,106 @@ class SnowflakeCSVStageLoader:
         """
         self.logger.info(f"Processing file: {csv_file.name}")
 
-        # Create a temporary file with cleaned data for Snowflake
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".csv", delete=False, newline=""
-        ) as temp_file:
-            temp_path = temp_file.name
+        try:
+            # Get row count for reporting (without processing each row)
+            row_count = self._count_csv_rows(csv_file)
 
-            try:
-                # Process CSV data
-                row_count = self._clean_csv_data(csv_file, temp_file)
-
-                if row_count == 0:
-                    return {
-                        "file": csv_file.name,
-                        "status": "skipped",
-                        "reason": "No valid rows found",
-                    }
-
-                # Load to Snowflake
-                load_result = self._load_to_snowflake(temp_path, csv_file.name)
-
+            if row_count == 0:
                 return {
                     "file": csv_file.name,
-                    "status": "success",
-                    "rows_processed": row_count,
-                    "load_result": load_result,
+                    "status": "skipped",
+                    "reason": "No rows found",
                 }
 
-            finally:
-                # Clean up temporary file
-                try:
-                    os.unlink(temp_path)
-                except OSError:
-                    # Ignore errors when cleaning up temp file
-                    pass
+            # Load directly to Snowflake using COPY INTO (true batch processing)
+            load_result = self._load_csv_direct_to_snowflake(csv_file)
 
-    def _clean_csv_data(self, csv_file: Path, temp_file) -> int:
+            return {
+                "file": csv_file.name,
+                "status": "success",
+                "rows_processed": row_count,
+                "load_result": load_result,
+            }
+
+        except Exception as e:
+            self.logger.error(f"Error processing {csv_file.name}: {e}")
+            return {"file": csv_file.name, "status": "error", "error": str(e)}
+
+    def _count_csv_rows(self, csv_file: Path) -> int:
         """
-        Clean and validate CSV data, writing to temporary file.
+        Count rows in CSV file without processing them.
 
         Args:
-            csv_file: Path to the original CSV file
-            temp_file: Temporary file object to write cleaned data
+            csv_file: Path to the CSV file
 
         Returns:
-            Number of rows processed
+            Number of rows (excluding header)
         """
-        # Read original CSV and write cleaned data to temp file
-        with open(csv_file, "r") as original_file:
-            reader = csv.reader(original_file)
-            writer = csv.writer(temp_file)
+        try:
+            with open(csv_file, "r") as f:
+                # Count lines and subtract 1 for header
+                line_count = sum(1 for line in f)
+                return max(0, line_count - 1)
+        except Exception as e:
+            self.logger.warning(f"Could not count rows in {csv_file.name}: {e}")
+            return 0
 
-            # Read header first
-            header = next(reader)
-            self.logger.info(f"  Header: {header}")
-
-            # Verify required columns exist
-            required_columns = [
-                "tx_id",
-                "user_id",
-                "amount",
-                "currency",
-                "merchant",
-                "category",
-                "timestamp",
-            ]
-            missing_columns = [col for col in required_columns if col not in header]
-            if missing_columns:
-                self.logger.warning(
-                    f"  ⚠️  Skipping {csv_file.name} - missing columns: {missing_columns}"
-                )
-                return 0
-
-            # Write header to temp file
-            writer.writerow(header)
-
-            # Process and write data rows
-            row_count = 0
-            for row in reader:
-                row_count += 1
-                if len(row) >= 7:  # Ensure we have enough columns
-                    try:
-                        # Clean and validate data
-                        cleaned_row = [
-                            row[0],  # tx_id
-                            int(row[1]),  # user_id
-                            float(row[2]),  # amount
-                            row[3],  # currency
-                            row[4],  # merchant
-                            row[5],  # category
-                            row[6],  # timestamp (keep as-is, Snowflake will parse it)
-                            csv_file.name,  # source_file
-                            datetime.now(timezone.utc).isoformat(),  # ingested_at
-                        ]
-                        writer.writerow(cleaned_row)
-                    except (ValueError, IndexError) as e:
-                        self.logger.warning(
-                            f"    ⚠️  Error processing row {row_count}: {e}"
-                        )
-                        continue
-
-        self.logger.info(f"  ✅ Processed {row_count} rows from {csv_file.name}")
-        return row_count
-
-    def _load_to_snowflake(
-        self,
-        temp_path: str,
-        source_filename: str,
-        snowflake_conn_id: str = "snowflake_default",
+    def _load_csv_direct_to_snowflake(
+        self, csv_file: Path, snowflake_conn_id: str = "snowflake_default"
     ) -> Dict[str, Any]:
         """
-        Load cleaned CSV data into Snowflake using COPY INTO.
+        Load CSV file directly into Snowflake using COPY INTO.
 
         Args:
-            temp_path: Path to temporary CSV file
-            source_filename: Original source filename for tracking
+            csv_file: Path to the CSV file
             snowflake_conn_id: Airflow connection ID for Snowflake
 
         Returns:
             Dict containing load results
         """
-        self.logger.info("  🗄️  Bulk loading data into Snowflake using COPY INTO...")
+        self.logger.info(
+            "  🗄️  Bulk loading CSV directly into Snowflake using COPY INTO..."
+        )
 
         try:
             snowflake_hook = SnowflakeHook(snowflake_conn_id=snowflake_conn_id)
 
-            # Upload CSV file to the permanent stage
+            # Determine table and stage based on file type
+            if "user_registrations" in csv_file.name.lower():
+                # User registrations file
+                table_name = "USER_REGISTRATIONS"
+                stage_name = "STG_USER_REGISTRATIONS"
+                columns = """
+                    USER_ID, FIRST_NAME, LAST_NAME, EMAIL, AGE, INCOME_BRACKET,
+                    CUSTOMER_TIER, RISK_PROFILE, CITY, STATE, COUNTRY,
+                    REGISTRATION_DATE, PREFERRED_CATEGORIES, IS_ACTIVE, SOURCE_SYSTEM,
+                    INGESTED_AT
+                """
+            else:
+                # Transaction file (default)
+                table_name = "TRANSACTIONS_BATCH_CSV"
+                stage_name = "STG_TRANSACTIONS_BATCH_CSV"
+                columns = """
+                    TX_ID, USER_ID, AMOUNT, CURRENCY, MERCHANT,
+                    CATEGORY, TIMESTAMP, SOURCE_FILE, INGESTED_AT
+                """
+
+            self.logger.info(f"    📋 Loading into table: {table_name}")
+            self.logger.info(f"    📁 Using stage: {stage_name}")
+
+            # Upload CSV file directly to the appropriate stage
             put_sql = f"""
-            PUT file://{temp_path} @STG_TRANSACTIONS_BATCH_CSV
+            PUT file://{csv_file.absolute()} @{stage_name}
             """
             snowflake_hook.run(put_sql)
-            self.logger.info("    ✅ Uploaded CSV to permanent stage")
+            self.logger.info(f"    ✅ Uploaded CSV to stage {stage_name}")
 
-            # Use COPY INTO to bulk load data
+            # Use COPY INTO to bulk load data directly from CSV
             copy_sql = f"""
-            COPY INTO TRANSACTIONS_BATCH_CSV (
-                TX_ID, USER_ID, AMOUNT, CURRENCY, MERCHANT,
-                CATEGORY, TIMESTAMP, SOURCE_FILE, INGESTED_AT
+            COPY INTO {table_name} (
+                {columns}
             )
-            FROM @STG_TRANSACTIONS_BATCH_CSV/{os.path.basename(temp_path)}
+            FROM @{stage_name}/{csv_file.name}
             FILE_FORMAT = (
                 TYPE = 'CSV'
                 FIELD_DELIMITER = ','
@@ -229,13 +186,17 @@ class SnowflakeCSVStageLoader:
             """
 
             result = snowflake_hook.run(copy_sql)
-            self.logger.info("    ✅ COPY INTO completed successfully")
+            self.logger.info(
+                f"    ✅ COPY INTO completed successfully for {table_name}"
+            )
             self.logger.info(f"    📊 Result: {result}")
 
             return {
                 "status": "success",
+                "table": table_name,
+                "stage": stage_name,
                 "result": result,
-                "source_file": source_filename,
+                "source_file": csv_file.name,
             }
 
         except Exception as e:
