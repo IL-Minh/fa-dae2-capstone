@@ -1,0 +1,67 @@
+name: PR CI - SQLFluff Linting
+
+on:
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "**.sql"
+      - "dbt_sf/**"
+      - ".github/workflows/pr_ci.yml"
+
+jobs:
+  sqlfluff:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v2
+        with:
+          version: "latest"
+
+      - name: Cache uv dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .venv
+            .uv
+          key: ${{ runner.os }}-uv-${{ hashFiles('**/pyproject.toml', '**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
+
+      - name: Install dependencies
+        run: |
+          uv sync --frozen
+
+      - name: Install SQLFluff
+        run: |
+          uv add sqlfluff
+
+      - name: Set CI Environment Variables
+        run: |
+          echo "SNOWFLAKE_ACCOUNT=dummy" >> $GITHUB_ENV
+          echo "SNOWFLAKE_USER=dummy" >> $GITHUB_ENV
+          echo "SNOWFLAKE_DATABASE=DB_T0" >> $GITHUB_ENV
+          echo "SNOWFLAKE_WAREHOUSE=WH_T0" >> $GITHUB_ENV
+          echo "SNOWFLAKE_ROLE=RL_T0" >> $GITHUB_ENV
+          echo "SNOWFLAKE_SCHEMA=SC_RAW" >> $GITHUB_ENV
+
+      - name: Run SQLFluff lint
+        run: |
+          uv run sqlfluff lint dbt_sf/ --format=github-annotation-logger
+        continue-on-error: true
+
+      - name: Run SQLFluff fix (dry-run)
+        run: |
+          uv run sqlfluff fix dbt_sf/ --dry-run
+
+      - name: Run SQLFluff check
+        run: |
+          uv run sqlfluff lint dbt_sf/ --fail-on-error
