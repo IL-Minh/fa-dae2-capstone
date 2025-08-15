@@ -9,6 +9,6 @@
     )
 }}
 
-select * from {{ ref('stg_users') }}
+    select * from {{ ref('stg_users') }}
 
 {% endsnapshot %}

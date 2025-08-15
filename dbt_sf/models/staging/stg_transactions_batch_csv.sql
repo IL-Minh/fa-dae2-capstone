@@ -12,12 +12,13 @@ with source as (
 cleaned as (
     select
         tx_id::{{ dbt.type_string() }} as tx_id,
-        user_id::{{ dbt.type_string() }} as user_id,  -- Fixed: UUIDs are strings, not integers
+        -- Fixed: UUIDs are strings, not integers
+        user_id::{{ dbt.type_string() }} as user_id,
         amount::{{ dbt.type_numeric() }} as amount,
         currency::{{ dbt.type_string() }} as currency,
         merchant::{{ dbt.type_string() }} as merchant,
         category::{{ dbt.type_string() }} as category,
-        timestamp::{{ dbt.type_timestamp() }} as timestamp,
+        "timestamp"::{{ dbt.type_timestamp() }} as "timestamp",
         source_file::{{ dbt.type_string() }} as source_file,
         ingested_at::{{ dbt.type_timestamp() }} as ingested_at,
         -- Add file processing metadata
@@ -25,7 +26,9 @@ cleaned as (
         split_part(source_file, '_', 2) as year,
         split_part(source_file, '_', 3) as month,
         -- Add hash key for deduplication using cross-database hash macro
-        {{ dbt.hash("concat_ws('|', tx_id, user_id, amount, currency, merchant, category, timestamp, source_file)") }} as hash_key
+
+        {{ dbt.hash("concat_ws('|', tx_id, user_id, amount, currency, merchant, category, \"timestamp\", source_file)") }}
+            as hash_key
     from source
 ),
 
@@ -34,7 +37,7 @@ deduplicated as (
         *,
         row_number() over (
             partition by tx_id
-            order by ingested_at desc, hash_key
+            order by ingested_at desc, hash_key asc
         ) as rn
     from cleaned
 )

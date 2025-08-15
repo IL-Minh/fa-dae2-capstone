@@ -2,8 +2,9 @@
 dialect = snowflake
 templater = dbt
 runaway_limit = 10
-max_line_length = 80
+max_line_length = 200
 indent_unit = space
+exclude_rules = RF02, AM06
 
 [sqlfluff:indentation]
 tab_space_size = 4

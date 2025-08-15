@@ -11,7 +11,9 @@ with category_data as (
         -- Create category groups for analysis
         case
             when category in ('groceries', 'utilities', 'rent') then 'essential'
-            when category in ('entertainment', 'travel', 'shopping') then 'discretionary'
+            when
+                category in ('entertainment', 'travel', 'shopping')
+                then 'discretionary'
             when category in ('salary', 'investment') then 'income'
             when category in ('transport', 'health') then 'lifestyle'
             else 'other'
@@ -29,8 +31,14 @@ with category_data as (
         -- Category type classification
         case
             when category in ('salary', 'investment') then 'income'
-            when category in ('groceries', 'utilities', 'rent', 'transport', 'health') then 'expense'
-            when category in ('entertainment', 'travel', 'shopping') then 'expense'
+            when
+                category in (
+                    'groceries', 'utilities', 'rent', 'transport', 'health'
+                )
+                then 'expense'
+            when
+                category in ('entertainment', 'travel', 'shopping')
+                then 'expense'
             else 'expense'
         end as category_type,
 
@@ -62,7 +70,8 @@ final as (
         -- Metadata
         current_timestamp() as dbt_processed_at
     from category_data
-    qualify row_number() over (partition by category order by ingested_at desc) = 1
+    qualify
+        row_number() over (partition by category order by ingested_at desc) = 1
 )
 
 select * from final

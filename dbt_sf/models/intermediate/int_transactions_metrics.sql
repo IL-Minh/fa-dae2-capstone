@@ -28,7 +28,9 @@ daily_metrics as (
         -- Currency distribution
         count(distinct currency) as currency_count,
         -- Create unique key for incremental processing using cross-database hash macro
-        {{ dbt.hash("concat_ws('|', transaction_date, source_system, transaction_tier)") }} as metric_key,
+
+        {{ dbt.hash("concat_ws('|', transaction_date, source_system, transaction_tier)") }}
+            as metric_key,
         -- Metadata using Snowflake native function
         current_timestamp() as dbt_processed_at
     from source
@@ -38,8 +40,8 @@ daily_metrics as (
 select * from daily_metrics
 
 {% if is_incremental() %}
-  -- Only process new records
-  where metric_key not in (
-    select metric_key from {{ this }}
-  )
+    -- Only process new records
+    where metric_key not in (
+        select metric_key from {{ this }}
+    )
 {% endif %}

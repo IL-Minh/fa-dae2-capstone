@@ -2,4 +2,7 @@
 target/
 dbt_packages/
 macros/
+
+# Non-dbt SQL files
+scripts/
 .venv/

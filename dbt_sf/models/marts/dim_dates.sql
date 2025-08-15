@@ -6,11 +6,9 @@
 }}
 
 with date_spine as (
-    select
-        date_value
+    select date_value
     from (
-        select
-            dateadd(day, seq4(), '2024-01-01'::date) as date_value
+        select dateadd(day, seq4(), '2024-01-01'::date) as date_value
         from table(generator(rowcount => 1000))
     )
     where date_value <= '2026-12-31'::date
@@ -33,8 +31,12 @@ final as (
         dayname(date_value) as day_name,
 
         -- Business calendar flags
-        case when dayofweek(date_value) in (1, 7) then true else false end as is_weekend,
-        case when date_value in ('2024-01-01', '2024-07-04', '2024-12-25') then true else false end as is_holiday,
+        coalesce(dayofweek(date_value) in (1, 7), false)
+            as is_weekend,
+        coalesce(
+            date_value in ('2024-01-01', '2024-07-04', '2024-12-25'),
+            false
+        ) as is_holiday,
 
         -- Fiscal calendar (assuming fiscal year starts in July)
         case

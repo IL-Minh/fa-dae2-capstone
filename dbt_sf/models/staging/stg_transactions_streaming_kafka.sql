@@ -12,16 +12,19 @@ with source as (
 cleaned as (
     select
         tx_id::{{ dbt.type_string() }} as tx_id,
-        user_id::{{ dbt.type_string() }} as user_id,  -- Fixed: UUIDs are strings, not integers
+        -- Fixed: UUIDs are strings, not integers
+        user_id::{{ dbt.type_string() }} as user_id,
         amount::{{ dbt.type_numeric() }} as amount,
         currency::{{ dbt.type_string() }} as currency,
         merchant::{{ dbt.type_string() }} as merchant,
         category::{{ dbt.type_string() }} as category,
-        timestamp::{{ dbt.type_timestamp() }} as timestamp,
+        "timestamp"::{{ dbt.type_timestamp() }} as "timestamp",
         ingested_at::{{ dbt.type_timestamp() }} as ingested_at,
         airflow_ingested_at::{{ dbt.type_timestamp() }} as airflow_ingested_at,
         -- Add hash key for deduplication using cross-database hash macro
-        {{ dbt.hash("concat_ws('|', tx_id, user_id, amount, currency, merchant, category, timestamp, ingested_at)") }} as hash_key
+
+        {{ dbt.hash("concat_ws('|', tx_id, user_id, amount, currency, merchant, category, timestamp, ingested_at)") }}
+            as hash_key
     from source
 ),
 
@@ -30,7 +33,7 @@ deduplicated as (
         *,
         row_number() over (
             partition by tx_id
-            order by airflow_ingested_at desc, hash_key
+            order by airflow_ingested_at desc, hash_key asc
         ) as rn
     from cleaned
 )

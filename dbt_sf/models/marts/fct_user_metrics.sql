@@ -8,7 +8,7 @@
 with user_transactions as (
     select
         user_id,
-        date_trunc('month', timestamp) as month_start,
+        date_trunc('month', "timestamp") as month_start,
         count(*) as transaction_count,
         sum(amount) as total_amount,
         avg(amount) as avg_amount,
@@ -35,7 +35,7 @@ with user_transactions as (
             else 'low_risk'
         end as risk_indicator
     from {{ ref('int_transactions') }}
-    group by user_id, date_trunc('month', timestamp)
+    group by user_id, month_start
 ),
 
 final as (
@@ -63,8 +63,10 @@ final as (
 
         -- Metadata
         current_timestamp() as dbt_processed_at
-    from user_transactions ut
-    left join {{ ref('dim_users') }} du on ut.user_id = du.user_id and du.is_current = true
+    from user_transactions as ut
+    left join
+        {{ ref('dim_users') }} as du
+        on ut.user_id = du.user_id and du.is_current = true
 )
 
 select * from final

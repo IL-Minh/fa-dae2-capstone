@@ -42,10 +42,7 @@ final as (
         -- SCD2 fields from snapshot
         dbt_valid_from as effective_date,
         dbt_valid_to as end_date,
-        case
-            when dbt_valid_to is null then true
-            else false
-        end as is_current,
+        coalesce(dbt_valid_to is null, false) as is_current,
         dbt_updated_at,
         dbt_scd_id,
 

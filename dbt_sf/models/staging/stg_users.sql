@@ -35,6 +35,18 @@ final as (
         email,
         age,
         -- Create age groups for analysis
+        income_bracket,
+        customer_tier,
+        risk_profile,
+        city,
+        state,
+        country,
+        registration_date,
+        -- Add region based on state
+        preferred_categories,
+        is_active,
+        source_system,
+        ingested_at,
         case
             when age < 25 then '18-24'
             when age < 35 then '25-34'
@@ -43,26 +55,64 @@ final as (
             when age < 65 then '55-64'
             else '65+'
         end as age_group,
-        income_bracket,
-        customer_tier,
-        risk_profile,
-        city,
-        state,
-        country,
-        -- Add region based on state
         case
             when state in ('ME', 'NH', 'VT', 'MA', 'RI', 'CT') then 'Northeast'
             when state in ('NY', 'NJ', 'PA') then 'Northeast'
-            when state in ('OH', 'IN', 'IL', 'MI', 'WI', 'MN', 'IA', 'MO', 'ND', 'SD', 'NE', 'KS') then 'Midwest'
-            when state in ('DE', 'MD', 'DC', 'VA', 'WV', 'NC', 'SC', 'GA', 'FL', 'KY', 'TN', 'AL', 'MS', 'AR', 'LA', 'OK') then 'South'
-            when state in ('MT', 'ID', 'WY', 'CO', 'NM', 'AZ', 'UT', 'NV', 'WA', 'OR', 'CA', 'AK', 'HI') then 'West'
+            when
+                state in (
+                    'OH',
+                    'IN',
+                    'IL',
+                    'MI',
+                    'WI',
+                    'MN',
+                    'IA',
+                    'MO',
+                    'ND',
+                    'SD',
+                    'NE',
+                    'KS'
+                )
+                then 'Midwest'
+            when
+                state in (
+                    'DE',
+                    'MD',
+                    'DC',
+                    'VA',
+                    'WV',
+                    'NC',
+                    'SC',
+                    'GA',
+                    'FL',
+                    'KY',
+                    'TN',
+                    'AL',
+                    'MS',
+                    'AR',
+                    'LA',
+                    'OK'
+                )
+                then 'South'
+            when
+                state in (
+                    'MT',
+                    'ID',
+                    'WY',
+                    'CO',
+                    'NM',
+                    'AZ',
+                    'UT',
+                    'NV',
+                    'WA',
+                    'OR',
+                    'CA',
+                    'AK',
+                    'HI'
+                )
+                then 'West'
             else 'Other'
-        end as region,
-        registration_date,
-        preferred_categories,
-        is_active,
-        source_system,
-        ingested_at
+        end as region
     from user_profiles
 )
 

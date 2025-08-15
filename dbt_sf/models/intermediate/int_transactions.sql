@@ -42,8 +42,8 @@ final as (
 select * from final
 
 {% if is_incremental() %}
-  -- Only process new records
-  where hash_key not in (
-    select hash_key from {{ this }}
-  )
+    -- Only process new records
+    where hash_key not in (
+        select hash_key from {{ this }}
+    )
 {% endif %}

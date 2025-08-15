@@ -10,31 +10,50 @@ with merchant_data as (
         merchant,
         category,
         -- Extract business type from merchant name patterns
-        case
-            when lower(merchant) like '%bank%' or lower(merchant) like '%credit%' then 'financial'
-            when lower(merchant) like '%store%' or lower(merchant) like '%market%' then 'retail'
-            when lower(merchant) like '%restaurant%' or lower(merchant) like '%cafe%' then 'food_service'
-            when lower(merchant) like '%gas%' or lower(merchant) like '%fuel%' then 'automotive'
-            when lower(merchant) like '%hotel%' or lower(merchant) like '%travel%' then 'hospitality'
-            when lower(merchant) like '%medical%' or lower(merchant) like '%health%' then 'healthcare'
-            else 'other'
-        end as business_type,
+        'Unknown' as location_city,
 
         -- Risk rating based on business type and category
+        'Unknown' as location_state,
+
+        -- Location extraction (simplified - in real scenario would come from merchant master data)
+        'USA' as location_country,
+        case
+            when
+                lower(merchant) like '%bank%' or lower(merchant) like '%credit%'
+                then 'financial'
+            when
+                lower(merchant) like '%store%'
+                or lower(merchant) like '%market%'
+                then 'retail'
+            when
+                lower(merchant) like '%restaurant%'
+                or lower(merchant) like '%cafe%'
+                then 'food_service'
+            when
+                lower(merchant) like '%gas%' or lower(merchant) like '%fuel%'
+                then 'automotive'
+            when
+                lower(merchant) like '%hotel%'
+                or lower(merchant) like '%travel%'
+                then 'hospitality'
+            when
+                lower(merchant) like '%medical%'
+                or lower(merchant) like '%health%'
+                then 'healthcare'
+            else 'other'
+        end as business_type,
         case
             when business_type = 'financial' then 'low'
             when business_type = 'healthcare' then 'low'
-            when business_type = 'retail' and category in ('groceries', 'utilities') then 'low'
+            when
+                business_type = 'retail'
+                and category in ('groceries', 'utilities')
+                then 'low'
             when business_type = 'food_service' then 'medium'
             when business_type = 'automotive' then 'medium'
             when business_type = 'hospitality' then 'medium'
             else 'medium'
         end as risk_rating,
-
-        -- Location extraction (simplified - in real scenario would come from merchant master data)
-        'Unknown' as location_city,
-        'Unknown' as location_state,
-        'USA' as location_country,
 
         current_timestamp() as ingested_at
     from {{ ref('stg_transactions_unified') }}
@@ -70,7 +89,8 @@ final as (
         -- Metadata
         current_timestamp() as dbt_processed_at
     from merchant_data
-    qualify row_number() over (partition by merchant order by ingested_at desc) = 1
+    qualify
+        row_number() over (partition by merchant order by ingested_at desc) = 1
 )
 
 select * from final

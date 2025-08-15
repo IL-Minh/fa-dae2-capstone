@@ -11,7 +11,9 @@ with currency_data as (
         -- Currency type classification
         case
             when currency = 'USD' then 'major'
-            when currency in ('EUR', 'GBP', 'JPY', 'CHF', 'CAD', 'AUD') then 'major'
+            when
+                currency in ('EUR', 'GBP', 'JPY', 'CHF', 'CAD', 'AUD')
+                then 'major'
             when currency in ('CNY', 'INR', 'BRL', 'MXN') then 'emerging'
             else 'other'
         end as currency_type,
@@ -70,7 +72,8 @@ final as (
         -- Metadata
         current_timestamp() as dbt_processed_at
     from currency_data
-    qualify row_number() over (partition by currency order by ingested_at desc) = 1
+    qualify
+        row_number() over (partition by currency order by ingested_at desc) = 1
 )
 
 select * from final
