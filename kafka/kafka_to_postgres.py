@@ -40,6 +40,7 @@ def main() -> None:
     # Configure Kafka consumer
     import os
 
+    # Get Kafka configuration from environment
     bootstrap = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
     logger.info(f"Connecting to Kafka at: {bootstrap}")
 

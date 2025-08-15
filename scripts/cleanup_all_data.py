@@ -1,7 +1,17 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
 """
 Data Cleanup Script for Fresh Demos
 Clears all data from PostgreSQL, Kafka, and Snowflake SC_RAW schema
+
+Kafka Connection Notes:
+- Default: localhost:29092 (Docker Compose host port)
+- Override: Set KAFKA_BOOTSTRAP_SERVERS environment variable
+- Internal Docker: kafka:9092 (only accessible from within Docker network)
+
+Usage:
+    uv run scripts/cleanup_all_data.py
+    uv run scripts/cleanup_all_data.py --components kafka
+    uv run scripts/cleanup_all_data.py --help
 """
 
 import argparse
@@ -87,35 +97,51 @@ def cleanup_kafka():
 
         load_dotenv()
 
-        kafka_bootstrap = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
+        # Use the correct host port for Docker Compose
+        kafka_bootstrap = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:29092")
 
-        # Create admin client
+        logger.info(f"Attempting to connect to Kafka at {kafka_bootstrap}")
+
+        # Create admin client with better configuration
         admin_client = AdminClient(
-            {"bootstrap.servers": kafka_bootstrap, "client.id": "cleanup_script"}
+            {
+                "bootstrap.servers": kafka_bootstrap,
+                "client.id": "cleanup_script",
+                "request.timeout.ms": 10000,
+            }
         )
 
-        logger.info(f"Connected to Kafka at {kafka_bootstrap}")
+        # Test connection by listing topics
+        try:
+            metadata = admin_client.list_topics(timeout=10)
+            topics = list(metadata.topics.keys())
+            logger.info(f"Successfully connected to Kafka at {kafka_bootstrap}")
+            logger.info(f"Found topics: {topics}")
 
-        # Get all topics
-        metadata = admin_client.list_topics(timeout=10)
-        topics = list(metadata.topics.keys())
+            # Delete all topics (this will clear all data)
+            deleted_count = 0
+            for topic in topics:
+                if topic != "__consumer_offsets":  # Don't delete system topic
+                    try:
+                        admin_client.delete_topics([topic])
+                        logger.info(f"Deleted topic: {topic}")
+                        deleted_count += 1
+                    except KafkaException as e:
+                        logger.warning(f"Could not delete topic {topic}: {e}")
 
-        logger.info(f"Found topics: {topics}")
+            logger.info(f"✅ Kafka cleanup completed. Deleted {deleted_count} topics.")
+            return True
 
-        # Delete all topics (this will clear all data)
-        for topic in topics:
-            if topic != "__consumer_offsets":  # Don't delete system topic
-                try:
-                    admin_client.delete_topics([topic], timeout=10)
-                    logger.info(f"Deleted topic: {topic}")
-                except KafkaException as e:
-                    logger.warning(f"Could not delete topic {topic}: {e}")
-
-        logger.info("✅ Kafka cleanup completed")
-        return True
+        except Exception as e:
+            logger.error(f"Failed to list topics from Kafka: {e}")
+            logger.info("This might happen if Kafka is not running or not accessible")
+            return False
 
     except Exception as e:
         logger.error(f"Kafka cleanup failed: {e}")
+        logger.info(
+            "Make sure Kafka is running and accessible at the configured bootstrap servers"
+        )
         return False
 
 

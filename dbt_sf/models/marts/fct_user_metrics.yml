@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: fct_user_metrics
+    description: "Fact table for user behavioral metrics and spending patterns"
+    config:
+      tags: ["marts", "facts", "user_metrics"]
+
+    columns:
+      - name: user_id
+        description: "Business key - user identifier"
+        tests:
+          - not_null
+
+      - name: month_start
+        description: "Business key - start of month for the metrics"
+        tests:
+          - not_null
+
+      - name: user_key
+        description: "Foreign key to dim_users dimension"
+
+      - name: transaction_count
+        description: "Total number of transactions for the user in the month"
+
+      - name: total_amount
+        description: "Total transaction amount for the user in the month"
+
+      - name: avg_amount
+        description: "Average transaction amount for the user in the month"
+
+      - name: min_amount
+        description: "Minimum transaction amount for the user in the month"
+
+      - name: max_amount
+        description: "Maximum transaction amount for the user in the month"
+
+      - name: unique_categories
+        description: "Number of unique transaction categories used by the user"
+
+      - name: unique_merchants
+        description: "Number of unique merchants the user transacted with"
+
+      - name: spending_pattern
+        description: "User's spending pattern classification (high_spender, medium_spender, low_spender)"
+
+      - name: frequency_pattern
+        description: "User's transaction frequency pattern (frequent, regular, occasional)"
+
+      - name: risk_indicator
+        description: "Risk indicator based on spending patterns (high_risk, medium_risk, low_risk)"
+
+      - name: dbt_processed_at
+        description: "When this model was last processed by dbt"

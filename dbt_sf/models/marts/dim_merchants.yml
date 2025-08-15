@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: dim_merchants
+    description: "Merchant dimension table with business context and risk ratings"
+    config:
+      tags: ["marts", "dimensions", "merchants"]
+
+    columns:
+      - name: merchant_key
+        description: "Surrogate key for the merchant dimension"
+        tests:
+          - not_null
+          - unique
+
+      - name: merchant_id
+        description: "Business key - unique identifier for the merchant"
+        tests:
+          - not_null
+          - unique
+
+      - name: merchant_name
+        description: "Name of the merchant"
+
+      - name: merchant_category
+        description: "Primary business category of the merchant"
+
+      - name: business_type
+        description: "Business type classification"
+
+      - name: risk_rating
+        description: "Risk rating for the merchant (low, medium, high)"
+
+      - name: location_city
+        description: "City where the merchant is located"
+
+      - name: location_state
+        description: "State where the merchant is located"
+
+      - name: location_country
+        description: "Country where the merchant is located"
+
+      - name: is_active
+        description: "Whether the merchant is currently active"
+
+      - name: effective_date
+        description: "Start date for this version of the merchant record"
+
+      - name: end_date
+        description: "End date for this version of the merchant record (null for current)"
+
+      - name: is_current
+        description: "Flag indicating if this is the current version of the merchant record"
+
+      - name: dbt_processed_at
+        description: "When this model was last processed by dbt"

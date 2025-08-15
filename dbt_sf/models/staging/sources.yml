@@ -86,3 +86,67 @@ sources:
             description: "When Airflow processed the data"
             tests:
               - not_null
+
+      - name: USER_REGISTRATIONS
+        description: "Raw user profile data from CSV files"
+        columns:
+          - name: user_id
+            description: "Unique identifier for the user"
+            tests:
+              - not_null
+          - name: first_name
+            description: "User's first name"
+            tests:
+              - not_null
+          - name: last_name
+            description: "User's last name"
+            tests:
+              - not_null
+          - name: email
+            description: "User's email address"
+            tests:
+              - not_null
+          - name: age
+            description: "User's age in years"
+            tests:
+              - not_null
+          - name: income_bracket
+            description: "User's income bracket category"
+            tests:
+              - not_null
+          - name: customer_tier
+            description: "User's customer tier level"
+            tests:
+              - not_null
+          - name: risk_profile
+            description: "User's risk profile category"
+            tests:
+              - not_null
+          - name: city
+            description: "User's city of residence"
+            tests:
+              - not_null
+          - name: state
+            description: "User's state of residence (abbreviation)"
+            tests:
+              - not_null
+          - name: country
+            description: "User's country of residence"
+            tests:
+              - not_null
+          - name: registration_date
+            description: "Date when user registered"
+            tests:
+              - not_null
+          - name: preferred_categories
+            description: "Comma-separated list of user's preferred transaction categories"
+            tests:
+              - not_null
+          - name: is_active
+            description: "Whether the user account is active"
+            tests:
+              - not_null
+          - name: source_system
+            description: "Source system identifier"
+            tests:
+              - not_null

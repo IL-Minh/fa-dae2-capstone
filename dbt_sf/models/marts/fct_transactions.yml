@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: fct_transactions
+    description: "Fact table for transactions with dimensional keys and measures"
+    config:
+      tags: ["marts", "facts", "transactions"]
+
+    columns:
+      - name: tx_id
+        description: "Business key - unique transaction identifier"
+        tests:
+          - not_null
+          - unique
+
+      - name: user_id
+        description: "Business key - user identifier"
+
+      - name: user_key
+        description: "Foreign key to dim_users dimension"
+
+      - name: merchant_key
+        description: "Foreign key to dim_merchants dimension"
+
+      - name: category_key
+        description: "Foreign key to dim_categories dimension"
+
+      - name: currency_key
+        description: "Foreign key to dim_currencies dimension"
+
+      - name: date_key
+        description: "Foreign key to dim_dates dimension"
+
+      - name: amount
+        description: "Transaction amount in the specified currency"
+        tests:
+          - not_null
+
+      - name: transaction_count
+        description: "Count of transactions (always 1 for transaction-level fact)"
+
+      - name: timestamp
+        description: "When the transaction occurred"
+
+      - name: source_system
+        description: "Source system identifier (streaming_kafka or batch_csv)"
+
+      - name: ingested_at
+        description: "When data was originally ingested"
+
+      - name: processed_at
+        description: "When the data was processed by the pipeline"
+
+      - name: dbt_processed_at
+        description: "When this model was last processed by dbt"

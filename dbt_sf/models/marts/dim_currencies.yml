@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: dim_currencies
+    description: "Currency dimension table with exchange rates and regional classification"
+    config:
+      tags: ["marts", "dimensions", "currencies"]
+
+    columns:
+      - name: currency_key
+        description: "Surrogate key for the currency dimension"
+        tests:
+          - not_null
+          - unique
+
+      - name: currency_code
+        description: "Business key - ISO currency code"
+        tests:
+          - not_null
+          - unique
+
+      - name: currency_type
+        description: "Currency type classification (major, emerging, other)"
+
+      - name: currency_region
+        description: "Geographic region for the currency"
+
+      - name: base_exchange_rate
+        description: "Base exchange rate relative to USD"
+
+      - name: is_active
+        description: "Whether the currency is currently active"
+
+      - name: effective_date
+        description: "Start date for this version of the currency record"
+
+      - name: end_date
+        description: "End date for this version of the currency record (null for current)"
+
+      - name: is_current
+        description: "Flag indicating if this is the current version of the currency record"
+
+      - name: dbt_processed_at
+        description: "When this model was last processed by dbt"

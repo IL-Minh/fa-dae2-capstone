@@ -4,7 +4,7 @@ models:
   - name: fct_daily_transactions
     description: "Fact table for daily transaction summaries with business metrics and dimensions"
     config:
-      tags: ["marts", "transactions", "daily_summary"]
+      tags: ["marts", "facts", "daily_transactions"]
 
     columns:
       - name: transaction_date
@@ -17,6 +17,9 @@ models:
 
       - name: transaction_tier
         description: "Transaction value tier (high_value, medium_value, low_value)"
+
+      - name: date_key
+        description: "Foreign key to dim_dates dimension"
 
       - name: transaction_count
         description: "Total number of transactions for the date/system/tier combination"
@@ -59,3 +62,6 @@ models:
 
       - name: day_of_week
         description: "Day of week extracted from the transaction date"
+
+      - name: dbt_processed_at
+        description: "When this model was last processed by dbt"

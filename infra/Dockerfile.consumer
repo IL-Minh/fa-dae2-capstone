@@ -6,5 +6,6 @@ RUN pip install uv && uv sync --frozen
 
 COPY kafka ./kafka
 
+# Use host port for Docker Compose
 ENV KAFKA_BOOTSTRAP_SERVERS=localhost:9092
 CMD ["uv", "run", "kafka/kafka_to_postgres.py"]

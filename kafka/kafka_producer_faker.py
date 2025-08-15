@@ -26,6 +26,7 @@ def main() -> None:
     # Initialize faker generator
     faker_gen = get_faker_generator()
 
+    # Get Kafka configuration from environment
     bootstrap = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
     logger.info(f"Starting Kafka producer with bootstrap servers: {bootstrap}")
 

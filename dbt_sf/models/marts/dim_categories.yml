@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: dim_categories
+    description: "Transaction category dimension table with hierarchies and business unit mapping"
+    config:
+      tags: ["marts", "dimensions", "categories"]
+
+    columns:
+      - name: category_key
+        description: "Surrogate key for the category dimension"
+        tests:
+          - not_null
+          - unique
+
+      - name: category_name
+        description: "Business key - unique identifier for the category"
+        tests:
+          - not_null
+          - unique
+
+      - name: category_group
+        description: "Category group classification (essential, discretionary, income, lifestyle)"
+
+      - name: category_type
+        description: "Category type (income or expense)"
+
+      - name: business_unit
+        description: "Business unit responsible for this category"
+
+      - name: is_active
+        description: "Whether the category is currently active"
+
+      - name: effective_date
+        description: "Start date for this version of the category record"
+
+      - name: end_date
+        description: "End date for this version of the category record (null for current)"
+
+      - name: is_current
+        description: "Flag indicating if this is the current version of the category record"
+
+      - name: dbt_processed_at
+        description: "When this model was last processed by dbt"

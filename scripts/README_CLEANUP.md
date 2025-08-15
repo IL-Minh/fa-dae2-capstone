@@ -29,30 +29,30 @@ The `cleanup_all_data.py` script provides a comprehensive way to clear all data 
 
 ### **Clean Everything (Default)**
 ```bash
-python scripts/cleanup_all_data.py
+uv run scripts/cleanup_all_data.py
 ```
 ⚠️ **Requires confirmation** - Type `yes` when prompted
 
 ### **Clean Specific Components**
 ```bash
 # Clean only PostgreSQL
-python scripts/cleanup_all_data.py --components postgres
+uv run scripts/cleanup_all_data.py --components postgres
 
 # Clean PostgreSQL and Kafka
-python scripts/cleanup_all_data.py --components postgres kafka
+uv run scripts/cleanup_all_data.py --components postgres kafka
 
 # Clean only local files
-python scripts/cleanup_all_data.py --components files
+uv run scripts/cleanup_all_data.py --components files
 ```
 
 ### **Skip Confirmation (Use with caution!)**
 ```bash
-python scripts/cleanup_all_data.py --confirm
+uv run scripts/cleanup_all_data.py --confirm
 ```
 
 ### **Help**
 ```bash
-python scripts/cleanup_all_data.py --help
+uv run scripts/cleanup_all_data.py --help
 ```
 
 ## Environment Variables Required
@@ -68,7 +68,7 @@ POSTGRES_PASSWORD=your_password
 
 ### **Kafka**
 ```bash
-KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+KAFKA_BOOTSTRAP_SERVERS=localhost:29092
 ```
 
 ### **Snowflake**

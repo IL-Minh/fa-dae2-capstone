@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: dim_dates
+    description: "Date dimension table with business calendar and fiscal periods"
+    config:
+      tags: ["marts", "dimensions", "dates"]
+
+    columns:
+      - name: date_key
+        description: "Surrogate key for the date dimension"
+        tests:
+          - not_null
+          - unique
+
+      - name: full_date
+        description: "Full date value"
+        tests:
+          - not_null
+          - unique
+
+      - name: year
+        description: "Year extracted from the date"
+
+      - name: quarter
+        description: "Quarter of the year (1-4)"
+
+      - name: month
+        description: "Month of the year (1-12)"
+
+      - name: month_name
+        description: "Name of the month"
+
+      - name: week_of_year
+        description: "Week number of the year"
+
+      - name: day_of_year
+        description: "Day number of the year"
+
+      - name: day_of_week
+        description: "Day of week number (1-7, where 1 is Sunday)"
+
+      - name: day_name
+        description: "Name of the day of week"
+
+      - name: is_weekend
+        description: "Flag indicating if the date is a weekend"
+
+      - name: is_holiday
+        description: "Flag indicating if the date is a holiday"
+
+      - name: fiscal_year
+        description: "Fiscal year (starts in July)"
+
+      - name: fiscal_month
+        description: "Fiscal month (1-12, starts in July)"
+
+      - name: fiscal_quarter
+        description: "Fiscal quarter (1-4)"
+
+      - name: dbt_processed_at
+        description: "When this model was last processed by dbt"

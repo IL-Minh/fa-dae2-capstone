@@ -1,0 +1,80 @@
+version: 2
+
+models:
+  - name: dim_users
+    description: "User dimension table with demographics, location, and business attributes"
+    config:
+      tags: ["marts", "dimensions", "users"]
+
+    columns:
+      - name: user_key
+        description: "Surrogate key for the user dimension"
+        tests:
+          - not_null
+          - unique
+
+      - name: user_id
+        description: "Business key - unique identifier for the user"
+        tests:
+          - not_null
+          - unique
+
+      - name: first_name
+        description: "User's first name"
+
+      - name: last_name
+        description: "User's last name"
+
+      - name: email
+        description: "User's email address"
+
+      - name: age
+        description: "User's age in years"
+
+      - name: age_group
+        description: "Age group category for analysis"
+
+      - name: income_bracket
+        description: "User's income bracket category"
+
+      - name: customer_tier
+        description: "User's customer tier level"
+
+      - name: risk_profile
+        description: "User's risk profile category"
+
+      - name: city
+        description: "User's city of residence"
+
+      - name: state
+        description: "User's state of residence (abbreviation)"
+
+      - name: country
+        description: "User's country of residence"
+
+      - name: region
+        description: "Geographic region based on state"
+
+      - name: registration_date
+        description: "Date when user registered"
+
+      - name: preferred_categories
+        description: "Comma-separated list of user's preferred transaction categories"
+
+      - name: is_active
+        description: "Whether the user account is active"
+
+      - name: source_system
+        description: "Source system identifier"
+
+      - name: effective_date
+        description: "Start date for this version of the user record"
+
+      - name: end_date
+        description: "End date for this version of the user record (null for current)"
+
+      - name: is_current
+        description: "Flag indicating if this is the current version of the user record"
+
+      - name: dbt_processed_at
+        description: "When this model was last processed by dbt"
