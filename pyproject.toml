@@ -11,6 +11,9 @@ dependencies = [
     "snowflake-connector-python~=3.16",
     "faker>=25",
     "confluent-kafka~=2.4",
+    "openai>=1.99.9",
+    "pypdf2>=3.0.1",
+    "pinecone>=7.3.0",
 ]
 
 [dependency-groups]
@@ -26,3 +29,6 @@ dev = [
     "pytest-cov>=6.2.1",
     "ruff>=0.12.4",
 ]
+
+[tool.ruff]
+ignore = ["E402"]
