@@ -1,0 +1,51 @@
+user_id,first_name,last_name,email,age,income_bracket,customer_tier,risk_profile,city,state,country,registration_date,preferred_categories,is_active,source_system
+2d6001ff-96a2-4274-853c-6e674e2793d4,Daniel,Mclean,michael03@example.net,49,high,gold,conservative,North Meganville,NJ,USA,2025-08-20T17:35:42,"education,fashion,health,technology",true,third_party_registration
+ae392da2-3512-491c-a4a0-0a9744f2447d,Robert,Arnold,allisonflores@example.net,58,high,gold,moderate,Lake Denise,NM,USA,2025-08-03T16:06:56,"fashion,technology,entertainment",false,third_party_registration
+fe74d1db-1bc1-430f-b74e-d2aec54385d8,Heidi,Thornton,melissabraun@example.net,18,low,bronze,aggressive,South Christopher,ID,USA,2025-08-16T15:58:51,"entertainment,groceries",true,third_party_registration
+39d7bdb3-e80a-46db-870a-d46f41665a0f,Megan,Olsen,yshah@example.net,28,medium,bronze,aggressive,Stevenstad,PR,USA,2025-08-02T10:10:30,"education,travel",true,third_party_registration
+b8af8b11-289a-4ed9-8f6f-d00b112754c9,Sean,Thompson,fisherrobert@example.org,58,very_high,gold,conservative,Lewisberg,VA,USA,2025-08-03T13:09:05,"health,groceries",true,third_party_registration
+ab0a0027-73e1-461b-b9b3-31a765fe121d,Alicia,Alexander,jonesshane@example.org,28,low,bronze,aggressive,New Gabrielleshire,WY,USA,2025-08-16T10:06:02,"fashion,entertainment,travel",true,third_party_registration
+a0cf1a08-b6b8-4520-bffb-fa11ee0b2b2c,Christine,Velazquez,timothytaylor@example.org,34,medium,bronze,conservative,Liushire,UT,USA,2025-08-17T10:55:13,"education,health,groceries",true,third_party_registration
+000e63dd-2d67-45a8-b70c-1ed2d4e55b0d,Shirley,Hernandez,karenwillis@example.org,37,medium,bronze,conservative,Laurahaven,FM,USA,2025-08-09T12:09:39,"entertainment,fashion",true,third_party_registration
+6af9782e-ed76-4028-b140-aadcf90a7c83,Steven,White,staceysmith@example.net,55,very_high,platinum,conservative,New Robertstad,NY,USA,2025-08-21T14:39:25,"technology,travel,education,entertainment",true,third_party_registration
+5c63c495-a740-4805-b442-2488a4c0fc33,Steven,Contreras,johnsonjason@example.net,34,medium,bronze,moderate,Grayborough,TX,USA,2025-08-25T15:05:54,"fashion,health,technology",true,third_party_registration
+84f2c76e-fa5e-44c6-bfdb-8c210df71363,William,Shannon,chrishorton@example.com,31,high,gold,conservative,North Jesusside,OK,USA,2025-08-01T12:18:25,"fashion,groceries,travel",true,third_party_registration
+e381d132-c549-47f2-acbe-eaba060618c2,Angelica,Lopez,justinhernandez@example.org,62,high,gold,moderate,New Corymouth,IL,USA,2025-08-05T09:34:43,"entertainment,technology,travel",true,third_party_registration
+59a59ff1-435d-43ee-87d8-868e96b5cb24,Cathy,Rogers,jessicaneal@example.org,34,high,silver,moderate,Crystalport,MO,USA,2025-08-27T17:00:41,"travel,education",true,third_party_registration
+233a8b81-1ced-4cfd-8cab-dedd86cb56d8,Norman,Valencia,randalljackson@example.org,57,high,gold,moderate,Phillipsmouth,AS,USA,2025-08-16T14:45:15,"technology,health,fashion",true,third_party_registration
+ffa87ad5-7fc6-4573-a672-d1e3856e750c,Amanda,Rivers,cameron30@example.com,53,high,silver,moderate,Alexanderhaven,WV,USA,2025-08-28T15:15:55,"groceries,travel",false,third_party_registration
+9fe349eb-0244-46a1-ab5e-c10b049a819a,Anthony,Williams,nicholashanna@example.org,57,high,silver,conservative,Andersonborough,AK,USA,2025-08-08T17:33:02,"entertainment,groceries,fashion",true,third_party_registration
+31439f99-038c-49e7-8b7c-3eb731a3b395,Hunter,Osborne,isaac31@example.org,22,low,bronze,aggressive,South Melissaburgh,VI,USA,2025-08-24T13:18:56,"travel,health,technology,entertainment",true,third_party_registration
+e08dbd3a-9216-4be0-8d52-6bed03716d10,Victoria,Lucas,jnolan@example.net,52,very_high,gold,conservative,Port Carlville,FL,USA,2025-08-16T09:10:21,"entertainment,education,health,technology",false,third_party_registration
+787ff9da-1903-469a-a06e-3f528b11ae11,Renee,Davis,jamescohen@example.net,46,high,gold,moderate,North Emilyside,CT,USA,2025-08-08T16:25:16,"groceries,education,travel,entertainment",true,third_party_registration
+5823ed3c-0820-4f4d-a589-03ef0add963d,Melissa,Collins,bobbyhill@example.net,43,medium,bronze,conservative,South Jeffreystad,PR,USA,2025-08-12T12:53:31,"travel,entertainment",true,third_party_registration
+d5ed275f-ff69-451f-8356-4a968c89f5c7,Austin,Roberson,sheilaperkins@example.com,44,high,gold,moderate,Brownfort,NE,USA,2025-08-19T17:55:08,"health,fashion,travel,entertainment",false,third_party_registration
+35a3f489-e8a0-46fd-ba75-0aa44a6b420e,Mindy,Nelson,debra31@example.org,75,very_high,platinum,conservative,Keithview,ME,USA,2025-08-08T11:17:46,"groceries,fashion,travel",true,third_party_registration
+67013fee-9adb-495c-9eb8-a9dc716e70e2,Christian,Fry,barnesyesenia@example.net,41,high,gold,moderate,Meghanfurt,MT,USA,2025-08-21T17:58:57,"health,education,fashion",true,third_party_registration
+5b1c01a7-763b-4dbb-83c7-ee465c58ccd8,Keith,Davis,hcastillo@example.org,27,low,bronze,aggressive,Wallaceland,IN,USA,2025-08-23T12:40:12,"technology,fashion,education,health",true,third_party_registration
+80be3feb-dbe3-4dd9-8d75-c6557be7a04b,Amanda,Kennedy,vlindsey@example.net,20,low,bronze,aggressive,New Linda,MN,USA,2025-08-17T15:06:22,"technology,travel,education",true,third_party_registration
+c80286a0-f5c5-4b00-a639-73caae1e53e9,Kimberly,Warren,dennis62@example.net,58,very_high,platinum,conservative,Pattersonport,CT,USA,2025-08-11T10:27:22,"health,education,groceries",true,third_party_registration
+7f3df65e-6e30-4fd2-858b-b6e3da299f93,Nicole,Freeman,uperkins@example.net,58,very_high,platinum,conservative,Cohenmouth,AK,USA,2025-08-04T14:58:44,"entertainment,technology,education,health",true,third_party_registration
+e678d8c3-73de-46fe-be5d-b913a71e76a5,Jennifer,Elliott,shellypatrick@example.com,41,medium,silver,moderate,Williamland,AS,USA,2025-08-16T13:17:55,"education,travel,groceries,health",false,third_party_registration
+a548f44f-836e-4b68-b2c2-33a29b7ebfdb,Anna,Fletcher,mccoyalan@example.net,65,high,gold,conservative,East Robertotown,OK,USA,2025-08-02T13:15:57,"education,health,technology,fashion",true,third_party_registration
+b3bd38e1-543c-45c1-b008-c2c4ca1f5e15,Billy,Lewis,ashley14@example.com,46,high,gold,moderate,Pittsborough,RI,USA,2025-08-13T16:58:41,"health,entertainment,fashion,groceries",true,third_party_registration
+cb40f9cc-88b7-410a-b722-cb802399956f,Thomas,Gross,njohnson@example.net,54,high,gold,moderate,North Robertmouth,MN,USA,2025-08-10T17:00:58,"technology,fashion,health",true,third_party_registration
+2d300b27-7da2-4d1d-b4aa-6c08f1479f98,Jose,Miles,zwhite@example.com,60,high,silver,conservative,Port Douglasside,WY,USA,2025-08-24T15:21:41,"technology,travel",false,third_party_registration
+50e54a38-794b-412f-a459-7de29ce1bb36,Heather,Wright,hailey72@example.com,39,high,silver,moderate,South Derekbury,FM,USA,2025-08-12T10:07:17,"travel,technology,fashion,education",true,third_party_registration
+0f1e58d9-7e55-475f-9e60-e140081aad9c,Jennifer,Yates,nlee@example.net,56,very_high,platinum,conservative,Joshuachester,ID,USA,2025-08-26T17:26:45,"travel,technology,health",true,third_party_registration
+af12c52a-dbf4-4be8-878a-009dbd695fd5,Lauren,Bennett,melissa70@example.net,72,very_high,platinum,conservative,Port Scottside,MH,USA,2025-08-13T12:57:03,"fashion,health,travel,entertainment",true,third_party_registration
+8990d8f3-6639-4de0-a0ea-b35e8dfd2bd7,Richard,Perry,hthompson@example.org,49,high,silver,moderate,Donaldview,AS,USA,2025-08-06T12:07:56,"travel,groceries",true,third_party_registration
+cc35c177-bf47-45e9-9f6c-f32197413705,Victoria,Rodriguez,deleonlarry@example.com,75,high,gold,conservative,West Erica,PR,USA,2025-08-08T10:00:58,"health,technology,travel,groceries",true,third_party_registration
+e79c2204-8369-4c70-a22d-71a8a6063a02,Laura,Turner,nataliehancock@example.org,44,medium,silver,moderate,South Justin,ND,USA,2025-08-02T10:32:00,"education,travel",true,third_party_registration
+376a9a5a-f538-4103-927b-c2513767065b,Erica,Aguilar,robertanderson@example.com,45,high,silver,moderate,Jarvisville,SD,USA,2025-08-26T13:50:39,"education,entertainment,technology",true,third_party_registration
+a10a6769-6810-4eda-a123-c04e46fe14cf,Loretta,Guzman,michaelcox@example.com,31,high,silver,conservative,Ericshire,UT,USA,2025-08-25T13:29:30,"education,fashion,health",false,third_party_registration
+b1db65c1-46f8-40d4-af8b-61a4fcc3b5a2,Ryan,Lyons,buckeric@example.org,44,medium,bronze,moderate,Lake Monica,WA,USA,2025-08-26T12:52:35,"entertainment,health,fashion,education",true,third_party_registration
+73156a99-0262-46b3-9b2c-363f6e40f6fd,Sandra,Martin,robertsonjustin@example.net,24,low,bronze,aggressive,Katrinafurt,FL,USA,2025-08-10T11:09:06,"health,travel,technology",true,third_party_registration
+d01fdbb0-1bd2-45f7-9ba0-2bf14961a5d7,Ruth,Perez,nathanielmatthews@example.net,35,medium,bronze,moderate,Port Bryanmouth,IA,USA,2025-08-13T14:50:01,"travel,groceries",true,third_party_registration
+b81c531a-504a-4a60-b966-7965bd5663a2,Courtney,Bradford,jeffrey36@example.com,30,medium,silver,conservative,Nicoleview,NJ,USA,2025-08-02T13:57:15,"fashion,entertainment",true,third_party_registration
+91fae1e6-fb78-4b79-a65d-888b93a82a4f,Gina,Chavez,dylan84@example.org,59,high,silver,moderate,North Julieburgh,MI,USA,2025-08-06T12:42:36,"entertainment,technology,education,travel",true,third_party_registration
+dc30ed08-5b25-4bba-83f0-171a73b8e859,Jenny,Rios,melindapatel@example.net,52,high,gold,conservative,Nicoleview,UT,USA,2025-08-11T12:21:59,"fashion,education,entertainment",true,third_party_registration
+7f61b392-af69-4f70-96d0-77602076aea7,Thomas,Martin,nicolepope@example.com,29,medium,silver,aggressive,Kennethview,PW,USA,2025-08-12T13:08:54,"education,technology",false,third_party_registration
+66998ff4-70fe-430e-ab22-a556f54770b4,Patricia,Wright,cathysmith@example.com,35,medium,silver,conservative,Rodriguezside,AL,USA,2025-08-27T11:26:38,"health,technology",true,third_party_registration
+0d634440-fb97-4c96-8709-e1bd44725c20,Ashley,West,jonesjohn@example.net,45,high,gold,conservative,South Gregborough,MI,USA,2025-08-25T09:27:27,"entertainment,education,travel",true,third_party_registration
+f72ecc5a-aa03-44ba-8bc6-5243f42097a7,Allison,Graves,evan31@example.net,39,high,gold,conservative,Lake Johnchester,WV,USA,2025-08-20T15:16:01,"technology,entertainment",true,third_party_registration

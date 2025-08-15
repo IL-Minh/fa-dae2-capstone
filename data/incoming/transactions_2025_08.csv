@@ -1,0 +1,201 @@
+tx_id,user_id,amount,currency,merchant,category,timestamp
+6418ca97-9fab-47ce-92f5-b4399c5b3dfa,2d300b27-7da2-4d1d-b4aa-6c08f1479f98,773.5,USD,"Diaz, Weeks and Winters",utilities,2025-08-13T22:25:40
+69c67f2e-bc0f-4659-aacc-33b6742029e1,cc35c177-bf47-45e9-9f6c-f32197413705,927.92,USD,Browning-Farmer,entertainment,2025-08-22T20:51:37
+f4e6bcda-71d5-4b76-995b-7b0a743a2cb7,e678d8c3-73de-46fe-be5d-b913a71e76a5,416.78,USD,Brown Group,utilities,2025-08-20T05:14:32
+ec4395fe-9b57-4480-89d0-cd941cebe0ce,a0cf1a08-b6b8-4520-bffb-fa11ee0b2b2c,1218.26,USD,Taylor-Nichols,entertainment,2025-08-03T18:51:31
+74737531-f305-467a-9fdd-b4b3d8732d61,a0cf1a08-b6b8-4520-bffb-fa11ee0b2b2c,1150.94,USD,"Powell, Moran and Farrell",health,2025-08-25T05:55:18
+a9f40135-ec1b-4eaf-a8b3-b523b4a018e4,233a8b81-1ced-4cfd-8cab-dedd86cb56d8,-154.78,USD,Jenkins-Valenzuela,rent,2025-08-16T12:58:51
+13c450fc-ed2f-4e69-8fbe-72d652205ef9,e381d132-c549-47f2-acbe-eaba060618c2,1668.42,USD,"Hudson, Ramsey and Thomas",transport,2025-08-04T01:16:52
+f759f035-8c32-44d8-be03-c2cf0cb03109,0d634440-fb97-4c96-8709-e1bd44725c20,1606.39,USD,Harrison Inc,groceries,2025-08-26T14:00:03
+f1b337a0-3768-4350-8426-3f122144be04,a10a6769-6810-4eda-a123-c04e46fe14cf,177.31,USD,Garcia-Green,transport,2025-08-07T10:23:00
+aace9bb1-bc17-41a6-bda9-410a02acc7a5,5c63c495-a740-4805-b442-2488a4c0fc33,84.65,USD,"Kidd, George and Mendoza",groceries,2025-08-18T07:04:18
+db1a6cec-5dea-4d0b-a137-0606050d896e,84f2c76e-fa5e-44c6-bfdb-8c210df71363,31.19,USD,"Serrano, Rosario and White",transport,2025-08-27T03:05:15
+0a87a7e3-8291-4059-9dbf-77a1aaa4e54e,a10a6769-6810-4eda-a123-c04e46fe14cf,86.44,USD,Yu Ltd,rent,2025-08-04T03:02:30
+01e0e91d-3e21-44b9-a27f-50d90b469649,6af9782e-ed76-4028-b140-aadcf90a7c83,473.18,USD,Davis-Pearson,health,2025-08-26T07:33:02
+a4030821-c05f-4bb7-b15b-d66265f29476,ab0a0027-73e1-461b-b9b3-31a765fe121d,1999.75,USD,Baker LLC,health,2025-08-14T16:55:49
+ac721cb4-135a-42c2-9563-6de1dbf9a774,39d7bdb3-e80a-46db-870a-d46f41665a0f,278.2,USD,Snyder Group,salary,2025-08-26T20:02:04
+c83e89e7-7fec-4a14-a97c-3b5ab41a1a58,8990d8f3-6639-4de0-a0ea-b35e8dfd2bd7,-38.73,USD,Alexander Ltd,salary,2025-08-22T04:38:07
+afba86b3-bdad-49db-bc7f-83e841b57f28,50e54a38-794b-412f-a459-7de29ce1bb36,408.11,USD,"Rivera, Hanna and Obrien",groceries,2025-08-05T19:00:10
+b474dac9-186f-466c-9819-ab91e6ac1861,787ff9da-1903-469a-a06e-3f528b11ae11,1322.75,USD,Gill-Nelson,transport,2025-08-26T18:50:28
+37fb699d-d798-494e-be0b-3d065f06f921,2d300b27-7da2-4d1d-b4aa-6c08f1479f98,507.77,USD,"Henry, Jones and Nunez",utilities,2025-08-13T16:30:20
+846b4ceb-f0c9-450b-8d5e-440fe0552ee0,39d7bdb3-e80a-46db-870a-d46f41665a0f,1920.48,USD,"Lamb, Vazquez and Smith",transport,2025-08-26T04:59:34
+ba64a520-613f-4e2f-b3c3-3fca70994ab3,ab0a0027-73e1-461b-b9b3-31a765fe121d,283.11,USD,"Martin, Vance and Cohen",health,2025-08-03T21:41:25
+92593472-114a-4889-8631-bb1e88f25e3a,6af9782e-ed76-4028-b140-aadcf90a7c83,522.39,USD,"Johnson, Young and Brown",transport,2025-08-21T15:00:01
+e46b520a-d449-4d14-9069-549aa36e2598,e08dbd3a-9216-4be0-8d52-6bed03716d10,545.98,USD,"Johnson, Flores and Porter",groceries,2025-08-16T19:20:38
+12477420-7ae7-4716-93cb-faeadce81dae,35a3f489-e8a0-46fd-ba75-0aa44a6b420e,226.47,USD,Smith-Taylor,transport,2025-08-13T12:39:05
+ebef9187-bc0c-4098-87ed-42a80d1d7868,e08dbd3a-9216-4be0-8d52-6bed03716d10,19.14,USD,Lee-Black,utilities,2025-08-25T13:39:13
+64644edb-5662-4e2a-86d5-aefea7e3356e,b81c531a-504a-4a60-b966-7965bd5663a2,1354.86,USD,"Clarke, Cuevas and Herrera",salary,2025-08-03T04:00:34
+7e281ac4-55ec-4404-b506-c1664d24abd8,59a59ff1-435d-43ee-87d8-868e96b5cb24,341.94,USD,Bryant-Barker,utilities,2025-08-09T13:10:56
+fd7e1621-35d6-468e-a2c1-ad10960417f7,5c63c495-a740-4805-b442-2488a4c0fc33,367.15,USD,Howell-Howard,salary,2025-08-08T17:00:41
+3cef1f03-2820-457c-9dd7-16d895511ebb,a0cf1a08-b6b8-4520-bffb-fa11ee0b2b2c,1824.12,USD,"Stone, Simmons and Barry",utilities,2025-08-09T17:57:33
+b5aa562c-a2da-4f02-a152-59900a080e75,cb40f9cc-88b7-410a-b722-cb802399956f,1995.33,USD,Kelley Group,transport,2025-08-02T10:36:01
+0ed3e06d-3962-457d-b141-37d03c55b486,c80286a0-f5c5-4b00-a639-73caae1e53e9,1707.94,USD,Flores and Sons,transport,2025-08-11T22:15:18
+ca99ce11-0af2-49e5-9471-d367419f56a7,73156a99-0262-46b3-9b2c-363f6e40f6fd,1012.94,USD,"Gonzalez, Banks and Ford",rent,2025-08-14T15:31:15
+913b4f83-a9d8-42cc-bda6-2079041cea17,9fe349eb-0244-46a1-ab5e-c10b049a819a,1723.73,USD,Bryan-Burns,health,2025-08-28T20:50:24
+fec2378b-5d3a-4e40-b26b-5e357797b86e,ab0a0027-73e1-461b-b9b3-31a765fe121d,-33.74,USD,"Ross, Hamilton and Benson",transport,2025-08-12T18:38:50
+63b9eca9-c569-4dad-bef7-ecbf19d6d4a2,0f1e58d9-7e55-475f-9e60-e140081aad9c,343.19,USD,Williams-Welch,utilities,2025-08-04T14:15:49
+16ea6e07-2607-4f64-8d6e-3c49bbefbd5d,84f2c76e-fa5e-44c6-bfdb-8c210df71363,-126.97,USD,Glover and Sons,rent,2025-08-06T01:43:39
+6816bb5c-66c8-4f3a-8c29-84c9663f7d34,376a9a5a-f538-4103-927b-c2513767065b,-178.93,USD,Howard-Cross,transport,2025-08-21T08:08:46
+4b10b830-f939-4787-a543-f20b44047071,35a3f489-e8a0-46fd-ba75-0aa44a6b420e,1464.82,USD,"Martinez, Edwards and Patel",transport,2025-08-10T09:56:40
+4bf219af-e63e-4c07-b23a-49e71fe1a292,e678d8c3-73de-46fe-be5d-b913a71e76a5,1471.9,USD,Peterson LLC,salary,2025-08-06T13:38:26
+721a4ce1-86d9-4377-a2cb-23f2029bd7cc,6af9782e-ed76-4028-b140-aadcf90a7c83,-140.97,USD,Watson Group,rent,2025-08-02T05:21:43
+1c9138dc-2b4c-410e-9c53-cdbfa817271b,376a9a5a-f538-4103-927b-c2513767065b,233.39,USD,Walker-Allen,groceries,2025-08-15T01:16:29
+50f333d1-b4dd-4378-8c27-ae46f4a5a84a,ab0a0027-73e1-461b-b9b3-31a765fe121d,337.04,USD,White Ltd,salary,2025-08-13T08:33:02
+34a33ff2-7fa1-4529-8cba-2d0a5efddeb5,233a8b81-1ced-4cfd-8cab-dedd86cb56d8,222.74,USD,Williams-Morris,transport,2025-08-19T08:29:13
+74fb4f38-b82e-43cf-a5e3-a47d66e22993,dc30ed08-5b25-4bba-83f0-171a73b8e859,1083.78,USD,Robinson and Sons,rent,2025-08-26T08:22:57
+85343787-57e3-4a2c-bd4c-4089f260cfad,fe74d1db-1bc1-430f-b74e-d2aec54385d8,1649.05,USD,Jenkins Group,salary,2025-08-03T09:13:13
+5624cb83-9218-43cb-a7a7-327d4299dd79,d01fdbb0-1bd2-45f7-9ba0-2bf14961a5d7,1860.17,USD,"Mckinney, Sims and Baker",salary,2025-08-17T19:16:36
+d5153179-15bd-414c-be03-e1cad72ebb8d,a10a6769-6810-4eda-a123-c04e46fe14cf,-36.11,USD,Mooney-Dunlap,salary,2025-08-17T04:34:40
+65694035-793e-4798-a60a-7c16951f1646,0d634440-fb97-4c96-8709-e1bd44725c20,184.57,USD,Collier PLC,utilities,2025-08-18T22:51:53
+240c48fc-ade0-415f-8f07-deeb2a140301,5c63c495-a740-4805-b442-2488a4c0fc33,1763.33,USD,Bennett Group,salary,2025-08-15T07:38:55
+1b164761-420c-4c1a-967f-35a5b6e327e5,f72ecc5a-aa03-44ba-8bc6-5243f42097a7,1415.15,USD,"Robinson, Powell and Carr",salary,2025-08-13T03:34:55
+1cdb229e-65d1-4e04-a3ee-410fe8f9bc4d,cc35c177-bf47-45e9-9f6c-f32197413705,540.86,USD,"Diaz, Brown and Crawford",groceries,2025-08-12T11:28:18
+55c19acb-2b11-488b-a5b7-9d0763d51f18,59a59ff1-435d-43ee-87d8-868e96b5cb24,1238.9,USD,Long-Chavez,health,2025-08-09T20:47:38
+a11f5b14-a010-48c9-a7da-345ce928cc1c,9fe349eb-0244-46a1-ab5e-c10b049a819a,1738.4,USD,"Rivera, Nguyen and Harmon",transport,2025-08-07T02:10:44
+21a2f53e-dd8f-40e3-857a-eed73a7d7b32,d01fdbb0-1bd2-45f7-9ba0-2bf14961a5d7,219.94,USD,"Miller, Jones and Williams",entertainment,2025-08-18T13:32:26
+90283ed7-739c-4dcf-a44b-0a3c08a234b8,233a8b81-1ced-4cfd-8cab-dedd86cb56d8,812.45,USD,Anderson PLC,utilities,2025-08-02T05:40:38
+c1ee6bba-4877-4bcf-8c83-7c096efbe334,7f3df65e-6e30-4fd2-858b-b6e3da299f93,730.87,USD,Gordon Group,salary,2025-08-12T08:31:19
+dbf91de4-114a-42bc-b909-752ed948b69e,d5ed275f-ff69-451f-8356-4a968c89f5c7,1206.99,USD,Rivera and Sons,groceries,2025-08-20T05:31:22
+c377913d-ec72-4b02-94f2-bb7032bbe1b5,ae392da2-3512-491c-a4a0-0a9744f2447d,760.27,USD,Rocha Group,salary,2025-08-09T20:45:51
+dcc20cc8-58cf-459e-9b96-e2b15e52f9d5,a0cf1a08-b6b8-4520-bffb-fa11ee0b2b2c,1188.5,USD,Smith-Jones,salary,2025-08-24T04:16:30
+a83f88f6-8aa6-4c9a-97b2-a7e170b9fb62,2d300b27-7da2-4d1d-b4aa-6c08f1479f98,1820.34,USD,Mclaughlin-Stewart,health,2025-08-23T04:31:09
+1b016a32-6669-4722-87ee-632cceab4891,d5ed275f-ff69-451f-8356-4a968c89f5c7,436.62,USD,Morris-Goodman,rent,2025-08-12T20:10:56
+50c6e27b-e535-4a74-9012-ada96c68bf3a,ae392da2-3512-491c-a4a0-0a9744f2447d,846.76,USD,"Burnett, Christian and Hernandez",salary,2025-08-09T18:54:20
+34e57132-5e58-4b6e-8ef2-6d993ab5d55a,8990d8f3-6639-4de0-a0ea-b35e8dfd2bd7,1701.17,USD,Nelson Group,entertainment,2025-08-18T19:01:26
+772ca87e-86e1-4c67-b0f8-2187c6c56b1b,376a9a5a-f538-4103-927b-c2513767065b,-67.75,USD,Robinson and Sons,health,2025-08-10T07:57:50
+7c21f3e9-5c2e-4ddc-8b4a-bfc699fcbf35,80be3feb-dbe3-4dd9-8d75-c6557be7a04b,1569.17,USD,Monroe-Shelton,entertainment,2025-08-22T13:44:24
+d1d2f1a1-6704-4fb2-953a-c03f031fbc11,0d634440-fb97-4c96-8709-e1bd44725c20,1548.4,USD,"Anderson, Solis and Hartman",utilities,2025-08-19T14:32:50
+7cb87e47-5d7e-439b-8c3c-b13379e12d51,73156a99-0262-46b3-9b2c-363f6e40f6fd,1259.97,USD,Gonzalez PLC,transport,2025-08-07T12:30:58
+5a51c016-4aca-4259-9bc3-064c39595ec8,e678d8c3-73de-46fe-be5d-b913a71e76a5,1325.02,USD,Williams-Bennett,health,2025-08-20T01:50:39
+4a0b4cac-e945-4680-8119-ebeb9793e702,787ff9da-1903-469a-a06e-3f528b11ae11,1332.47,USD,Day-Li,utilities,2025-08-24T02:24:10
+d042b9c4-15ab-44ef-9c91-0137214daa56,50e54a38-794b-412f-a459-7de29ce1bb36,1920.97,USD,Jensen-Watson,health,2025-08-15T12:32:50
+9923cf32-0e4d-40fc-86e4-4e56514dd7eb,39d7bdb3-e80a-46db-870a-d46f41665a0f,1250.12,USD,Young-Thomas,utilities,2025-08-20T09:44:01
+8adbf825-848e-4623-91d3-1579409fd0dd,cb40f9cc-88b7-410a-b722-cb802399956f,663.72,USD,Blair Group,salary,2025-08-13T10:41:08
+7ce7b760-8d3f-4b76-a0ef-4134ddb01644,b8af8b11-289a-4ed9-8f6f-d00b112754c9,1794.22,USD,Carter-Acosta,groceries,2025-08-12T23:15:31
+ac2580ec-8ae3-43c7-b607-7a4817fecff9,c80286a0-f5c5-4b00-a639-73caae1e53e9,592.36,USD,Foster Group,utilities,2025-08-04T08:37:16
+dcaec432-cbcb-44fd-9951-f951df66ff27,2d6001ff-96a2-4274-853c-6e674e2793d4,1092.55,USD,King-Green,transport,2025-08-22T16:46:57
+a168fb4f-6a8f-4396-b1e5-04b0fcea07cb,7f3df65e-6e30-4fd2-858b-b6e3da299f93,1705.09,USD,Saunders Inc,transport,2025-08-28T12:50:35
+612f26ca-3d4a-4fe0-a157-584fd84e02ad,91fae1e6-fb78-4b79-a65d-888b93a82a4f,484.53,USD,Gonzalez-Carter,entertainment,2025-08-14T14:40:46
+8d2f2b66-4bdd-41c9-b097-7dd04398de19,39d7bdb3-e80a-46db-870a-d46f41665a0f,1142.29,USD,Carr and Sons,utilities,2025-08-21T08:24:15
+d01d29ad-ff20-480a-b42e-16bfa42db85e,2d300b27-7da2-4d1d-b4aa-6c08f1479f98,937.22,USD,"Sharp, Lewis and Jackson",rent,2025-08-09T04:48:21
+e87f8c39-f7eb-4b18-9826-fc4169feeaa5,000e63dd-2d67-45a8-b70c-1ed2d4e55b0d,594.17,USD,Steele PLC,groceries,2025-08-03T04:10:12
+62d826cd-ee2a-48a8-9a6d-7547308de285,dc30ed08-5b25-4bba-83f0-171a73b8e859,362.77,USD,Robertson-Hatfield,health,2025-08-02T19:21:40
+b52edd45-490a-4a75-93fb-09b7d79c8359,66998ff4-70fe-430e-ab22-a556f54770b4,1114.23,USD,"Wright, Dunlap and Boyer",salary,2025-08-18T06:40:30
+b591ae17-1551-44e9-a714-7c690becd45d,cc35c177-bf47-45e9-9f6c-f32197413705,311.55,USD,"Cain, Gates and Williams",transport,2025-08-28T02:00:58
+733fbc91-9b92-4726-8d4b-ea26c15de088,50e54a38-794b-412f-a459-7de29ce1bb36,1859.74,USD,Kennedy-Hull,salary,2025-08-13T10:02:22
+68156f31-61d7-44af-9a61-e71a8d83988d,0d634440-fb97-4c96-8709-e1bd44725c20,1914.0,USD,"Anthony, Vargas and Johnson",groceries,2025-08-21T17:11:28
+650cbde8-01a3-481a-845c-68c45a6f10c9,f72ecc5a-aa03-44ba-8bc6-5243f42097a7,-124.56,USD,Heath PLC,salary,2025-08-17T00:04:54
+4ac313bd-657e-46eb-b32b-05a51cecb47b,9fe349eb-0244-46a1-ab5e-c10b049a819a,180.81,USD,Mcdonald-Roach,health,2025-08-11T19:25:41
+f1a54244-920d-44b9-b2aa-45a531bb829f,f72ecc5a-aa03-44ba-8bc6-5243f42097a7,-128.59,USD,Nguyen Group,rent,2025-08-10T19:27:48
+2f9eaf20-1626-420c-88d1-fcc5f9095cc1,233a8b81-1ced-4cfd-8cab-dedd86cb56d8,887.41,USD,Henderson Group,health,2025-08-23T05:20:31
+e97caf56-f9c9-43c0-9a39-256b189fb43d,8990d8f3-6639-4de0-a0ea-b35e8dfd2bd7,362.09,USD,Taylor PLC,utilities,2025-08-10T14:30:26
+49709523-f701-460d-9748-f062c2e8f5c3,59a59ff1-435d-43ee-87d8-868e96b5cb24,1734.56,USD,"Rivera, Watson and Conner",rent,2025-08-12T22:34:15
+6f5e254b-e5b5-4f3d-97cd-cdd40b9f25a9,91fae1e6-fb78-4b79-a65d-888b93a82a4f,1568.42,USD,Hansen-Turner,transport,2025-08-08T17:41:08
+a03ee79b-0d4d-4d42-889e-02fae91e1d54,7f3df65e-6e30-4fd2-858b-b6e3da299f93,956.33,USD,"West, Gonzalez and Scott",utilities,2025-08-25T23:01:48
+cb534f98-83b7-463c-80d7-79beba34620e,5c63c495-a740-4805-b442-2488a4c0fc33,1957.15,USD,"King, Johnson and Larson",groceries,2025-08-10T23:47:11
+b6e273b1-fed9-4870-9850-8208257c059e,6af9782e-ed76-4028-b140-aadcf90a7c83,843.64,USD,Bright and Sons,utilities,2025-08-12T15:06:02
+5ccfa923-4936-43cc-b253-6b4926355b6b,ae392da2-3512-491c-a4a0-0a9744f2447d,-59.59,USD,"Lee, Ford and Mcdonald",health,2025-08-05T12:23:50
+6c8a5406-be24-406a-ad8f-38700fd9b404,0f1e58d9-7e55-475f-9e60-e140081aad9c,305.16,USD,"Jacobs, Chavez and Brown",groceries,2025-08-01T07:18:39
+ab05c409-1681-419a-a202-84c8b6a094a1,9fe349eb-0244-46a1-ab5e-c10b049a819a,1164.78,USD,Ramirez Inc,rent,2025-08-16T01:53:18
+f220f654-45f3-48ab-b2a8-eaec08a0140f,9fe349eb-0244-46a1-ab5e-c10b049a819a,1001.81,USD,Carter-Gray,transport,2025-08-07T05:27:39
+cb25c9d0-ce83-4808-884a-8afe8a202247,ffa87ad5-7fc6-4573-a672-d1e3856e750c,236.45,USD,Chambers-Johnson,transport,2025-08-23T00:14:10
+7a7914ea-9e4f-49c1-aff8-4bc3e7a734b5,5b1c01a7-763b-4dbb-83c7-ee465c58ccd8,1041.52,USD,Malone-Wilson,groceries,2025-08-06T14:08:55
+6926a6b7-fbed-431b-a050-6c7828aa5514,35a3f489-e8a0-46fd-ba75-0aa44a6b420e,1959.19,USD,Moreno-Myers,transport,2025-08-13T05:24:21
+b66615b4-161f-47a9-8af0-eadb70cc8fba,91fae1e6-fb78-4b79-a65d-888b93a82a4f,1545.98,USD,Gentry Ltd,rent,2025-08-11T08:35:36
+51d68a2b-6683-4887-9275-cc01b147858c,50e54a38-794b-412f-a459-7de29ce1bb36,1360.93,USD,"Smith, Skinner and Rivera",salary,2025-08-28T06:13:27
+a1667d25-1fd4-4f98-a95d-5fc26949a545,b1db65c1-46f8-40d4-af8b-61a4fcc3b5a2,578.51,USD,Williams LLC,rent,2025-08-05T03:51:26
+b03d4e90-508b-48f7-b991-43b0834cc195,35a3f489-e8a0-46fd-ba75-0aa44a6b420e,1137.01,USD,Mendoza-Clarke,health,2025-08-08T13:57:44
+da0a2cad-4d51-478e-8431-1623ee5fdd5a,8990d8f3-6639-4de0-a0ea-b35e8dfd2bd7,171.49,USD,Jackson and Sons,salary,2025-08-20T01:41:31
+e9b49164-a722-42f0-9c6c-05ee287f55f4,e678d8c3-73de-46fe-be5d-b913a71e76a5,1105.38,USD,"Carter, Lopez and Davis",health,2025-08-20T17:17:23
+2284645b-7c12-47fa-9c9f-66a918b59a35,233a8b81-1ced-4cfd-8cab-dedd86cb56d8,1567.24,USD,Russo-Johnson,salary,2025-08-14T13:30:15
+811f0649-35dc-4ed4-9a5e-6a785fe906bb,e79c2204-8369-4c70-a22d-71a8a6063a02,14.79,USD,Whitney-Bowman,health,2025-08-12T06:41:28
+cd937df3-40d7-4c28-b54e-ed6dd36b63d5,31439f99-038c-49e7-8b7c-3eb731a3b395,1259.42,USD,"King, Peters and Hernandez",groceries,2025-08-10T19:38:25
+44be53c7-93fc-4a94-8d49-73f7bb11abc2,b8af8b11-289a-4ed9-8f6f-d00b112754c9,149.96,USD,"Gutierrez, Smith and Hamilton",rent,2025-08-06T21:27:29
+ca0a2b7c-2766-4da0-83b6-2bbfd00d11d8,67013fee-9adb-495c-9eb8-a9dc716e70e2,1972.92,USD,Burke LLC,groceries,2025-08-10T01:50:23
+f1de325f-ffaf-435c-9731-74dc35a88046,b8af8b11-289a-4ed9-8f6f-d00b112754c9,946.29,USD,"Gomez, Gregory and Evans",rent,2025-08-12T09:21:57
+8ad67024-f026-4fb7-927d-7cb630a5965a,376a9a5a-f538-4103-927b-c2513767065b,352.56,USD,"Benjamin, Anthony and Ball",salary,2025-08-22T09:07:46
+e39883bd-7388-4c4a-adb0-82590b21dbd6,dc30ed08-5b25-4bba-83f0-171a73b8e859,1717.77,USD,Davis LLC,health,2025-08-23T10:48:27
+06ead3dc-ef74-491b-a013-6db31e303ba3,5c63c495-a740-4805-b442-2488a4c0fc33,1352.74,USD,"Johnson, Robinson and Beard",rent,2025-08-14T13:40:07
+9402beb1-451c-4235-9690-6b3185296abc,35a3f489-e8a0-46fd-ba75-0aa44a6b420e,359.04,USD,Martinez Group,entertainment,2025-08-08T21:38:46
+3d0bc84f-bb5c-4063-93c9-dd551da3fc6e,59a59ff1-435d-43ee-87d8-868e96b5cb24,440.85,USD,Williams-Wood,transport,2025-08-27T10:27:55
+7593d87e-5556-489e-b8d2-379524ad00e7,fe74d1db-1bc1-430f-b74e-d2aec54385d8,6.98,USD,"Morales, Mcdonald and Carpenter",entertainment,2025-08-26T00:11:28
+4719c1dc-4630-4471-8c7e-f84475326c4e,a10a6769-6810-4eda-a123-c04e46fe14cf,461.02,USD,"Williams, Cordova and Chen",transport,2025-08-19T00:23:47
+d415696c-4359-42c8-9e96-8037121e35b5,73156a99-0262-46b3-9b2c-363f6e40f6fd,1748.41,USD,Parker-Rojas,rent,2025-08-13T14:27:04
+613cd82f-830e-4ad2-9ff9-650bf17ac558,73156a99-0262-46b3-9b2c-363f6e40f6fd,1631.13,USD,Gray-Knapp,groceries,2025-08-06T01:17:20
+567d992a-4065-4e11-8cfa-683d2dd54903,7f3df65e-6e30-4fd2-858b-b6e3da299f93,1869.6,USD,"David, Howard and Lopez",salary,2025-08-27T11:56:15
+6d3cde98-bab0-48ca-9857-4f90fccc3751,9fe349eb-0244-46a1-ab5e-c10b049a819a,1717.83,USD,Martinez Ltd,utilities,2025-08-24T15:35:35
+4d24b9e2-45d0-46dd-a922-708e7347be5f,5823ed3c-0820-4f4d-a589-03ef0add963d,1016.34,USD,Costa-Miller,groceries,2025-08-28T05:42:03
+abda827b-6bf4-42e5-8803-fc11b2a73d15,39d7bdb3-e80a-46db-870a-d46f41665a0f,594.59,USD,Byrd Ltd,salary,2025-08-28T01:15:25
+0f751a4c-5524-447a-9b78-6ffa3c76470d,7f61b392-af69-4f70-96d0-77602076aea7,1526.54,USD,Thomas and Sons,utilities,2025-08-22T20:35:09
+8ae00727-0a6f-4510-9fd9-85ba2925c5b9,376a9a5a-f538-4103-927b-c2513767065b,1731.64,USD,Jones LLC,transport,2025-08-08T07:37:23
+f620597d-ef12-4f40-8100-b9bc8d39cd7a,000e63dd-2d67-45a8-b70c-1ed2d4e55b0d,1691.97,USD,"Gregory, Wagner and Bonilla",salary,2025-08-05T01:30:18
+8be7e48f-9749-4ee1-a437-438cfe6484b1,5c63c495-a740-4805-b442-2488a4c0fc33,1041.93,USD,Baldwin-Evans,groceries,2025-08-05T14:46:50
+1b0f187c-64ba-42a7-9416-ef40e8e06713,80be3feb-dbe3-4dd9-8d75-c6557be7a04b,958.96,USD,"Chapman, Cochran and Torres",health,2025-08-02T16:36:00
+aa429b3c-c8ac-4102-9d45-d38ac06c9b59,2d6001ff-96a2-4274-853c-6e674e2793d4,1939.56,USD,"Smith, Jordan and Brooks",groceries,2025-08-10T14:58:27
+a82cc015-78e8-4576-ad1f-a207f94088db,b81c531a-504a-4a60-b966-7965bd5663a2,1559.89,USD,Rodriguez-Barker,groceries,2025-08-18T10:28:41
+07fe1620-ff66-4b07-9c08-88b3f3f9a780,d01fdbb0-1bd2-45f7-9ba0-2bf14961a5d7,1698.24,USD,"Rodgers, Moody and Sweeney",groceries,2025-08-18T02:50:55
+87d82bf5-9dd4-4932-8ab9-f5b9ac152927,787ff9da-1903-469a-a06e-3f528b11ae11,366.7,USD,Mata-Williams,groceries,2025-08-13T03:50:40
+1be0365a-a4d6-4506-8b10-76c6e5b41763,50e54a38-794b-412f-a459-7de29ce1bb36,1836.32,USD,Shannon-Sanchez,rent,2025-08-03T01:11:40
+d60278ac-a7dd-40f2-97ca-7424e00273c3,50e54a38-794b-412f-a459-7de29ce1bb36,-141.0,USD,Robinson-Nelson,rent,2025-08-06T18:12:36
+8e248637-ef1e-4d89-943d-76e3474a9d56,5823ed3c-0820-4f4d-a589-03ef0add963d,1739.66,USD,Bauer Group,entertainment,2025-08-18T14:36:46
+0ca01ed7-171c-4a1b-ba70-b3acb8df53ec,d01fdbb0-1bd2-45f7-9ba0-2bf14961a5d7,64.02,USD,Woods-Bradley,transport,2025-08-03T20:07:10
+de6872bd-e3c7-404c-8589-024ee13b2121,b3bd38e1-543c-45c1-b008-c2c4ca1f5e15,1796.58,USD,Bruce-Butler,utilities,2025-08-15T03:30:45
+800644fd-d662-4341-b1f2-a93676d1d757,b1db65c1-46f8-40d4-af8b-61a4fcc3b5a2,53.82,USD,"Johnson, Nelson and Barnes",groceries,2025-08-02T16:51:05
+68881bd6-0553-424c-8ada-9d34f624d7ab,b1db65c1-46f8-40d4-af8b-61a4fcc3b5a2,1345.61,USD,Aguirre Group,salary,2025-08-20T04:03:31
+f45901bf-017f-49c2-b37a-78f86b8eca15,cb40f9cc-88b7-410a-b722-cb802399956f,-190.59,USD,Smith-Gonzalez,utilities,2025-08-17T15:24:23
+524eff36-a05d-4248-872f-2d754a654618,d5ed275f-ff69-451f-8356-4a968c89f5c7,1452.27,USD,Alvarado Ltd,groceries,2025-08-02T13:13:07
+1ba1955f-1efc-4ad1-9a8c-4f5b4231a4fc,ffa87ad5-7fc6-4573-a672-d1e3856e750c,1433.93,USD,Williams PLC,entertainment,2025-08-28T00:47:37
+047c0b9f-f4b8-4a74-8052-f6e42f41e5c5,d01fdbb0-1bd2-45f7-9ba0-2bf14961a5d7,1544.18,USD,Garcia and Sons,transport,2025-08-25T22:38:04
+8f53156f-3724-4e02-a2e2-cc4d3eeb2329,2d6001ff-96a2-4274-853c-6e674e2793d4,233.08,USD,Olson Inc,salary,2025-08-05T02:29:45
+f29e986e-2f33-470e-a0a8-ce1d88db36bf,b3bd38e1-543c-45c1-b008-c2c4ca1f5e15,1708.3,USD,"Blackwell, Potter and Lee",transport,2025-08-22T01:41:29
+3ea9d299-ce97-42a5-b9d8-101e07512aea,b8af8b11-289a-4ed9-8f6f-d00b112754c9,1164.37,USD,Horton Group,groceries,2025-08-08T05:55:21
+f7ec9387-e502-4dcb-8e0c-44eed466019b,59a59ff1-435d-43ee-87d8-868e96b5cb24,1416.2,USD,"King, Frazier and Stewart",salary,2025-08-07T13:20:29
+f2a0c491-f780-4577-b12a-e9fa6d53357a,cb40f9cc-88b7-410a-b722-cb802399956f,208.21,USD,Ochoa and Sons,salary,2025-08-13T23:33:12
+a53d8665-7de2-4290-814f-34384dbfd79f,39d7bdb3-e80a-46db-870a-d46f41665a0f,313.43,USD,Douglas Group,utilities,2025-08-12T23:31:51
+ef2223ad-6e78-47c1-ada3-00dde5e5f169,73156a99-0262-46b3-9b2c-363f6e40f6fd,4.97,USD,Young-Poole,salary,2025-08-01T15:31:56
+e0b699a4-6a8c-4b78-becd-254daff8034b,7f3df65e-6e30-4fd2-858b-b6e3da299f93,693.95,USD,Lee-Raymond,transport,2025-08-03T21:59:19
+b4427490-2bec-461c-aa27-85aaf1e07a0b,376a9a5a-f538-4103-927b-c2513767065b,912.26,USD,White-Small,utilities,2025-08-04T09:22:42
+8fe6a81c-7162-4e50-8342-4248a27853af,35a3f489-e8a0-46fd-ba75-0aa44a6b420e,945.98,USD,Clark-Gutierrez,groceries,2025-08-11T09:25:53
+7ad407a8-4cd3-4527-a8a9-5e941b8b2b2c,d5ed275f-ff69-451f-8356-4a968c89f5c7,1716.05,USD,Martinez LLC,rent,2025-08-18T14:32:10
+578e2e3f-45de-4fdf-99e4-12d76a226acd,b1db65c1-46f8-40d4-af8b-61a4fcc3b5a2,1176.11,USD,Anderson-Frey,groceries,2025-08-22T19:44:47
+61068af5-db1c-4811-84db-77f00d510b68,7f3df65e-6e30-4fd2-858b-b6e3da299f93,1862.03,USD,"Haynes, Lucas and Hicks",utilities,2025-08-12T13:07:39
+537b3946-cfde-46d5-afab-45d89422c27f,6af9782e-ed76-4028-b140-aadcf90a7c83,-75.17,USD,Johns PLC,entertainment,2025-08-20T08:04:58
+1c9a13c9-b309-485c-86bf-72294b82dec2,2d300b27-7da2-4d1d-b4aa-6c08f1479f98,926.81,USD,Smith LLC,utilities,2025-08-05T16:32:05
+3bf5b1b9-32cd-4ca7-9321-ddf3f0823da1,ab0a0027-73e1-461b-b9b3-31a765fe121d,632.93,USD,Smith-Peterson,transport,2025-08-05T17:56:31
+371ace6c-c595-4d62-b0c2-729b8e766a6a,b81c531a-504a-4a60-b966-7965bd5663a2,878.88,USD,"Carson, Wilcox and Taylor",health,2025-08-04T05:14:05
+9982c73a-a87c-4ac0-b49d-051d8b7c953f,9fe349eb-0244-46a1-ab5e-c10b049a819a,1048.59,USD,Gutierrez Group,health,2025-08-23T06:56:43
+f8c2f97d-516e-44b8-a7b7-182e6cafe6b4,5b1c01a7-763b-4dbb-83c7-ee465c58ccd8,1199.82,USD,Tate-Bowman,salary,2025-08-24T06:40:05
+02e9092c-a2ba-409d-918a-c38788f4c808,000e63dd-2d67-45a8-b70c-1ed2d4e55b0d,359.7,USD,Sosa-Saunders,entertainment,2025-08-27T19:56:54
+308d7929-51cd-4f62-811d-53ec274e8d5c,35a3f489-e8a0-46fd-ba75-0aa44a6b420e,185.04,USD,"Chavez, Murray and Simmons",entertainment,2025-08-17T00:42:57
+6479b136-c625-4ea3-af28-f7f692c0f3e4,fe74d1db-1bc1-430f-b74e-d2aec54385d8,1946.45,USD,"Marshall, Williams and Strickland",transport,2025-08-16T17:51:55
+b7d2c7e9-9ead-4073-98cb-090185deb2ae,ae392da2-3512-491c-a4a0-0a9744f2447d,-28.57,USD,"Barry, Pacheco and Miller",health,2025-08-14T16:28:38
+697701c6-4876-41f0-9502-f8681d245298,80be3feb-dbe3-4dd9-8d75-c6557be7a04b,1797.95,USD,Alexander-Evans,rent,2025-08-12T01:02:56
+68fceb1b-d9f8-407b-9cf7-39496e71ba05,66998ff4-70fe-430e-ab22-a556f54770b4,1596.88,USD,Atkins and Sons,rent,2025-08-27T09:16:11
+8a2f22ac-1cca-4103-8372-73e690317df9,a548f44f-836e-4b68-b2c2-33a29b7ebfdb,1454.99,USD,Smith-Sanders,transport,2025-08-01T22:18:34
+178cdbee-5555-4321-b507-9a34eff72a05,5c63c495-a740-4805-b442-2488a4c0fc33,968.26,USD,Murray-Osborn,salary,2025-08-17T11:42:59
+8239ac2a-17f9-4b89-88bd-4cc5be3d7df2,cc35c177-bf47-45e9-9f6c-f32197413705,1478.16,USD,"Rivera, Herman and Williams",health,2025-08-27T03:31:42
+d1dd36aa-03c0-48d1-ade8-cfa384fa5451,ffa87ad5-7fc6-4573-a672-d1e3856e750c,504.06,USD,"Walker, Williams and Frank",groceries,2025-08-11T02:45:36
+32659d1c-32a6-4044-aa10-bc0421e99ba0,ae392da2-3512-491c-a4a0-0a9744f2447d,1802.21,USD,Young Ltd,entertainment,2025-08-04T11:11:30
+f6806d6c-f29a-4cd6-bbc0-2054635bc317,ae392da2-3512-491c-a4a0-0a9744f2447d,1262.12,USD,Ortega PLC,entertainment,2025-08-10T17:32:09
+4079b9a5-47d8-407e-b1ba-eec3904431a2,b8af8b11-289a-4ed9-8f6f-d00b112754c9,-69.05,USD,Gardner-Rogers,health,2025-08-14T11:25:10
+7a5add22-9a94-4f8b-b677-a9de074cb11a,67013fee-9adb-495c-9eb8-a9dc716e70e2,539.02,USD,King-Smith,transport,2025-08-09T23:27:04
+879185b8-cda8-48aa-8f7a-66f9aee6620f,0f1e58d9-7e55-475f-9e60-e140081aad9c,-134.15,USD,Miller-Cobb,utilities,2025-08-16T07:30:13
+f39854fe-4c4f-471c-ad3a-afda50803424,39d7bdb3-e80a-46db-870a-d46f41665a0f,610.5,USD,Morales-Sutton,utilities,2025-08-15T09:15:05
+e53ee5cb-f3f0-4ea0-a495-69078ac4b09f,2d6001ff-96a2-4274-853c-6e674e2793d4,306.13,USD,Green-Weiss,salary,2025-08-11T20:36:31
+00212854-9de7-4f2d-8fb2-e68d175e27f6,f72ecc5a-aa03-44ba-8bc6-5243f42097a7,76.57,USD,"Smith, Myers and Rodriguez",salary,2025-08-14T19:47:26
+2aaa56ce-e163-4a9a-b329-be3c462ea5a1,84f2c76e-fa5e-44c6-bfdb-8c210df71363,1044.76,USD,Stewart PLC,entertainment,2025-08-16T20:04:38
+2ac43af6-6d67-4dc8-9ef3-96e7629cff56,b81c531a-504a-4a60-b966-7965bd5663a2,1730.81,USD,Smith-Nguyen,health,2025-08-04T19:24:03
+975f3d68-c8f6-458a-8243-e5bc24142248,cb40f9cc-88b7-410a-b722-cb802399956f,1501.62,USD,Pearson PLC,rent,2025-08-28T03:22:52
+316fe771-f697-4025-ab81-60cf0a13f815,35a3f489-e8a0-46fd-ba75-0aa44a6b420e,-84.25,USD,"Robinson, Sutton and Wade",salary,2025-08-02T05:22:01
+578a6f88-f26e-40f5-a2f1-ffac5b2fd3b2,73156a99-0262-46b3-9b2c-363f6e40f6fd,1353.75,USD,Hughes Group,entertainment,2025-08-18T01:27:52
+ee6cb247-65f5-4992-b8c5-6f09db86d037,0d634440-fb97-4c96-8709-e1bd44725c20,911.45,USD,"Fitzgerald, Holloway and Johnson",transport,2025-08-07T11:48:38
+8bbc8b26-c237-46f6-88ee-5f22da733031,a548f44f-836e-4b68-b2c2-33a29b7ebfdb,-102.82,USD,Lee Ltd,utilities,2025-08-28T13:31:54
+724215e2-e5b6-46e8-af83-392d72231386,787ff9da-1903-469a-a06e-3f528b11ae11,1988.44,USD,"Simpson, Wright and Rodriguez",groceries,2025-08-05T11:01:31
+1c741f85-6b45-4932-bd91-b7efb242a978,8990d8f3-6639-4de0-a0ea-b35e8dfd2bd7,976.77,USD,Mathews-Russell,salary,2025-08-11T08:34:46
+ca6e44e2-4269-4b60-9a00-3689ca0b041d,af12c52a-dbf4-4be8-878a-009dbd695fd5,1499.38,USD,Butler-Peck,groceries,2025-08-20T17:45:00
+b35509cc-27d9-4c77-bce3-982ff2ba1466,a548f44f-836e-4b68-b2c2-33a29b7ebfdb,1027.39,USD,Reed LLC,utilities,2025-08-16T14:14:08
+59cd9b74-8695-4459-a297-a33231072782,c80286a0-f5c5-4b00-a639-73caae1e53e9,1449.8,USD,Chapman-Gibbs,transport,2025-08-09T01:07:52
+5cd4233e-1eb0-4aa4-9e92-bad771475510,50e54a38-794b-412f-a459-7de29ce1bb36,1541.2,USD,"Lowery, Thompson and Wright",salary,2025-08-27T10:33:39
+d762722c-369f-4aa2-a38d-5118eb7c9af7,84f2c76e-fa5e-44c6-bfdb-8c210df71363,1647.2,USD,"Johnson, David and Dixon",entertainment,2025-08-01T01:11:09
+9601f978-6d43-4b96-8013-ade802e3184b,dc30ed08-5b25-4bba-83f0-171a73b8e859,1974.23,USD,Wilson Group,utilities,2025-08-08T06:40:13
+d4e568c7-858a-4fbc-95d6-ffc7033058dc,fe74d1db-1bc1-430f-b74e-d2aec54385d8,1334.57,USD,"Robbins, Stephenson and Myers",entertainment,2025-08-18T05:04:43

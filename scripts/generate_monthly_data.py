@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import logging
 import random
 from datetime import date, datetime
 from pathlib import Path
@@ -8,9 +9,15 @@ from pathlib import Path
 import polars as pl
 from faker import Faker
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
+
 
 def generate_monthly_transactions(
-    month: int, year: int, num_rows: int, out_dir: Path
+    month: int, year: int, num_rows: int, out_dir: Path, user_ids: list
 ) -> Path:
     fake = Faker()
     rng = random.Random(year * 100 + month)
@@ -39,7 +46,9 @@ def generate_monthly_transactions(
         rows.append(
             {
                 "tx_id": fake.uuid4(),
-                "user_id": fake.uuid4(),  # Use UUID to match user registrations
+                "user_id": rng.choice(
+                    user_ids
+                ),  # Use existing user IDs from registration
                 "amount": amt,
                 "currency": "USD",
                 "merchant": fake.company(),
@@ -57,7 +66,7 @@ def generate_monthly_transactions(
 
 def generate_monthly_users(
     month: int, year: int, num_users: int, out_dir: Path
-) -> Path:
+) -> tuple[Path, list]:
     fake = Faker()
     rng = random.Random(year * 100 + month)
 
@@ -75,6 +84,7 @@ def generate_monthly_users(
     ]
 
     rows = []
+    user_ids = []  # Collect user IDs for transaction generation
     for _ in range(num_users):
         # Generate realistic user data
         age_range = rng.choice(age_ranges)
@@ -120,9 +130,12 @@ def generate_monthly_users(
         num_preferences = rng.randint(2, 4)
         user_preferences = rng.sample(preferred_categories, num_preferences)
 
+        user_id = fake.uuid4()
+        user_ids.append(user_id)  # Store user ID for transaction generation
+
         rows.append(
             {
-                "user_id": fake.uuid4(),
+                "user_id": user_id,
                 "first_name": fake.first_name(),
                 "last_name": fake.last_name(),
                 "email": fake.email(),
@@ -135,7 +148,7 @@ def generate_monthly_users(
                 "country": "USA",
                 "registration_date": reg_date.isoformat(),
                 "preferred_categories": ",".join(user_preferences),
-                "is_active": rng.choice([True, False], p=[0.85, 0.15]),  # 85% active
+                "is_active": rng.random() < 0.85,  # 85% active
                 "source_system": "third_party_registration",
             }
         )
@@ -144,7 +157,7 @@ def generate_monthly_users(
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / f"user_registrations_{year:04d}_{month:02d}.csv"
     df.write_csv(out_path)
-    return out_path
+    return out_path, user_ids
 
 
 def main() -> None:
@@ -158,14 +171,16 @@ def main() -> None:
     parser.add_argument("--out-dir", type=Path, default=Path("data/incoming"))
     args = parser.parse_args()
 
-    # Generate both transaction and user registration data
-    tx_out = generate_monthly_transactions(
-        args.month, args.year, args.transactions, args.out_dir
+    # Generate users first, then use their IDs for transactions
+    user_out, user_ids = generate_monthly_users(
+        args.month, args.year, args.users, args.out_dir
     )
-    user_out = generate_monthly_users(args.month, args.year, args.users, args.out_dir)
+    tx_out = generate_monthly_transactions(
+        args.month, args.year, args.transactions, args.out_dir, user_ids
+    )
 
-    print(f"Generated transaction data: {tx_out}")
-    print(f"Generated user registration data: {user_out}")
+    logger.info(f"Generated transaction data: {tx_out}")
+    logger.info(f"Generated user registration data: {user_out}")
 
 
 if __name__ == "__main__":
