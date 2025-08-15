@@ -16,8 +16,9 @@ dbt_sf:
       account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
       database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
       private_key_passphrase: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_FILE_PWD') }}"
-      # Different key path for CI due to folder structure
-      private_key_path: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_FILE_PATH__CI') }}"
+      private_key_path: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_FILE_PATH') }}"
+      # Use private key content directly instead of file path
+      # private_key: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_FILE') }}"
       role: "{{ env_var('SNOWFLAKE_ROLE') }}"
       schema: "{{ env_var('SNOWFLAKE_SCHEMA') }}"
       threads: 1
