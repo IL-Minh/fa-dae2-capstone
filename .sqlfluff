@@ -44,6 +44,7 @@ profiles_dir = ./.dbt
 profile = dbt_sf
 target = ci
 dbt_skip_compilation_error = True
+dbt_skip_connection_error = True
 
 # Enable dbt builtins for Jinja templater
 [sqlfluff:templater:jinja]
