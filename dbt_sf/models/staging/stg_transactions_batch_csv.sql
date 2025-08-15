@@ -25,7 +25,7 @@ cleaned as (
         split_part(source_file, '_', 1) as data_source,
         split_part(source_file, '_', 2) as year,
         split_part(source_file, '_', 3) as month,
-        -- Add hash key for deduplication using cross-database hash macro
+        -- Add hash key for deduplication using cross-database hash macro.
 
         {{ dbt.hash("concat_ws('|', tx_id, user_id, amount, currency, merchant, category, \"timestamp\", source_file)") }}
             as hash_key
